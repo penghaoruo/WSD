@@ -1,4 +1,4 @@
-CP="./bin/"
+CP="./bin/:./lib/*"
 OPTIONS="-cp $CP"
-MAIN="dataReader"
+MAIN="WSD.dataReader"
 java $OPTIONS $MAIN
