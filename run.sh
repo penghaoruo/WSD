@@ -1,4 +1,4 @@
-CP="./bin/:./lib/*"
+CP="./target/classes/:"
 OPTIONS="-cp $CP"
-MAIN="WSD.dataReader"
+MAIN="cs446.dataReader"
 java $OPTIONS $MAIN
