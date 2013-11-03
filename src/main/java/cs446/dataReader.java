@@ -1,4 +1,4 @@
-package WSD;
+package cs446;
 import java.io.File;
 import java.io.FileReader;
 import weka.core.Instances;
@@ -12,7 +12,7 @@ public class dataReader {
 			System.err.println("Need an argument.");
 			System.exit(-1);
 		}
-		Instances train = new Instances(new FileReader(new File(args[0])));			
+		Instances train = new Instances(new FileReader(new File(args[0])));
 		
 	}
 }
