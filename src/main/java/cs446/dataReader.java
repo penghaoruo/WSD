@@ -40,6 +40,7 @@ public class dataReader {
 		
 		Doc[] docs=new Doc[n];
 		for (int i=0;i<n;i++) {
+			docs[i]=new Doc();
 			docs[i].setContent(IOManager.readContent(path+files[i]));
 			docs[i].setID("d00"+(i+1));
 		}
@@ -62,6 +63,7 @@ public class dataReader {
 			}
 			if (line.startsWith("<sentence ")) {
 				sentenceID++;
+				docs[textID-1].addSentence();
 				continue;
 			}
 			if (line.startsWith("<instance ")) {
@@ -84,6 +86,7 @@ public class dataReader {
 				aw.setPos(pos);
 				aw.setLemma(lemma);
 				docs[textID-1].addAmbWord(aw);
+				docs[textID-1].setSentences(word,sentenceID-1);
 				continue;
 			}
 			if (line.startsWith("</text>")) {
@@ -95,7 +98,7 @@ public class dataReader {
 				continue;
 			}
 			if (!line.startsWith("<")) {
-				docs[textID].setSentences(line,sentenceID-1);
+				docs[textID-1].setSentences(line,sentenceID-1);
 				continue;
 			}
 		}
