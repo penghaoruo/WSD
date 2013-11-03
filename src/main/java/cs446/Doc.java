@@ -42,6 +42,10 @@ public class Doc {
 		sentences.elementAt(index).add(str);
 	}
 	
+	public void addSentence() {
+		sentences.add(new ArrayList<String>());
+	}
+	
 	void addAmbWord(AmbWord x) {
 		ambWords.add(x);
 	}
