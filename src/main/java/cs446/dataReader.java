@@ -2,7 +2,6 @@ package cs446;
 import java.io.File;
 import java.io.FileReader;
 
-import weka.core.Instances;
 
 import org.apache.thrift.TException;
 
@@ -53,9 +52,11 @@ public class dataReader {
 		String text = "The quick brown fox jumped over the lazy dog.";
 		System.out.println("Text is "+text);
 		myTextId = String.format("%05d", textId);
+		
 		TextAnnotation ta = client.getTextAnnotation(corpus, myTextId, text, forceUpdate);
 		System.out.println("Tokens are "+ta.getTokenizedText());
 		client.addPOSView(ta, forceUpdate);
 		System.out.println("POS tags: "+ta.getView(ViewNames.POS));
 	}
+	
 }
