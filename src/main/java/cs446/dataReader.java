@@ -15,7 +15,7 @@ import edu.illinois.cs.cogcomp.edison.sentences.TextAnnotation;
 import edu.illinois.cs.cogcomp.edison.sentences.ViewNames;
 import edu.illinois.cs.cogcomp.thrift.base.AnnotationFailedException;
 import edu.illinois.cs.cogcomp.thrift.base.ServiceUnavailableException;
-import edu.smu.tspell.wordnet.*;
+
 public class dataReader {
 	
 	private static final int curatorPort = 9010;
@@ -141,10 +141,5 @@ public class dataReader {
 		System.out.println("POS tags: "+ta.getView(ViewNames.POS));
 	}
 
-	public static void fetchSynsets(String word, String pos)
-	{
-		WordSense ws = new WordSense(word,pos);
-		Synset[] synsets = db.getSynsets("fly",SynsetType.NOUN);
-		
-	}
+
 }
