@@ -23,6 +23,8 @@ import edu.mit.jwi.item.IWord;
 import edu.mit.jwi.item.IWordID;
 import edu.mit.jwi.item.POS;
 import edu.mit.jwi.item.Pointer;
+import edu.mit.jwi.item.SenseEntry;
+import edu.mit.jwi.item.Synset;
 import edu.mit.jwi.morph.WordnetStemmer;
 
 
@@ -38,6 +40,7 @@ public class WNWrapper {
 	public static void main(String[] args){
 	    
 	    WNWrapper rap = new WNWrapper("data/WordNet-3.0/dict");
+	    /*
 	    System.out.println(rap.getStemsList("computation"));
 	    System.out.println(rap.getStemsList("computer",POS.NOUN));
 	    System.out.println(rap.getStemsList("computing",POS.VERB));
@@ -45,6 +48,14 @@ public class WNWrapper {
 	    System.out.println(rap.getStemsList("countries",POS.NOUN));
 	    System.out.println(rap.getStemsList("killed",POS.VERB));
 	    System.out.println(rap.getStemsList("released",POS.VERB));
+	    rap.getSynsetId("editorial");
+	    rap.printSynsets("editorial");
+	    */
+	    ArrayList<ISynset> s=rap.getAllSynset("editorial", POS.ADJECTIVE);
+	    for (int i=0;i<s.size();i++) {
+	    	System.out.println(s.get(i).getGloss());
+	    	System.out.println(s.get(i).getLexicalFile().getDescription());
+	    }
 	}
 	
     public WNWrapper(String wordnetPath) {
@@ -70,7 +81,7 @@ public class WNWrapper {
 			word = stems.get(0);
 		IIndexWord idxWord = dict.getIndexWord(word, POS.NOUN) ;
 		IWordID wordID = idxWord.getWordIDs().get(0); // 1 st meaning
-		IWord iword = dict . getWord (wordID);
+		IWord iword = dict.getWord (wordID);
 		ISynset synset = iword.getSynset();
 		System.out.println(synset.getID());
 	}
