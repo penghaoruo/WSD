@@ -7,8 +7,8 @@ public class Node<T> implements Comparable<Node<T>>
 
         private static Integer idCount = 0;
         
-        private ArrayList<Edge<T,Double>> outGoingEdges = new ArrayList<Edge<T,Double>>();
-        private ArrayList<Edge<T,Double>> inComingEdges = new ArrayList<Edge<T,Double>>();
+        private ArrayList<Edge> outGoingEdges = new ArrayList<Edge>();
+        private ArrayList<Edge> inComingEdges = new ArrayList<Edge>();
         
         private T Content;
         private Integer ID;
@@ -30,22 +30,22 @@ public class Node<T> implements Comparable<Node<T>>
         
         public void AddOutgoingEdge(Node<T> to,Double cost) 
         {
-        		Edge<T,Double> e=new Edge<T,Double>(this,to,cost);
+        		Edge e=new Edge(this,to,cost);
         		this.outGoingEdges.add(e);
                 to.AddInComingEdge(e);
         }
         
-        public void AddInComingEdge(Edge<T,Double> e)
+        public void AddInComingEdge(Edge e)
         {
         	this.inComingEdges.add(e);
         }
         
-        public ArrayList<Edge<T,Double>> getOutGoingEdges() 
+        public ArrayList<Edge> getOutGoingEdges() 
         {
                 return outGoingEdges;
         }
         
-        public ArrayList<Edge<T,Double>> getInComingEdges() 
+        public ArrayList<Edge> getInComingEdges() 
         {
         	return inComingEdges;
         }
