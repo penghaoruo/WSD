@@ -1,5 +1,8 @@
 package cs446;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AmbWord {
 	private String word;
 	private String pos;
@@ -8,8 +11,10 @@ public class AmbWord {
 	private int sentenceID;
 	private int textID;
 	private int tagID;
+	private ArrayList<String> possibleSenses; // list of possible sequences	
 	
-	AmbWord() {
+	AmbWord() 
+	{
 		word="";
 		strID="";
 		sentenceID=0;
@@ -17,11 +22,13 @@ public class AmbWord {
 		tagID=0;
 	}
 	
-	String getWord() {
+	String getWord() 
+	{
 		return word;
 	}
 	
-	String getPos() {
+	String getPos() 
+	{
 		return pos;
 	}
 	
@@ -71,5 +78,9 @@ public class AmbWord {
 	
 	void setTagID(int value) {
 		tagID=value;
+	}
+	List<String> getPossibleSenses()
+	{
+		return possibleSenses;
 	}
 }

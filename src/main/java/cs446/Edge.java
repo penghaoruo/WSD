@@ -2,21 +2,23 @@ package cs446;
 
 import java.util.ArrayList;
 
-public class Edge {
+// edges b/w two nodes of type T
 
-        private Node src;
-        private Node dst;
+public class Edge<T>
+{
+        private Node<T> src;
+        private Node<T> dst;
         private Double cost;
 
-        public Edge(Node src,Node dst, Double cost) {
+        public Edge(Node<T> src,Node<T> dst, Double cost) {
                 this.src = src;
                 this.dst = dst;
                 this.cost = cost;
         }
-        public Node getSrc() {
+        public Node<T> getSrc() {
                 return src;
         }
-        public Node getDst() {
+        public Node<T> getDst() {
         	return dst;
         }
         public Double getCost() {

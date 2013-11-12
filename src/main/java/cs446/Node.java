@@ -1,60 +1,62 @@
 package cs446;
 
 import java.util.ArrayList;
-
-public class Node implements Comparable<Node> 
+// node which contains objects of type T
+public class Node<T> implements Comparable<Node<T>> 
 {
 
-        private static Integer id = 0;
-        private ArrayList<Edge> outGoingEdges = new ArrayList<Edge>();
-        private ArrayList<Edge> inComingEdges = new ArrayList<Edge>();
-        private String val;
+        private static Integer idCount = 0;
+        
+        private ArrayList<Edge<T,Double>> outGoingEdges = new ArrayList<Edge<T,Double>>();
+        private ArrayList<Edge<T,Double>> inComingEdges = new ArrayList<Edge<T,Double>>();
+        
+        private T Content;
         private Integer ID;
+        
         private boolean visited;
         private Double distance = Double.POSITIVE_INFINITY;
         
-        public Node(String value) {
-                this.init(value);
+        public Node(T content)
+        {
+        	this.Content=content;
+        	this.ID=idCount++;
         }
-        public Node(){
-                this.init("");
-        }
-        private void init(String nodeVal){
-                this.val = nodeVal;
-                this.ID = Node.id++;
-                this.visited = false;
-        }
+
         public void setVisited(boolean visited) {
                 
-                System.out.println("Visited"+ this.val);
+                System.out.println("Visited"+ this.Content);
                 this.visited = visited;
         }
-        public void AddOutgoingEdge(Node to,Double cost) 
+        
+        public void AddOutgoingEdge(Node<T> to,Double cost) 
         {
-        		Edge e=new Edge(this,to,cost);
+        		Edge<T,Double> e=new Edge<T,Double>(this,to,cost);
         		this.outGoingEdges.add(e);
                 to.AddInComingEdge(e);
         }
-        public void AddInComingEdge(Edge e)
+        
+        public void AddInComingEdge(Edge<T,Double> e)
         {
         	this.inComingEdges.add(e);
         }
-        public ArrayList<Edge> getOutGoingEdges() 
+        
+        public ArrayList<Edge<T,Double>> getOutGoingEdges() 
         {
                 return outGoingEdges;
         }
-        public ArrayList<Edge> getInComingEdges() 
+        
+        public ArrayList<Edge<T,Double>> getInComingEdges() 
         {
         	return inComingEdges;
         }
 
-        public String getVal() 
+        public T getVal() 
         {
-                return val;
+                return Content;
         }
-        public void setVal(String val) 
+        public void setVal(T val) 
         {
-                this.val = val;
+                this.Content = val;
         }
         public Integer getID() 
         {
@@ -62,7 +64,7 @@ public class Node implements Comparable<Node>
         }
         
         
-        public int compareTo(Node arg0) {
+        public int compareTo(Node<T> arg0) {
                 return this.distance.compareTo(arg0.getDistance());
         }
         public Double getDistance() {
