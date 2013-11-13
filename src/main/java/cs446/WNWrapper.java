@@ -37,9 +37,13 @@ public class WNWrapper {
 	public static final int maxStem = 0;
 	public static final double pTHRESH = 0.2;
 	
+	public static HashMap<String , String> mapsense = new HashMap<String , String>();
+	//public static HashMap<String , String> mapsensereverse = new HashMap<String , String>();
+	public static HashMap<String , ArrayList<ArrayList<String>>> mapcluster = new HashMap<String , ArrayList<ArrayList<String>>>();
+	
 	public static void main(String[] args){
 	    
-	    WNWrapper rap = new WNWrapper("data/WordNet-3.0/dict");
+	    WNWrapper rap = new WNWrapper("data/WordNet-2.1/dict");
 	    /*
 	    System.out.println(rap.getStemsList("computation"));
 	    System.out.println(rap.getStemsList("computer",POS.NOUN));
@@ -50,12 +54,15 @@ public class WNWrapper {
 	    System.out.println(rap.getStemsList("released",POS.VERB));
 	    rap.getSynsetId("editorial");
 	    rap.printSynsets("editorial");
-	    */
-	    ArrayList<ISynset> s=rap.getAllSynset("editorial", POS.ADJECTIVE);
+	    
+	    ArrayList<ISynset> s=rap.getAllSynset("large", POS.ADJECTIVE);
 	    for (int i=0;i<s.size();i++) {
+	    	System.out.println(s.get(i).getID());
 	    	System.out.println(s.get(i).getGloss());
 	    	System.out.println(s.get(i).getLexicalFile().getDescription());
 	    }
+	    */
+	    
 	}
 	
     public WNWrapper(String wordnetPath) {
@@ -73,9 +80,94 @@ public class WNWrapper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        createMapSense(wordnetPath);
+        createMapCluster(wordnetPath);
+    }
+   
+    public POS POSConvert(String p) {
+    	if (p.equals("n")) return POS.NOUN;
+    	if (p.equals("a")) return POS.ADJECTIVE;
+    	if (p.equals("v")) return POS.VERB;
+    	if (p.equals("r")) return POS.ADVERB;
+    	return null;
+    }
+    
+    public void createMapCluster(String path) {
+    	mapcluster.clear();
+    	ArrayList<String> lines=IOManager.readLines(path+"/sense_clusters-21.senses");
+    	String prevword=null;
+    	ArrayList<ArrayList<String>> sc=null;
+    	for (int i=0;i<lines.size();i++) {
+    		String line=lines.get(i);
+    		String word=line.substring(0, line.indexOf('%')).toLowerCase();
+    		
+    		String[] strs=line.split(" ");
+    		ArrayList<String> s=new ArrayList<String>();
+    		for (int j=0;j<strs.length;j++) {
+    			s.add(strs[j].toLowerCase());
+    		}
+ 
+    		if (word.equals(prevword)) {
+    			sc.add(s);
+    		}
+    		else {
+    			mapcluster.put(word, sc);
+    			sc=new ArrayList<ArrayList<String>>();
+    			sc.clear();
+    			sc.add(s);
+    		}	
+    	}
+    }
+    
+    public void createMapSense(String path) {
+    	mapsense.clear();
+    	//mapsensereverse.clear();
+    	ArrayList<String> lines=IOManager.readLines(path+"/index.sense");
+    	for (int i=0;i<lines.size();i++) {
+    		String[] strs=lines.get(i).split(" ");
+    		mapsense.put(strs[1], strs[0]);
+    		//mapsensereverse.put(strs[0], strs[1]);
+    	}
+    }
+    
+    public boolean checkCluster(String word, int index, String sensekey) {
+    	ArrayList<String> senses=mapcluster.get(word).get(index);
+    	if (senses.indexOf(sensekey)!=-1) return true;
+    	return false;
+    }
+    
+    public ArrayList<ISynset> getAllSynsetsFromCluster(String word, String pos, int index) {
+    	POS internalpos=POSConvert(pos);
+    	ArrayList<ISynset> syns = getAllSynset(word,internalpos);
+    	ArrayList<ISynset> synsets = new ArrayList<ISynset>();
+    	for (int i=0;i<syns.size();i++) {
+    		String key=getSenseKey(syns.get(i).getID().toString());
+    		String value=mapsense.get(key);
+    		if (checkCluster(word,index,value)) synsets.add(syns.get(i));
+    	}
+    	return synsets;
+    }
+    
+    public int getClusterRange(String word) {
+    	return mapcluster.get(word).size();
     }
 	
-	public void getSynsetId(String word) {
+    public String getSenseKey(String synsetID) {
+    	String id=synsetID.split("-")[1];
+		return mapsense.get(id);
+	}
+    
+    public ArrayList<String> getAllSenseKey(String word,POS pos) {
+    	ArrayList<ISynset> synsets=getAllSynset(word,pos);
+    	ArrayList<String> sensekeys=new ArrayList<String>();
+    	sensekeys.clear();
+    	for (int i=0;i<synsets.size();i++) {
+    		sensekeys.add(getSenseKey(synsets.get(i).getID().toString()));
+    	}
+		return sensekeys;
+	}
+    
+	public String getSynsetId(String word) {
 		List<String> stems = wstem.findStems(word, null);
 		if(stems.size() > 0)
 			word = stems.get(0);
@@ -83,7 +175,7 @@ public class WNWrapper {
 		IWordID wordID = idxWord.getWordIDs().get(0); // 1 st meaning
 		IWord iword = dict.getWord (wordID);
 		ISynset synset = iword.getSynset();
-		System.out.println(synset.getID());
+		return synset.getID().toString();
 	}
 	
 	public void getStems(String word) {

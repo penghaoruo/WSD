@@ -53,7 +53,7 @@ public class AmbWord {
 	}
 	
 	void setWord(String str) {
-		word=str;
+		word=str.toLowerCase();
 	}
 	
 	void setPos(String str) {
@@ -61,7 +61,7 @@ public class AmbWord {
 	}
 	
 	void setLemma(String str) {
-		lemma=str;
+		lemma=str.toLowerCase();
 	}
 	
 	void setStrID(String str) {

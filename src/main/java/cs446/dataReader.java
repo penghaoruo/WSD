@@ -124,6 +124,7 @@ public class dataReader {
 		
 		Doc[] docs=readPlainText();
 		readTestXML(docs);
+		
 	}
 	
 	@CommandDescription(description = "printPOS")
