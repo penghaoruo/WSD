@@ -11,7 +11,7 @@ public class AmbWord {
 	private int sentenceID;
 	private int textID;
 	private int tagID;
-	private ArrayList<String> possibleSenses; // list of possible sequences	
+	private ArrayList<String> possibleSenses; // list of possible senses	
 	
 	AmbWord() 
 	{
