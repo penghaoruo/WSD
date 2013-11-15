@@ -2,7 +2,7 @@ package cs446;
 
 import java.util.ArrayList;
 // node which contains objects of type T
-public class Node<T> implements Comparable<Node<T>> 
+public class Vertex<T> implements Comparable<Vertex<T>> 
 {
 
         private static Integer idCount = 0;
@@ -16,7 +16,7 @@ public class Node<T> implements Comparable<Node<T>>
         private boolean visited;
         private Double distance = Double.POSITIVE_INFINITY;
         
-        public Node(T content)
+        public Vertex(T content)
         {
         	this.Content=content;
         	this.ID=idCount++;
@@ -28,7 +28,7 @@ public class Node<T> implements Comparable<Node<T>>
                 this.visited = visited;
         }
         
-        public void AddOutgoingEdge(Node<T> to,Double cost) 
+        public void AddOutgoingEdge(Vertex<T> to,Double cost) 
         {
         		Edge e=new Edge(this,to,cost);
         		this.outGoingEdges.add(e);
@@ -64,7 +64,7 @@ public class Node<T> implements Comparable<Node<T>>
         }
         
         
-        public int compareTo(Node<T> arg0) {
+        public int compareTo(Vertex<T> arg0) {
                 return this.distance.compareTo(arg0.getDistance());
         }
         public Double getDistance() {

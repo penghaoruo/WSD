@@ -2,24 +2,24 @@ package cs446;
 
 import java.util.ArrayList;
 
-// edges b/w two nodes of type T
+// edges b/w two vertices of type T
 
 public class Edge
 {
         @SuppressWarnings("rawtypes")
-		private Node src;
-        private Node dst;
+		private Vertex src;
+        private Vertex dst;
         private Double cost;
 
-        public Edge(Node src,Node dst, Double cost) {
+        public Edge(Vertex src,Vertex dst, Double cost) {
                 this.src = src;
                 this.dst = dst;
                 this.cost = cost;
         }
-        public Node getSrc() {
+        public Vertex getSrc() {
                 return src;
         }
-        public Node getDst() {
+        public Vertex getDst() {
         	return dst;
         }
         public Double getCost() {
