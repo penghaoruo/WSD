@@ -65,6 +65,7 @@ public class WNWrapper {
 	    
 	}
 	
+	// Constructor
     public WNWrapper(String wordnetPath) {
         String wnhome = System.getenv("WNHOME");
         if (wnhome == null)
@@ -84,6 +85,7 @@ public class WNWrapper {
         createMapCluster(wordnetPath);
     }
    
+    // Convert pos-tagger in dataset to the internal POS 
     public POS POSConvert(String p) {
     	if (p.equals("n")) return POS.NOUN;
     	if (p.equals("a")) return POS.ADJECTIVE;
@@ -92,6 +94,10 @@ public class WNWrapper {
     	return null;
     }
     
+    // Create Corase-grained map for sense clusters: mapcluster<word, sc>
+    // sc is in the format of ArrayList<ArrayList<String>>
+    // outer ArrayList represents different clusters
+    // inner ArrayList represents different senseIds
     public void createMapCluster(String path) {
     	mapcluster.clear();
     	ArrayList<String> lines=IOManager.readLines(path+"/sense_clusters-21.senses");
@@ -119,6 +125,9 @@ public class WNWrapper {
     	}
     }
     
+    // Create map for sensekeys: mapsense<senseID, sensekey>
+    // senseID is the representative ID for wordnet 2.1
+    // sensekey is the internal ID for wordnet 2.1
     public void createMapSense(String path) {
     	mapsense.clear();
     	//mapsensereverse.clear();
@@ -130,12 +139,14 @@ public class WNWrapper {
     	}
     }
     
+    // Check if a word with a certain sensekey is in the constrcted mapcluster
     public boolean checkCluster(String word, int index, String sensekey) {
     	ArrayList<String> senses=mapcluster.get(word).get(index);
     	if (senses.indexOf(sensekey)!=-1) return true;
     	return false;
     }
     
+    // Get all the Synsets of a given word with given pos and given sensecluster ID
     public ArrayList<ISynset> getAllSynsetsFromCluster(String word, String pos, int index) {
     	POS internalpos=POSConvert(pos);
     	ArrayList<ISynset> syns = getAllSynset(word,internalpos);
@@ -148,10 +159,11 @@ public class WNWrapper {
     	return synsets;
     }
     
+    // Return the number of sense clusters w.r.t a given word
     public int getClusterRange(String word) {
     	return mapcluster.get(word).size();
     }
-	
+
     public String getSenseKey(String synsetID) {
     	String id=synsetID.split("-")[1];
 		return mapsense.get(id);
