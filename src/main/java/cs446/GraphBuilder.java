@@ -15,7 +15,7 @@ public class GraphBuilder {
 		{
 			for(int i=0;i< wn.getClusterRange(w.getStrID());i++)
 			{
-				Vertex<AmbWord> v = new Vertex<AmbWord>(w);
+//				Vertex<AmbWord> v = new Vertex<AmbWord>(w);
 			}
 			
 		}
