@@ -29,6 +29,12 @@
       <artifactId>weka-stable</artifactId>
       <version>3.6.6</version>
     </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>0.9.28</version>
+      <type>jar</type>
+    </dependency>
      
     <dependency>
       <groupId>edu.illinois.cs.cogcomp</groupId>
