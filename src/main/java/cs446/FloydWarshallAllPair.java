@@ -6,7 +6,9 @@ import java.util.Map;
 import cs446.Edge;
 import cs446.Vertex;
 
-public class FloydWarshallAllPair {
+//calculates the all pair shortest paths in a undirected graph
+public class FloydWarshallAllPair 
+{
 	private Map<Integer, Map<Integer,Double>> dist;
 	private List<Vertex> vs;
 	private List<Edge> es;
@@ -15,7 +17,7 @@ public class FloydWarshallAllPair {
 		this.vs=G.getVertices();
 		this.es=G.getEdges();
 	}
-	public void ComputeDistances()
+	public Map<Integer, Map<Integer,Double>> ComputeDistances()
 	{
 		dist=new HashMap<Integer, Map<Integer,Double>>();
 		for(Vertex v: vs)
@@ -26,8 +28,8 @@ public class FloydWarshallAllPair {
 		int u,w;
 		for(Edge edge: es)
 		{	
-			u=edge.getSrc().getID();
-			w=edge.getDst().getID();
+			u=edge.getSrc().getID();	// get node ids
+			w=edge.getDst().getID();	
 			dist.get(u).put(w,edge.getCost());
 		}
 		int I,J,K;
@@ -46,5 +48,6 @@ public class FloydWarshallAllPair {
 	
 			}
 		}
+	return dist;
 	}
 }
