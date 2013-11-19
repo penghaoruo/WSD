@@ -15,8 +15,17 @@ public class Vertex<T> implements Comparable<Vertex<T>>
         
         private boolean visited;
         private Double distance = Double.POSITIVE_INFINITY;
+        private Double score;
         
-        public Vertex(T content)
+        public Double getScore() {
+			return score;
+		}
+
+		public void setScore(Double score) {
+			this.score = score;
+		}
+
+		public Vertex(T content)
         {
         	this.Content=content;
         	this.ID=idCount++;

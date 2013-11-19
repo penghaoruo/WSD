@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AmbWord {
+	private static int idCount=0;
+	private int id;
 	private String word;
 	private String pos;
 	private String lemma;
-	private String strID;
+	private String strID;	
 	private int sentenceID;
 	private int textID;
 	private int tagID;
@@ -20,6 +22,7 @@ public class AmbWord {
 		sentenceID=0;
 		textID=0;
 		tagID=0;
+		id=idCount++;
 	}
 	
 	String getWord() 
@@ -79,8 +82,7 @@ public class AmbWord {
 	void setTagID(int value) {
 		tagID=value;
 	}
-	List<String> getPossibleSenses()
-	{
-		return possibleSenses;
+	int getID(){
+		return id;
 	}
 }
