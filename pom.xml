@@ -69,7 +69,7 @@
       <artifactId>ws4j</artifactId>
       <version>1.0.1</version>
       <scope>system</scope>
-      <systemPath>$target/dependency/ws4j-1.0.1.jar</systemPath>
+      <systemPath>target/dependency/ws4j-1.0.1.jar</systemPath>
     </dependency>
     
   </dependencies>
