@@ -16,7 +16,7 @@ public class GraphHandler {
 	private WNWrapper wn;
 	public GraphHandler(List<AmbWord> words, int seq_length) {
 		this.words=words;
-		wn=new WNWrapper("data/WordNet-2.1/dict");
+		wn=new WNWrapper("data/WordNet-3.0/dict");
 	}
 	public Graph<ISynset> CreateGraph(List<AmbWord> words)
 	{
@@ -57,7 +57,7 @@ public class GraphHandler {
 				{
 					for(Vertex s2: map.get(w2))
 					{
-						//edgeCost=dependency(w1,w2,s1.getVal(),s2.getVal());
+//						edgeCost=dependency(w1,w2,s1.getVal(),s2.getVal());
 						if(edgeCost>0)
 						{
 							edges.add(new Edge(s1,s2,edgeCost));

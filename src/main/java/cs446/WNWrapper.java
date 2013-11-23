@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,6 +13,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import edu.cmu.lti.lexical_db.*;
+import edu.cmu.lti.lexical_db.data.Concept;
+import edu.cmu.lti.ws4j.*;
+import edu.cmu.lti.ws4j.impl.*;
 import edu.mit.jwi.IRAMDictionary;
 import edu.mit.jwi.RAMDictionary;
 import edu.mit.jwi.data.ILoadPolicy;
@@ -32,6 +37,7 @@ public class WNWrapper {
 
 	public IRAMDictionary dict = null;
 	public WordnetStemmer wstem = null;
+	public ILexicalDatabase db =null;
 	
 	public static final int maxSense = 0;
 	public static final int maxStem = 0;
@@ -43,7 +49,7 @@ public class WNWrapper {
 	
 	public static void main(String[] args){
 	    
-	    WNWrapper rap = new WNWrapper("data/WordNet-2.1/dict");
+	    WNWrapper rap = new WNWrapper("data/WordNet-3.0/dict");
 	    /*
 	    System.out.println(rap.getStemsList("computation"));
 	    System.out.println(rap.getStemsList("computer",POS.NOUN));
@@ -56,17 +62,52 @@ public class WNWrapper {
 	    rap.printSynsets("editorial");
 	    
 	    ArrayList<ISynset> s=rap.getAllSynset("large", POS.ADJECTIVE);
-	    for (int i=0;i<s.size();i++) {
+	    ISynset ss=s.get(0);
+	    for (int i=0;i<1;i++) {
 	    	System.out.println(s.get(i).getID());
 	    	System.out.println(s.get(i).getGloss());
 	    	System.out.println(s.get(i).getLexicalFile().getDescription());
 	    }
+	   
+	    Map<IPointer,List<ISynsetID>> smap=ss.getRelatedMap();
+	    Iterator it = smap.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pairs = (Map.Entry)it.next();
+	        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+	        //it.remove(); // avoids a ConcurrentModificationException
+	    }
 	    */
-	    
 	}
 	
+	Concept getConcept(AmbWord w, int index) {
+		List<Concept> s=(List<Concept>) db.getAllConcepts(w.getWord(), w.getPos());
+		return s.get(index-1);
+	}
+	
+	public double dependency(AmbWord w1, AmbWord w2, int index1, int index2, int flag) {
+		RelatednessCalculator rc=null;
+		switch(flag) {
+			case 1: {rc=new LeacockChodorow(db); break;}
+			case 2: {rc=new Lesk(db); break;}
+			case 3: {rc=new WuPalmer(db); break;}
+			case 4: {rc=new Resnik(db); break;}
+			case 5: {rc=new Lin(db); break;}
+			case 6: {rc=new JiangConrath(db); break;}
+			case 7: {rc=new HirstStOnge(db); break;}
+			case 8: {rc = new Path(db); break;}
+			default: rc=null;
+		}
+		Concept s1,s2;
+		s1=getConcept(w1,index1);
+		s2=getConcept(w2,index2);
+		Relatedness res=rc.calcRelatednessOfSynset(s1, s2);
+        return res.getScore();
+	}
+
 	// Constructor
     public WNWrapper(String wordnetPath) {
+    	db = new NictWordNet();
+    	
         String wnhome = System.getenv("WNHOME");
         if (wnhome == null)
             wnhome = wordnetPath;
