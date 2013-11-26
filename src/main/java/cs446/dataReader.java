@@ -4,8 +4,6 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 import org.apache.thrift.TException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import edu.illinois.cs.cogcomp.core.utilities.commands.CommandDescription;
 import edu.illinois.cs.cogcomp.core.utilities.commands.InteractiveShell;
@@ -18,7 +16,6 @@ import edu.illinois.cs.cogcomp.thrift.base.AnnotationFailedException;
 import edu.illinois.cs.cogcomp.thrift.base.ServiceUnavailableException;
 
 public class dataReader {
-	protected final static Logger logger = LoggerFactory.getLogger(dataReader.class);
 	private static final int curatorPort = 9010;
 	private static final String curatorHost = "trollope.cs.illinois.edu";
 	private static final CuratorClient client = new CuratorClient(curatorHost, curatorPort);
@@ -112,19 +109,19 @@ public class dataReader {
 //			System.err.println("Need an argument.");
 //			System.exit(-1);
 //		}
-		InteractiveShell<dataReader> tester = new InteractiveShell<dataReader>(dataReader.class);
-		if(args.length==0)
-		{
-			tester.showDocumentation();
-		}
-		else
-		{
-			tester.runCommand(args);
-		}
+//		InteractiveShell<dataReader> tester = new InteractiveShell<dataReader>(dataReader.class);
+//		if(args.length==0)
+//		{
+//			tester.showDocumentation();
+//		}
+//		else
+//		{
+//			tester.runCommand(args);
+//		}
 //		Instances train = new Instances(new FileReader(new File(args[0])));
 		
 		Doc[] docs=readPlainText();
-		System.out.println(docs[1].getContent());
+		System.out.println("Printing contents:"+docs[1].getContent());
 		readTestXML(docs);
 		
 	}
@@ -132,16 +129,16 @@ public class dataReader {
 	@CommandDescription(description = "printPOS")
 	public static void printPOS() throws ServiceUnavailableException, AnnotationFailedException, TException
 	{
-//		textId++;
-//		String myTextId;
-//		String text = "The quick brown fox jumped over the lazy dog.";
-//		System.out.println("Text is "+text);
-//		myTextId = String.format("%05d", textId);
-//		
-//		TextAnnotation ta = client.getTextAnnotation(corpus, myTextId, text, forceUpdate);
-//		System.out.println("Tokens are "+ta.getTokenizedText());
-//		client.addPOSView(ta, forceUpdate);
-//		System.out.println("POS tags: "+ta.getView(ViewNames.POS));
+		textId++;
+		String myTextId;
+		String text = "The quick brown fox jumped over the lazy dog.";
+		System.out.println("Text is "+text);
+		myTextId = String.format("%05d", textId);
+		
+		TextAnnotation ta = client.getTextAnnotation(corpus, myTextId, text, forceUpdate);
+		System.out.println("Tokens are "+ta.getTokenizedText());
+		client.addPOSView(ta, forceUpdate);
+		System.out.println("POS tags: "+ta.getView(ViewNames.POS));
 	}
 
 

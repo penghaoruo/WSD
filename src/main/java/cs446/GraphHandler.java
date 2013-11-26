@@ -70,7 +70,7 @@ public class GraphHandler {
 					for(Vertex<Integer> s2: map.get(w2))
 					{
 						
-						edgeCost=wn.dependency(w1,w2,s1.getVal(),s2.getVal(),metric.getVal());
+						edgeCost=wn.dependency(w1,w2,s1.getVal(),s2.getVal(),metric.WuPalmer.getVal());
 						if(edgeCost>0)
 						{
 							edges.add(new Edge(s1,s2,edgeCost));
@@ -85,7 +85,6 @@ public class GraphHandler {
 	public void ScoreVertices(Graph<ISynset> g)
 	{
 		gcScorer=GraphCentralityScorer.getInst();
-//		gcScorer.setMetric()
 		for(Vertex<ISynset> v: g.getVertices())
 		{
 			v.setScore(gcScorer.score(v,g));
