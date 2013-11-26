@@ -39,6 +39,15 @@ public class WNWrapper {
 	public WordnetStemmer wstem = null;
 	public ILexicalDatabase db =null;
 	
+	private LeacockChodorow leacockchodorow;
+	private Lesk lesk;
+	private WuPalmer wupalmer;
+	private Resnik resnik;
+	private Lin lin;
+	private JiangConrath jiangconrath;
+	private HirstStOnge hirststonge;
+	private Path path;
+	
 	public static final int maxSense = 0;
 	public static final int maxStem = 0;
 	public static final double pTHRESH = 0.2;
@@ -87,14 +96,14 @@ public class WNWrapper {
 	public double dependency(AmbWord w1, AmbWord w2, int index1, int index2, int flag) {
 		RelatednessCalculator rc=null;
 		switch(flag) {
-			case 1: {rc=new LeacockChodorow(db); break;}
-			case 2: {rc=new Lesk(db); break;}
-			case 3: {rc=new WuPalmer(db); break;}
-			case 4: {rc=new Resnik(db); break;}
-			case 5: {rc=new Lin(db); break;}
-			case 6: {rc=new JiangConrath(db); break;}
-			case 7: {rc=new HirstStOnge(db); break;}
-			case 8: {rc = new Path(db); break;}
+			case 1: {rc=leacockchodorow; break;}
+			case 2: {rc=lesk; break;}
+			case 3: {rc=wupalmer; break;}
+			case 4: {rc=resnik; break;}
+			case 5: {rc=lin; break;}
+			case 6: {rc=jiangconrath; break;}
+			case 7: {rc=hirststonge; break;}
+			case 8: {rc =path; break;}
 			default: rc=null;
 		}
 		Concept s1,s2;
@@ -107,14 +116,22 @@ public class WNWrapper {
 	// Constructor
     public WNWrapper(String wordnetPath) {
     	db = new NictWordNet();
+    	leacockchodorow =new LeacockChodorow(db);
+    	lesk=new Lesk(db);
+    	wupalmer=new WuPalmer(db);
+    	resnik=new Resnik(db);
+    	lin=new Lin(db);
+    	jiangconrath=new JiangConrath(db);
+    	hirststonge=new HirstStOnge(db);
+    	path=new Path(db);
     	
         String wnhome = System.getenv("WNHOME");
         if (wnhome == null)
             wnhome = wordnetPath;
-        String path = wnhome;
+        String wnpath = wnhome;
         try {
-            System.out.println("Creating wordnet dictionary from "+path+"...");
-            dict = new RAMDictionary(new File(path), ILoadPolicy.BACKGROUND_LOAD);
+            System.out.println("Creating wordnet dictionary from "+wnpath+"...");
+            dict = new RAMDictionary(new File(wnpath), ILoadPolicy.BACKGROUND_LOAD);
             int tryCount = 10;
             while (--tryCount > 0 && !dict.open());
             System.out.println("Dictionary opened.");
