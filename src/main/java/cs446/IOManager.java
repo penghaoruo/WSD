@@ -144,8 +144,7 @@ public class IOManager {
                 line = line.trim();
                 if (line.length() == 0)
                     continue;
-                //content.append(" "+line);
-                content.append("\n");
+                content.append(line+"\n");
             }
             reader.close();
 

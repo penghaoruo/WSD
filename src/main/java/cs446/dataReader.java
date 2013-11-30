@@ -2,6 +2,7 @@ package cs446;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import org.apache.thrift.TException;
 
@@ -24,6 +25,7 @@ public class dataReader {
 	private static int textId = 0;
 	
 	public static String getinfo(String info, String target) {
+		target=target+"=";
 		int p=info.indexOf(target);
 		int p1=info.indexOf("\"",p);
 		int p2=info.indexOf("\"",p1+1);
@@ -72,8 +74,8 @@ public class dataReader {
 				String info=line.substring(0,p1+1);
 				
 				String strID=getinfo(info,"id");
-				String pos=getinfo(info,"lemma");
-				String lemma=getinfo(info,"pos");
+				String lemma=getinfo(info,"lemma");
+				String pos=getinfo(info,"pos");
 				
 				AmbWord aw=new AmbWord();
 				aw.setSentenceID(sentenceID);
@@ -121,9 +123,35 @@ public class dataReader {
 //		Instances train = new Instances(new FileReader(new File(args[0])));
 		
 		Doc[] docs=readPlainText();
-		System.out.println("Printing contents:"+docs[1].getContent());
 		readTestXML(docs);
 		
+		/*
+		boolean flag=true;
+		for (int i=0;i<docs.length;i++) {
+			Doc cur=docs[i];
+			System.out.println(cur.getID());
+			System.out.println(cur.getContent());
+			
+			int size=cur.getSentenceNum();
+			for (int j=0;j<size;j++) {
+				ArrayList<String> strs=cur.getSentence(j);
+				for (int k=0;k<strs.size();k++)
+					System.out.print(strs.get(k)+" ");
+				System.out.println();
+			}
+			System.out.println();
+			
+			ArrayList<AmbWord> words=cur.getAmbWords();
+			for (int j=0;j<words.size();j++) {
+				AmbWord aw=words.get(j);
+				System.out.println(aw.getWord()+" "+aw.getLemma()+" "+aw.getPos());
+				System.out.println(aw.getID()+" "+aw.getTextID()+" "+aw.getSentenceID()+" "+aw.getTagID()+" "+aw.getStrID());
+				if (!aw.getPos().equals("a")&&!aw.getPos().equals("v")&&!aw.getPos().equals("n")&&!aw.getPos().equals("r"))
+					flag=false;
+			}
+		}
+		System.out.println(flag);
+		*/
 	}
 	
 	@CommandDescription(description = "printPOS")

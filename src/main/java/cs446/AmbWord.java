@@ -5,11 +5,11 @@ import java.util.List;
 
 public class AmbWord {
 	private static int idCount=0;
-	private int id;
+	private int id; //unique id (sequential)
 	private String word;
 	private String pos;
 	private String lemma;
-	private String strID;	
+	private String strID; //full id
 	private int sentenceID;
 	private int textID;
 	private int tagID;

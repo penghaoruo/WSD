@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class Doc {
-	private String content;
+	private String content; // plain text
 	private Vector<ArrayList<String>> sentences;
 	private String id;
 	private ArrayList<AmbWord> ambWords;
@@ -30,6 +30,10 @@ public class Doc {
 	
 	void setID(String str) {
 		id=str;
+	}
+	
+	int getSentenceNum() {
+		return sentences.size();
 	}
 	
 	ArrayList<String> getSentence(int index) {

@@ -30,7 +30,7 @@ public class GraphCentralityScorer {
 		{
 			fw=new FloydWarshallAllPair(G);
 		}
-		dist=fw.ComputeDistances();
+		dist=fw.computeDistances();
 	}
 	// uses metrics defined in the paper to find similarity
 	public Double score(Vertex<ISynset> v, Graph<ISynset> g) 
