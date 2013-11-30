@@ -2,16 +2,10 @@ package cs446;
 // code borrowed from cogcomp
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
+
+import com.sun.tools.javac.util.Pair;
 
 import edu.cmu.lti.lexical_db.*;
 import edu.cmu.lti.lexical_db.data.Concept;
@@ -32,12 +26,11 @@ import edu.mit.jwi.item.SenseEntry;
 import edu.mit.jwi.item.Synset;
 import edu.mit.jwi.morph.WordnetStemmer;
 
-
 public class WNWrapper {
 
 	public IRAMDictionary dict = null;
 	public WordnetStemmer wstem = null;
-	public ILexicalDatabase db =null;
+	public static ILexicalDatabase db =null;
 	
 	private LeacockChodorow leacockchodorow;
 	private Lesk lesk;
@@ -52,7 +45,7 @@ public class WNWrapper {
 	public static final int maxStem = 0;
 	public static final double pTHRESH = 0.2;
 	
-	public static HashMap<String , String> mapsense = new HashMap<String , String>();
+	public static HashMap<Pair<String,String>, String> mapsense = new HashMap<Pair<String,String>, String>();
 	//public static HashMap<String , String> mapsensereverse = new HashMap<String , String>();
 	public static HashMap<String , ArrayList<ArrayList<String>>> mapcluster = new HashMap<String , ArrayList<ArrayList<String>>>();
 	
@@ -86,6 +79,30 @@ public class WNWrapper {
 	        //it.remove(); // avoids a ConcurrentModificationException
 	    }
 	    */
+	    
+	    /*
+	    List<Concept> s=(List<Concept>) db.getAllConcepts("good", "n");
+	    for (int i=0;i<s.size();i++) {
+	    	Concept c=s.get(i);
+	    	System.out.println(c.getSynset());
+	    }
+	    */
+	    
+	    /*
+	    System.out.println(rap.getClusterRange("gray"));
+	    System.out.println(mapcluster.get("gray"));
+	    
+	    int ss=rap.getClusterRange("good");
+	    System.out.println(ss);
+	    for (int i=0;i<ss;i++) {
+	    	ArrayList<Concept> cs=rap.getAllSynsetsFromCluster("good", "a", i);
+	    	if (cs.size()==0) System.out.print("Null");
+	    	for (int j=0;j<cs.size();j++) {
+	    		System.out.print(cs.get(j).getSynset()+" ");
+	    	}
+	    	System.out.println();
+	    }
+	    */
 	}
 	
 	Concept getConcept(AmbWord w, int index) {
@@ -103,7 +120,7 @@ public class WNWrapper {
 			case 5: {rc=lin; break;}
 			case 6: {rc=jiangconrath; break;}
 			case 7: {rc=hirststonge; break;}
-			case 8: {rc =path; break;}
+			case 8: {rc=path; break;}
 			default: rc=null;
 		}
 		Concept s1,s2;
@@ -124,7 +141,7 @@ public class WNWrapper {
     	jiangconrath=new JiangConrath(db);
     	hirststonge=new HirstStOnge(db);
     	path=new Path(db);
-    	
+    	/*
         String wnhome = System.getenv("WNHOME");
         if (wnhome == null)
             wnhome = wordnetPath;
@@ -139,19 +156,11 @@ public class WNWrapper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
         createMapSense(wordnetPath);
         createMapCluster(wordnetPath);
     }
    
-    // Convert pos-tagger in dataset to the internal POS 
-    public POS POSConvert(String p) {
-    	if (p.equals("n")) return POS.NOUN;
-    	if (p.equals("a")) return POS.ADJECTIVE;
-    	if (p.equals("v")) return POS.VERB;
-    	if (p.equals("r")) return POS.ADVERB;
-    	return null;
-    }
-    
     // Create Corase-grained map for sense clusters: mapcluster<word, sc>
     // sc is in the format of ArrayList<ArrayList<String>>
     // outer ArrayList represents different clusters
@@ -159,23 +168,25 @@ public class WNWrapper {
     public void createMapCluster(String path) {
     	mapcluster.clear();
     	ArrayList<String> lines=IOManager.readLines(path+"/sense_clusters-21.senses");
-    	String prevword=null;
-    	ArrayList<ArrayList<String>> sc=null;
+    	String prevword=lines.get(0).substring(0, lines.get(0).indexOf('%'));;
+    	ArrayList<ArrayList<String>> sc=new ArrayList<ArrayList<String>>();
+    	sc.clear();
     	for (int i=0;i<lines.size();i++) {
     		String line=lines.get(i);
-    		String word=line.substring(0, line.indexOf('%')).toLowerCase();
+    		String word=line.substring(0, line.indexOf('%'));
     		
     		String[] strs=line.split(" ");
     		ArrayList<String> s=new ArrayList<String>();
     		for (int j=0;j<strs.length;j++) {
-    			s.add(strs[j].toLowerCase());
+    			s.add(strs[j]);
     		}
  
     		if (word.equals(prevword)) {
     			sc.add(s);
     		}
     		else {
-    			mapcluster.put(word, sc);
+    			mapcluster.put(prevword, sc);
+    			prevword=word;
     			sc=new ArrayList<ArrayList<String>>();
     			sc.clear();
     			sc.add(s);
@@ -184,15 +195,17 @@ public class WNWrapper {
     }
     
     // Create map for sensekeys: mapsense<senseID, sensekey>
-    // senseID is the representative ID for wordnet 2.1
-    // sensekey is the internal ID for wordnet 2.1
+    // senseID is the representative ID for wordnet 3.0
+    // sensekey is the internal ID for wordnet 3.0
     public void createMapSense(String path) {
     	mapsense.clear();
     	//mapsensereverse.clear();
     	ArrayList<String> lines=IOManager.readLines(path+"/index.sense");
     	for (int i=0;i<lines.size();i++) {
     		String[] strs=lines.get(i).split(" ");
-    		mapsense.put(strs[1], strs[0]);
+    		String word=strs[0].substring(0, strs[0].indexOf('%'));
+    		String synset=strs[1];
+    		mapsense.put(new Pair(word,synset), strs[0]);
     		//mapsensereverse.put(strs[0], strs[1]);
     	}
     }
@@ -205,13 +218,12 @@ public class WNWrapper {
     }
     
     // Get all the Synsets of a given word with given pos and given sensecluster ID
-    public ArrayList<ISynset> getAllSynsetsFromCluster(String word, String pos, int index) {
-    	POS internalpos=POSConvert(pos);
-    	ArrayList<ISynset> syns = getAllSynset(word,internalpos);
-    	ArrayList<ISynset> synsets = new ArrayList<ISynset>();
+    public ArrayList<Concept> getAllSynsetsFromCluster(String word, String pos, int index) {
+    	List<Concept> syns=(List<Concept>) db.getAllConcepts(word, pos);
+    	ArrayList<Concept> synsets=new ArrayList<Concept>();
     	for (int i=0;i<syns.size();i++) {
-    		String key=getSenseKey(syns.get(i).getID().toString());
-    		String value=mapsense.get(key);
+    		String key=getSenseKey(syns.get(i).getSynset());
+    		String value=mapsense.get(Pair.of(word, key));
     		if (checkCluster(word,index,value)) synsets.add(syns.get(i));
     	}
     	return synsets;
@@ -223,10 +235,11 @@ public class WNWrapper {
     }
 
     public String getSenseKey(String synsetID) {
-    	String id=synsetID.split("-")[1];
-		return mapsense.get(id);
+    	String id=synsetID.split("-")[0];
+		return id;
 	}
-    
+
+//---------------------------------------------------------------------
     public ArrayList<String> getAllSenseKey(String word,POS pos) {
     	ArrayList<ISynset> synsets=getAllSynset(word,pos);
     	ArrayList<String> sensekeys=new ArrayList<String>();
@@ -236,6 +249,15 @@ public class WNWrapper {
     	}
 		return sensekeys;
 	}
+
+    // Convert pos-tagger in dataset to the internal POS 
+    public POS POSConvert(String p) {
+    	if (p.equals("n")) return POS.NOUN;
+    	if (p.equals("a")) return POS.ADJECTIVE;
+    	if (p.equals("v")) return POS.VERB;
+    	if (p.equals("r")) return POS.ADVERB;
+    	return null;
+    }
     
 	public String getSynsetId(String word) {
 		List<String> stems = wstem.findStems(word, null);
@@ -485,7 +507,6 @@ public class WNWrapper {
 			}
 		}
 	}
-	
 	
 	public ArrayList<IWord> getIWords(String st) {
 		return getIWords(st,null);
