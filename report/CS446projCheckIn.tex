@@ -1,0 +1,167 @@
+\documentclass[11pt,letterpaper]{article}
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\usepackage{hyperref}
+\usepackage{mathptmx}
+\usepackage{graphicx}
+\usepackage{natbib} % for references
+\usepackage[usenames,dvipsnames]{xcolor}
+\newcommand{\blue}[1]{\textcolor{RoyalBlue}{#1}}
+\newcommand{\fillme}[1]{\blue{\texttt{[Insert #1]}}}
+\newcommand{\instructions}[1]{\blue{\textit{#1}}}
+% uncomment the next two lines if you want the instructions to disappear.
+%\renewcommand{\instructions}[1]{}
+%\renewcommand{\fillme}[1]{}
+
+\begin{document}
+
+\title{A Semi-supervised Approach to Word Sense Disambiguation \\ \small{CS446 Class Project}}
+\author{Haoruo Peng(hpeng7@illinois.edu) \and Shyam Upadhyay(upadhya3@illinois.edu)}
+\maketitle
+
+
+
+%\instructions{If you are taking CS446 for 4 hours credit, you need to
+%  do a research project. This is a template for the intermediate
+%  report (the check in),
+%  but this should also give you a start on the final report.
+%The template for the final report is at
+%\url{http://courses.engr.illinois.edu/cs446/Projects/CS446projCheckIn.tex}
+%(or
+%\url{http://courses.engr.illinois.edu/cs446/Projects/CS446projCheckIn.pdf}
+%for the pdf). Uncomment the \texttt{$\backslash$renewcommand{$\backslash$instructions}[1]\{\}}
+% and \texttt{$\backslash$renewcommand{$\backslash$fillme}[1]\{\}} lines in the preamble of the template if
+% you want the instructions to disappear.
+%% \begin{verbatim}
+%% 
+%% \end{verbatim}
+%}
+
+
+\begin{abstract}
+%\instructions{Very briefly, summarize your task, your model and your main results}
+\end{abstract}
+
+
+\section{Introduction} 
+\label{sec:introduction}
+%\instructions{This should be a brief outline of the paper -- use plain English, no math. Note that you should be able to write most of this section before you actually perform any experiments. First, define and motivate your task: what are you trying to learn, and why is this an important task? Second, define what kind of a machine learning problem this requires you to solve (binary/multiclass classification, ranking, ....). What is an appropriate baseline model for this task? What kind of model are you proposing? 
+%Briefly summarize the assumptions your model makes. Finally, describe the hypotheses you wish to test. These are typically statements of the form ``we expect model/features A to perform better on this task than model/features B''.
+%Outline how your experiments will evaluate these hypotheses (comparisons of different models, ablation studies, learning curves, oracle experiments... ). }
+
+In natural language, a word may be associated with possibly multiple meanings, depending on the context in which the word occurs. For instance, the word pen has the following senses according to Wordnet:
+\begin{enumerate}
+\item \emph{pen : a writing implement with a point from which ink flows}
+\item \emph{pen : an enclosure for confining livestock}
+\end{enumerate}
+Word sense disambiguation is the problem of determining the correct sense of a word in a given sentence. Word sense disambiguation can be viewed as a multi class classification problem, where each word admits several possible senses and the task is to identify the correct sense of a given word given its context. For example, determining the correct sense of the word ``pen" in the following passage:
+
+\emph{Little John was looking for his toy box. Finally he found it. The box was in the pen. John was very happy.}
+
+Word sense disambiguation is important for 
+In this project, we will investigate into the performance of semi-supervised learning algorithms for word sense disambiguation.
+
+
+\section{Background}
+\label{sec:background}
+\instructions{Summarize and discuss related work that you are building on: this requires you to find, read and cite a few research papers. This is also something you can get started on as soon as you have settled on a task.} 
+
+A general survey is provided in~\cite{navigli2009word}. WSD has been described as an AI-complete problem~\cite{mallery1988thinking}. Researchers have done much progress to WSD problem achieving sufficiently high levels of accuracy on a variety of word types and ambiguities. A rich variety of techniques have been researched, from dictionary-based methods~\cite{mihalcea2007using} that use the knowledge encoded in lexical resources, to supervised machine learning methods~\cite{manning1999foundations} in which a classifier is trained for each distinct word on a corpus of manually sense-annotated examples, to completely unsupervised methods~\cite{yarowsky1995unsupervised} that cluster occurrences of words, thereby inducing word senses.
+
+Supervised learning approaches have been remarkably successful for performing word sense disambiguation. But the lack of sense-tagged data poses a severe bottleneck. To address this problem, researchers have resorted to semi-supervised learning algorithms. The Yarowsky algorithm~\cite{yarowsky1995unsupervised} was an early example of such an algorithm. It uses the `One sense per collocation' and the `One sense per discourse' properties of human languages for word sense disambiguation. From observation, words tend to exhibit only one sense in most given discourse and in a given collocation. 
+
+~\cite{le2008semi}, which allows both labeled and unlabeled data. 
+More recently, researchers have leveraged word alignment information from parallel corporas to aid in obtaining coarse grained senses. In word alignment tasks, a wor 
+Unlike sense-tagged datasets, good quality parallel corpora are readily available. 
+
+%The bootstrapping approach starts from a small amount of seed data for each word: either manually tagged training examples or a small number of surefire decision rules (e.g., `play' in the context of `bass' almost always indicates the musical instrument). The seeds are used to train an initial classifier, using any supervised method. This classifier is then used on the untagged portion of the corpus to extract a larger training set, in which only the most confident classifications are included. The process repeats, each new classifier being trained on a successively larger training corpus, until the whole corpus is consumed, or until a given maximum number of iterations is reached.
+
+Other semi-supervised techniques use large quantities of untagged corpora to provide co-occurrence information that supplements the tagged corpora. These techniques have the potential to help in the adaptation of supervised models to different domains.
+
+\section{Task and Data}
+\label{sec:taskAndData}
+\instructions{Now describe the task and data in more detail.}
+For general tasks, we will use datasets from \textbf{SemEval} ``http://www.senseval.org". It is an ongoing series of evaluations of computational semantic analysis systems; it evolved from the Senseval word sense evaluation series. The evaluations are intended to explore the nature of meaning in language. While meaning is intuitive to humans, transferring those intuitions to computational analysis has proved elusive.
+
+\subsection{The Task}
+\label{sec:task}
+\instructions{Now, try to formalize your task as a classification/ranking/... problem. Introduce mathematical/formal notation as necessary. How do you evaluate models, or measure success?}
+
+\subsection{The Data}
+\label{sec:data}
+\instructions{Describe the data you use to train and evaluate your models. Describe where you got it from (include references/citations to published works, or URLs!). Describe and give examples for the features that you have access to.} 
+
+
+\section{The Models}
+\label{sec:models}
+
+\subsection{Baseline Models}
+\label{sec:baseline-models}
+\instructions{In order to know how difficult the task is and how well we are doing, we need to know how well a suitable baseline model would perform. Define a baseline model for your task. This may not necessarily be a learned model.}
+A naive baseline for word sense disambiguation will be to output the most frequent sense of the word 
+
+\subsection{Existing Models}
+\label{sec:existing-models}
+\instructions{If people have worked on this task before, summarize (and cite) some of the existing models} 
+
+\subsection{Proposed Model(s)}
+\label{sec:proposed-models}
+\instructions{Your models and your procedure for learning them go here. Describe both in detail, even if the learning procedure is standard.}
+
+
+
+\section{Experiments}
+\label{sec:experiments}
+
+\subsection{Experimental Hypotheses}
+\label{sec:exper-hypoth}
+\instructions{Summarize the hypotheses (research questions) your experiments are designed to test (address). (Note that some of these hypotheses may emerge as you keep working on a problem; you will not necessarily have come up with all the questions you wish to address before you have started building a models for the specific task.}
+
+\subsection{Experimental setup}
+\label{sec:experimental-setup}
+\instructions{Define test/training/dev data splits, describe how you tuned performance. Describe and your evaluation metric, and define it mathematically.
+List the models you will evaluate. Cite any existing tools or software you use to perform your experiments; describe what you implemented yourself. Describe how you obtained the features used by each of the models.}
+
+\subsection{Experimental results}
+\label{sec:experimental-results}
+\instructions{Now give the actual experimental results (use figures/tables/graphs as appropriate), and discuss whether they verify or falsify your hypotheses. How important are the various features your models use (consider ablation studies). How robust are your results? (Look at learning curves, or the variance when you perform cross-validation). Can you perform an error analysis?}
+
+\section{Conclusion}
+\instructions{Summarize your findings, and discuss their implications, e.g. for future work, or for related tasks. Discuss also the shortcomings of your proposed approach. }. 
+
+\section*{\instructions{Bibliography}}
+\instructions{Don't forget to create your own .bib file. If you call it {\tt mybib.bib} and put it in the same directory as this {\tt .tex} file, add {\tt$\backslash$bibliography\{mybib\}} before {\tt$\backslash$end\{document\}}
+}
+\bibliographystyle{natbib}  
+%\bibliography{Your .bib file}
+
+\section*{Your current to-do list}
+\instructions{This should be an updated version of your initial to-do
+  list. Compare what you have done with what remains to be done. If you have a group
+  project: who will do what? Set yourself deadlines. Here are a few
+  items that might appear on your to-do list}
+\paragraph{Done}
+\begin{enumerate}
+\item \fillme{...}
+\item \fillme{...}
+\end{enumerate}
+\paragraph{Left to do}
+\begin{enumerate}
+\item \fillme{...do you have data?}
+\item \fillme{...do you know related work? (have you got the
+    references  for your .bib file?)}
+\item \fillme{...what algorithm will you use? do you need to implement
+    this yourself, or will you use an off-the-shelf package?} 
+\item \fillme{...what experiments do you plan to run?}
+\item \fillme{...and don't forget to allocate time for the writeup!} 
+\end{enumerate}
+
+\section*{\instructions{Bibliography}}
+\instructions{If you need references for the background section, don't forget to create your own .bib file. If you call it {\tt mybib.bib} and put it in the same directory as this {\tt .tex} file, add {\tt$\backslash$bibliography\{mybib\}} before {\tt$\backslash$end\{document\}}
+}
+\bibliographystyle{natbib}
+\bibliography{wsd}  
+\end{document}

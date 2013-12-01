@@ -8,37 +8,37 @@
 \usepackage{graphicx}
 \usepackage{natbib} % for references
 \usepackage[usenames,dvipsnames]{xcolor}
-\newcommand{\blue}[1]{\textcolor{RoyalBlue}{#1}}
-\newcommand{\fillme}[1]{\blue{\texttt{[Insert #1]}}}
-\newcommand{\instructions}[1]{\blue{\textit{#1}}}
 
 \begin{document}
 
-\title{CS446 Class Project: A Semi-supervised Approach to Word Sense Disambiguation}
-\author{Haoruo Peng(hpeng7) \and Shyam Upadhyay(upadhya3)}
+\title{A Semi-supervised Approach to Word Sense Disambiguation \\ \small{CS446 Class Project}}
+\author{Haoruo Peng(hpeng7@illinois.edu) \and Shyam Upadhyay(upadhya3@illinois.edu)}
 \maketitle
-
 \section*{Task description}
 In natural language, a word may be associated with possibly multiple meanings, depending on the context in which the word occurs. For instance, the word pen has the following senses according to Wordnet:
 \begin{enumerate}
 \item \emph{pen : a writing implement with a point from which ink flows}
 \item \emph{pen : an enclosure for confining livestock}
 \end{enumerate}
-
-Word sense disambiguation is the problem of determining the correct sense of a word in a given sentence. For example, determining the correct sense of the word ``pen" in the following passage:
+Word sense disambiguation is the problem of determining the correct sense of a word in a given sentence. Word sense disambiguation can be viewed as a multi class classification problem, where each word admits several possible senses and the task is to identify the correct sense of a given word given its context. For example, determining the correct sense of the word ``pen" in the following passage:
 
 \emph{Little John was looking for his toy box. Finally he found it. The box was in the pen. John was very happy.}
 
-In this project, we will investigate into the performance of semi-supervised learning algorithms for WSD.
+A naive baseline for word sense disambiguation will be to output the most frequent sense of the word In this project, we will investigate into the performance of semi-supervised learning algorithms for word sense disambiguation.
 
 \section*{Background}
 A general survey is provided in~\cite{navigli2009word}. WSD has been described as an AI-complete problem~\cite{mallery1988thinking}. Researchers have done much progress to WSD problem achieving sufficiently high levels of accuracy on a variety of word types and ambiguities. A rich variety of techniques have been researched, from dictionary-based methods~\cite{mihalcea2007using} that use the knowledge encoded in lexical resources, to supervised machine learning methods~\cite{manning1999foundations} in which a classifier is trained for each distinct word on a corpus of manually sense-annotated examples, to completely unsupervised methods~\cite{yarowsky1995unsupervised} that cluster occurrences of words, thereby inducing word senses.
 
-Because of the lack of training data, many word sense disambiguation algorithms use semi-supervised learning~\cite{le2008semi}, which allows both labeled and unlabeled data. The Yarowsky algorithm~\cite{yarowsky1995unsupervised} was an early example of such an algorithm. It uses the `One sense per collocation' and the `One sense per discourse' properties of human languages for word sense disambiguation. From observation, words tend to exhibit only one sense in most given discourse and in a given collocation.
+Supervised learning approaches have been remarkably successful for performing word sense disambiguation. But the lack of sense-tagged data poses a severe bottleneck. To address this problem, researchers have resorted to semi-supervised learning algorithms. The Yarowsky algorithm~\cite{yarowsky1995unsupervised} was an early example of such an algorithm. It uses the `One sense per collocation' and the `One sense per discourse' properties of human languages for word sense disambiguation. From observation, words tend to exhibit only one sense in most given discourse and in a given collocation. 
 
-The bootstrapping approach starts from a small amount of seed data for each word: either manually tagged training examples or a small number of surefire decision rules (e.g., `play' in the context of `bass' almost always indicates the musical instrument). The seeds are used to train an initial classifier, using any supervised method. This classifier is then used on the untagged portion of the corpus to extract a larger training set, in which only the most confident classifications are included. The process repeats, each new classifier being trained on a successively larger training corpus, until the whole corpus is consumed, or until a given maximum number of iterations is reached.
+~\cite{le2008semi}, which allows both labeled and unlabeled data. 
+More recently, researchers have leveraged word alignment information from parallel corporas to aid in obtaining coarse grained senses. In word alignment tasks, a wor 
+Unlike sense-tagged datasets, good quality parallel corpora are readily available. 
+
+%The bootstrapping approach starts from a small amount of seed data for each word: either manually tagged training examples or a small number of surefire decision rules (e.g., `play' in the context of `bass' almost always indicates the musical instrument). The seeds are used to train an initial classifier, using any supervised method. This classifier is then used on the untagged portion of the corpus to extract a larger training set, in which only the most confident classifications are included. The process repeats, each new classifier being trained on a successively larger training corpus, until the whole corpus is consumed, or until a given maximum number of iterations is reached.
 
 Other semi-supervised techniques use large quantities of untagged corpora to provide co-occurrence information that supplements the tagged corpora. These techniques have the potential to help in the adaptation of supervised models to different domains.
+
 
 \section*{Data and evaluation}
 For general tasks, we will use datasets from \textbf{SemEval} ``http://www.senseval.org". It is an ongoing series of evaluations of computational semantic analysis systems; it evolved from the Senseval word sense evaluation series. The evaluations are intended to explore the nature of meaning in language. While meaning is intuitive to humans, transferring those intuitions to computational analysis has proved elusive.
