@@ -1,0 +1,44 @@
+\begin{thebibliography}{1}
+
+\bibitem{le2008semi}
+Anh-Cuong Le, Akira Shimazu, Van-Nam Huynh, and Le-Minh Nguyen.
+\newblock Semi-supervised learning integrated with classifier combination for
+  word sense disambiguation.
+\newblock {\em Computer Speech \& Language}, 22(4):330--345, 2008.
+
+\bibitem{mallery1988thinking}
+John~C Mallery.
+\newblock Thinking about foreign policy: Finding an appropriate role for
+  artificially intelligent computers.
+\newblock In {\em Master's thesis, MIT Political Science Department}. Citeseer,
+  1988.
+
+\bibitem{manning1999foundations}
+Christopher~D Manning and Hinrich Sch{\"u}tze.
+\newblock {\em Foundations of statistical natural language processing}, volume
+  999.
+\newblock MIT Press, 1999.
+
+\bibitem{mihalcea2007using}
+Rada Mihalcea.
+\newblock Using wikipedia for automatic word sense disambiguation.
+\newblock In {\em HLT-NAACL}, pages 196--203, 2007.
+
+\bibitem{wordnet}
+George~A. Miller.
+\newblock Wordnet: A lexical database for english.
+\newblock 1995.
+
+\bibitem{navigli2009word}
+Roberto Navigli.
+\newblock Word sense disambiguation: A survey.
+\newblock {\em ACM Computing Surveys (CSUR)}, 41(2):10, 2009.
+
+\bibitem{yarowsky1995unsupervised}
+David Yarowsky.
+\newblock Unsupervised word sense disambiguation rivaling supervised methods.
+\newblock In {\em Proceedings of the 33rd annual meeting on Association for
+  Computational Linguistics}, pages 189--196. Association for Computational
+  Linguistics, 1995.
+
+\end{thebibliography}

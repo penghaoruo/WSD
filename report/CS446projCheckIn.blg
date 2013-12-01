@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: CS446projCheckIn.aux
+The style file: plain.bst
+Database file #1: wsd.bib
+Warning--empty booktitle in wordnet
+You've used 7 entries,
+            2118 wiz_defined-function locations,
+            541 strings with 5080 characters,
+and the built_in function-call counts, 2238 in all, are:
+= -- 222
+> -- 71
+< -- 3
++ -- 29
+- -- 22
+* -- 127
+:= -- 357
+add.period$ -- 23
+call.type$ -- 7
+change.case$ -- 31
+chr.to.int$ -- 0
+cite$ -- 8
+duplicate$ -- 107
+empty$ -- 208
+format.name$ -- 22
+if$ -- 492
+int.to.chr$ -- 0
+int.to.str$ -- 7
+missing$ -- 8
+newline$ -- 38
+num.names$ -- 14
+pop$ -- 46
+preamble$ -- 1
+purify$ -- 25
+quote$ -- 0
+skip$ -- 72
+stack$ -- 0
+substring$ -- 130
+swap$ -- 29
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 26
+warning$ -- 1
+while$ -- 23
+width$ -- 8
+write$ -- 78
+(There was 1 warning)
