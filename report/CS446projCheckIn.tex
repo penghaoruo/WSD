@@ -42,7 +42,7 @@
 
 
 \begin{abstract}
-We investigate the task of word sense disambiguation using a semi-supervised approach. Word sense disambiguation is the task of identifying the correct sense for a word which can possibly admit multiple senses. We use the Semeval dataset to evaluate the performance of our system. We use a graph based approach to disambiguate senses; the underlying assumption is that the sense of the neighboring words can assist in inferring the sense of the target word. In this respect, the senses are learnt in a somewhat joint-manner. Using appropriate weights in the graph constructed for all possible senses, we can use the shortest path algorithm to obtain the correct senses.
+We investigate the task of word sense disambiguation using a semi-supervised approach. Word sense disambiguation is the task of identifying the correct sense for a word which can possibly admit multiple senses. We use the Semeval-2007 dataset to evaluate the performance of our system. We use a graph based approach to disambiguate senses; the underlying assumption is that the sense of the neighboring words can assist in inferring the sense of the target word. In this respect, the senses are learnt in a somewhat joint-manner. Using appropriate weights in the graph constructed for all possible senses, we can use the shortest path algorithm to obtain the correct senses.
 %\instructions{Very briefly, summarize your task, your model and your main results}
 \end{abstract}
 
@@ -84,7 +84,7 @@ Other semi-supervised techniques use large quantities of untagged corpora to pro
 \section{Task and Data}
 \label{sec:taskAndData}
 \instructions{Now describe the task and data in more detail.}
-For general tasks, we will use datasets from \textbf{SemEval} ``http://www.senseval.org". It is an ongoing series of evaluations of computational semantic analysis systems; it evolved from the Senseval word sense evaluation series. The evaluations are intended to explore the nature of meaning in language. While meaning is intuitive to humans, transferring those intuitions to computational analysis has proved elusive.
+For general tasks, we will use datasets from \textbf{SemEval-2007} ``http://www.senseval.org". It is an ongoing series of evaluations of computational semantic analysis systems; it evolved from the Senseval word sense evaluation series. The evaluations are intended to explore the nature of meaning in language. While meaning is intuitive to humans, transferring those intuitions to computational analysis has proved elusive.
 
 \subsection{The Task}
 \label{sec:task}
@@ -101,16 +101,16 @@ For general tasks, we will use datasets from \textbf{SemEval} ``http://www.sense
 \subsection{Baseline Models}
 \label{sec:baseline-models}
 \instructions{In order to know how difficult the task is and how well we are doing, we need to know how well a suitable baseline model would perform. Define a baseline model for your task. This may not necessarily be a learned model.}
-A naive baseline for word sense disambiguation will be to output the most frequent sense of the word 
+A naive baseline for word sense disambiguation will be to output the most frequent sense of the word. On coarse grained senses, using this baseline gives an accuracy ranging from 50-60\%.
 
 \subsection{Existing Models}
 \label{sec:existing-models}
 \instructions{If people have worked on this task before, summarize (and cite) some of the existing models} 
-
+It-makes-sense
 \subsection{Proposed Model(s)}
 \label{sec:proposed-models}
 \instructions{Your models and your procedure for learning them go here. Describe both in detail, even if the learning procedure is standard.}
-
+We employ a graph-based approach similar to ~\cite{Sinha}. 
 
 
 \section{Experiments}
@@ -132,30 +132,17 @@ List the models you will evaluate. Cite any existing tools or software you use t
 \section{Conclusion}
 \instructions{Summarize your findings, and discuss their implications, e.g. for future work, or for related tasks. Discuss also the shortcomings of your proposed approach. }. 
 
-\section*{\instructions{Bibliography}}
-\instructions{Don't forget to create your own .bib file. If you call it {\tt mybib.bib} and put it in the same directory as this {\tt .tex} file, add {\tt$\backslash$bibliography\{mybib\}} before {\tt$\backslash$end\{document\}}
-}
-%\bibliography{Your .bib file}
-
 \section*{Your current to-do list}
-\instructions{This should be an updated version of your initial to-do
-  list. Compare what you have done with what remains to be done. If you have a group
-  project: who will do what? Set yourself deadlines. Here are a few
-  items that might appear on your to-do list}
 \paragraph{Done}
 \begin{enumerate}
-\item \fillme{...}
-\item \fillme{...}
+\item Implemented the code.
+\item Obtained the Semeval 2007 dataset.
+\item Added relevant related work.
 \end{enumerate}
 \paragraph{Left to do}
 \begin{enumerate}
-\item \fillme{...do you have data?}
-\item \fillme{...do you know related work? (have you got the
-    references  for your .bib file?)}
-\item \fillme{...what algorithm will you use? do you need to implement
-    this yourself, or will you use an off-the-shelf package?} 
-\item \fillme{...what experiments do you plan to run?}
-\item \fillme{...and don't forget to allocate time for the writeup!} 
+\item Running experiments with different similarity metrics.
+\item Write-up.
 \end{enumerate}
 
 \bibliographystyle{plain}

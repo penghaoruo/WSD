@@ -34,6 +34,14 @@ Roberto Navigli.
 \newblock Word sense disambiguation: A survey.
 \newblock {\em ACM Computing Surveys (CSUR)}, 41(2):10, 2009.
 
+\bibitem{Sinha}
+Ravi Sinha and Rada Mihalcea.
+\newblock Unsupervised graph-basedword sense disambiguation using measures of
+  word semantic similarity.
+\newblock In {\em Proceedings of the International Conference on Semantic
+  Computing}, ICSC '07, pages 363--369, Washington, DC, USA, 2007. IEEE
+  Computer Society.
+
 \bibitem{yarowsky1995unsupervised}
 David Yarowsky.
 \newblock Unsupervised word sense disambiguation rivaling supervised methods.
