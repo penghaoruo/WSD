@@ -34,6 +34,12 @@ Roberto Navigli.
 \newblock Word sense disambiguation: A survey.
 \newblock {\em ACM Computing Surveys (CSUR)}, 41(2):10, 2009.
 
+\bibitem{Ng}
+Hwee~Tou Ng, Bin Wang, and Yee~Seng Chan.
+\newblock Exploiting parallel texts for word sense disambiguation: An empirical
+  study.
+\newblock In {\em In Proceedings of ACL03}, pages 455--462, 2003.
+
 \bibitem{Sinha}
 Ravi Sinha and Rada Mihalcea.
 \newblock Unsupervised graph-basedword sense disambiguation using measures of
