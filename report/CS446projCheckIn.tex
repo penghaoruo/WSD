@@ -67,7 +67,7 @@ WSD is a key component for natural language processing systems which involves se
 
 \section{Background}
 \label{sec:background}
-\instructions{Summarize and discuss related work that you are building on: this requires you to find, read and cite a few research papers. This is also something you can get started on as soon as you have settled on a task.} 
+%\instructions{Summarize and discuss related work that you are building on: this requires you to find, read and cite a few research papers. This is also something you can get started on as soon as you have settled on a task.} 
 
 WSD has been described as an AI-complete problem~\cite{mallery1988thinking}. Researchers have done much progress to WSD problem achieving sufficiently high levels of accuracy on a variety of word types and ambiguities. A rich variety of techniques have been used, from dictionary-based methods~\cite{mihalcea2007using} that use the knowledge encoded in lexical resources, to supervised machine learning methods~\cite{manning1999foundations} in which a classifier is trained for each distinct word on a corpus of manually sense-annotated examples, to completely unsupervised methods~\cite{yarowsky1995unsupervised} that cluster occurrences of words, thereby inducing word senses.
 
@@ -86,7 +86,12 @@ For general tasks, we will use datasets from \textbf{SemEval-2007} ``http://www.
 \subsection{The Task}
 \label{sec:task}
 %\instructions{Now, try to formalize your task as a classification/ranking/... problem. Introduce mathematical/formal notation as necessary. How do you evaluate models, or measure success?}
-We are given a sequence of target words $(w_1,w_2 \cdots w_n)$ in a document $D$. Each word $w_i$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{in_i})$ where $|S_i|= n_i$. The task is to assign each word $w_i$ the most appropriate sense from its context in $D$. 
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.8]{wsd.png}
+\caption{An example of word sense disambiguation system. Image courtesy ~\protect\cite{navilgiblog}}
+\end{figure}
+We are given a a document $D$ and sequence of target words $(w_1,w_2 \cdots w_n)$ in the document. Each word $w_i$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{in_i})$ where $|S_i|= n_i$. The task is to assign each word $w_i$ the most appropriate sense from its context in $D$. 
 \subsection{The Data}
 \label{sec:data}
 \instructions{Describe the data you use to train and evaluate your models. Describe where you got it from (include references/citations to published works, or URLs!). Describe and give examples for the features that you have access to.} 

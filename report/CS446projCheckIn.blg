@@ -4,45 +4,45 @@ The top-level auxiliary file: CS446projCheckIn.aux
 The style file: plain.bst
 Database file #1: CS446projCheckIn.bib
 Warning--empty booktitle in wordnet
-You've used 9 entries,
+You've used 10 entries,
             2118 wiz_defined-function locations,
-            556 strings with 5486 characters,
-and the built_in function-call counts, 3188 in all, are:
-= -- 325
-> -- 102
+            559 strings with 5542 characters,
+and the built_in function-call counts, 3394 in all, are:
+= -- 344
+> -- 109
 < -- 5
-+ -- 41
-- -- 32
-* -- 183
-:= -- 490
-add.period$ -- 30
-call.type$ -- 9
-change.case$ -- 42
++ -- 44
+- -- 34
+* -- 188
+:= -- 526
+add.period$ -- 33
+call.type$ -- 10
+change.case$ -- 46
 chr.to.int$ -- 0
-cite$ -- 10
-duplicate$ -- 153
-empty$ -- 288
-format.name$ -- 32
-if$ -- 714
+cite$ -- 11
+duplicate$ -- 160
+empty$ -- 310
+format.name$ -- 34
+if$ -- 759
 int.to.chr$ -- 0
-int.to.str$ -- 9
+int.to.str$ -- 10
 missing$ -- 10
-newline$ -- 48
-num.names$ -- 18
-pop$ -- 60
+newline$ -- 53
+num.names$ -- 20
+pop$ -- 68
 preamble$ -- 1
-purify$ -- 34
+purify$ -- 37
 quote$ -- 0
-skip$ -- 112
+skip$ -- 119
 stack$ -- 0
-substring$ -- 204
-swap$ -- 50
+substring$ -- 209
+swap$ -- 51
 text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 34
+type$ -- 38
 warning$ -- 1
-while$ -- 33
-width$ -- 10
-write$ -- 103
+while$ -- 35
+width$ -- 12
+write$ -- 112
 (There was 1 warning)

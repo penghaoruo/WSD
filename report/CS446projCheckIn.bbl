@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{le2008semi}
 Anh-Cuong Le, Akira Shimazu, Van-Nam Huynh, and Le-Minh Nguyen.
@@ -28,6 +28,11 @@ Rada Mihalcea.
 George~A. Miller.
 \newblock Wordnet: A lexical database for english.
 \newblock 1995.
+
+\bibitem{navilgiblog}
+Roberto Navigli.
+\newblock Lecture 7.
+\newblock \url{http://naviglinlp.blogspot.com}.
 
 \bibitem{navigli2009word}
 Roberto Navigli.
