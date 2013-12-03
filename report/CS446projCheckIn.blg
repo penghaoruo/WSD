@@ -3,6 +3,7 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: CS446projCheckIn.aux
 The style file: plain.bst
 Database file #1: CS446projCheckIn.bib
+Warning--to sort, need author or key in semeval
 Warning--to sort, need author or key in wordneturl
 Warning--to sort, need author or key in WS4Jurl
 Warning--empty author in WS4Jurl
@@ -11,46 +12,49 @@ Warning--empty year in WS4Jurl
 Warning--empty author in wordneturl
 Warning--empty booktitle in wordneturl
 Warning--empty year in wordneturl
+Warning--empty author in semeval
+Warning--empty booktitle in semeval
+Warning--empty year in semeval
 Warning--empty booktitle in wordnet
-You've used 12 entries,
+You've used 13 entries,
             2118 wiz_defined-function locations,
-            564 strings with 5660 characters,
-and the built_in function-call counts, 3762 in all, are:
-= -- 370
-> -- 111
+            566 strings with 5690 characters,
+and the built_in function-call counts, 3946 in all, are:
+= -- 383
+> -- 112
 < -- 5
-+ -- 46
++ -- 47
 - -- 34
-* -- 216
-:= -- 564
-add.period$ -- 35
-call.type$ -- 12
-change.case$ -- 52
+* -- 230
+:= -- 583
+add.period$ -- 36
+call.type$ -- 13
+change.case$ -- 55
 chr.to.int$ -- 0
-cite$ -- 21
-duplicate$ -- 186
-empty$ -- 364
+cite$ -- 26
+duplicate$ -- 199
+empty$ -- 391
 format.name$ -- 34
-if$ -- 843
+if$ -- 885
 int.to.chr$ -- 0
-int.to.str$ -- 12
-missing$ -- 12
-newline$ -- 59
+int.to.str$ -- 13
+missing$ -- 13
+newline$ -- 62
 num.names$ -- 20
-pop$ -- 90
+pop$ -- 101
 preamble$ -- 1
-purify$ -- 41
+purify$ -- 43
 quote$ -- 0
-skip$ -- 131
+skip$ -- 137
 stack$ -- 0
-substring$ -- 219
-swap$ -- 53
+substring$ -- 224
+swap$ -- 54
 text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 46
-warning$ -- 9
+type$ -- 50
+warning$ -- 13
 while$ -- 35
-width$ -- 14
-write$ -- 122
-(There were 9 warnings)
+width$ -- 15
+write$ -- 127
+(There were 13 warnings)

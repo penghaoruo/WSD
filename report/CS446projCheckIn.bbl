@@ -6,6 +6,9 @@ https://code. google.com/p/ws4j/.
 \bibitem{wordneturl}
 http://wordnet.princeton.edu/wordnet/download/current-version/.
 
+\bibitem{semeval}
+http://www.senseval.org.
+
 \bibitem{le2008semi}
 Anh-Cuong Le, Akira Shimazu, Van-Nam Huynh, and Le-Minh Nguyen.
 \newblock Semi-supervised learning integrated with classifier combination for
