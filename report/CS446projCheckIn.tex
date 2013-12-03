@@ -6,6 +6,7 @@
 \textheight 9.0in
 \usepackage{hyperref}
 \usepackage{mathptmx}
+\usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{natbib} % for references
 \usepackage[usenames,dvipsnames]{xcolor}
@@ -61,6 +62,11 @@ In natural language, a word may be associated with possibly multiple meanings, d
 Word sense disambiguation(WSD) is the problem of determining the correct sense of a word in a given sentence. For example, determining the correct sense of the word ``pen" in the following passage:
 
 \emph{Little John was looking for his toy box. Finally he found it. The box was in the pen. John was very happy.}
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.8]{wsd.png}
+\caption{An example of word sense disambiguation system. Image courtesy ~\protect\cite{navilgiblog}}
+\end{figure}
 
 WSD can be viewed as a multi class classification problem, where each word admits several possible senses and the task is to identify the correct sense of a given word given its context and knowledge sources. The inherent difficulty of WSD is evident from the fact that the target classes change for each word in the lexicon. In this respect, WSD involves training $n$ different classifiers, one for each word in a lexicon of size $n$. 
 %\subsection{Motivation}
@@ -89,15 +95,15 @@ Other semi-supervised techniques use large quantities of untagged corpora to pro
 \subsection{The Task}
 \label{sec:task}
 %\instructions{Now, try to formalize your task as a classification/ranking/... problem. Introduce mathematical/formal notation as necessary. How do you evaluate models, or measure success?}
-\begin{figure}[!htbp]
-\centering
-\includegraphics[scale=0.8]{wsd.png}
-\caption{An example of word sense disambiguation system. Image courtesy ~\protect\cite{navilgiblog}}
-\end{figure}
 We are given a a document $D$ and sequence of target words $(w_1,w_2 \cdots w_n)$ in the document. Each word $w_i$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{in_i})$ where $|S_i|= n_i$. The task is to assign each word $w_i$ the most appropriate sense from its context in $D$. 
 
 \subsection{Evaluation}
-WSD systems are evaluated by comparing in terms of their coverage,precision and recall  
+WSD systems are evaluated by comparing in terms of their coverage,precision and recall with respect to a gold tagging. We allow a empty sense assignment in case the system is not able to disambiguate the word. So for each word $w_i$ the output of the classifier lies in $S_i \cup \{\epsilon\}$. We can now define  our metrics as follows,
+\begin{align*}
+Precision = \frac{\text{\# of correct sense tags in the output}}{\text{Total \# of tags in the output}}\\
+Recall =\frac{\text{\# of correct sense tags in the output}}{\text{Total \# of tags in the gold tagging}}\\
+Coverage =\frac{\text{\# of tags in the output}}{\text{Total \# of correct tags in the gold tagging}}
+\end{align*}
 \subsection{The Data}
 \label{sec:data}
 %\instructions{Describe the data you use to train and evaluate your models. Describe where you got it from (include references/citations to published works, or URLs!). Describe and give examples for the features that you have access to.} 
