@@ -1,13 +1,13 @@
 \begin{thebibliography}{10}
 
 \bibitem{WS4Jurl}
-https://code. google.com/p/ws4j/.
+\url{https://code. google.com/p/ws4j/}.
 
 \bibitem{wordneturl}
-http://wordnet.princeton.edu/wordnet/download/current-version/.
+\url{http://wordnet.princeton.edu/wordnet/download/current-version/}.
 
 \bibitem{semeval}
-http://www.senseval.org.
+\url{http://www.senseval.org}.
 
 \bibitem{le2008semi}
 Anh-Cuong Le, Akira Shimazu, Van-Nam Huynh, and Le-Minh Nguyen.
