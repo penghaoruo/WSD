@@ -20,7 +20,7 @@
 \begin{document}
 
 \title{A Semi-supervised Approach to Word Sense Disambiguation \\ \Large{(CS446 Class Project)}}
-\author{Haoruo Peng(hpeng7@illinois.edu) \and Shyam Upadhyay(upadhya3@illinois.edu)}
+\author{Haoruo Peng (hpeng7@illinois.edu) \and Shyam Upadhyay (upadhya3@illinois.edu)}
 \maketitle
 
 
@@ -121,12 +121,12 @@ Our work also requires some supplementary packages such as ``Wordnet" database a
 \item[Random Baseline] A naive baseline for word sense disambiguation. A randomly selected sense is made from the set of permissible senses for the target word. \\
 \item[First Sense Baseline(Most Frequent Sense)] A more appropriate baseline model will be to output the most frequent sense of the word. On coarse grained senses, using this baseline gives an accuracy ranging from 50-60\%. As noted in ~\cite{navigli2009word}, this baseline is often difficult to beat.
 \end{description}
-
-\subsection{Existing Models}
-\label{sec:existing-models}
+%
+%\subsection{Existing Models}
+%\label{sec:existing-models}
 %\instructions{If people have worked on this task before, summarize (and cite) some of the existing models} 
-It-makes-sense
-\subsection{Proposed Model(s)}
+%It-makes-sense
+\subsection{Our Model}
 \label{sec:proposed-models}
 %\instructions{Your models and your procedure for learning them go here. Describe both in detail, even if the learning procedure is standard.}
 We employ a graph-based approach to disambiguate senses of a word. Our method is similar to ~\cite{Sinha}. We first create a weighted graph of label dependencies for all candidate senses. For every candidate sense $s_{ij}$ for word $w_i$, we have a node in the graph. This node has edges to the all candidate senses of words within a pre-defined window around word $w_i$. These edges are weighed by the dependency score for the pair of senses. The dependency score captures the relationship between two candidate senses for nearby words. Based on the edge weights we assign scores to each node based on a graph-based measure of centrality. The score of a node denotes the "importance" of the node in the graph, taking into account its relationship with neighboring nodes.
@@ -134,15 +134,15 @@ We employ a graph-based approach to disambiguate senses of a word. Our method is
 \section{Experiments}
 \label{sec:experiments}
 
-\subsection{Experimental Hypotheses}
-\label{sec:exper-hypoth}
+%\subsection{Experimental Hypotheses}
+%\label{sec:exper-hypoth}
 %\instructions{Summarize the hypotheses (research questions) your experiments are designed to test (address). (Note that some of these hypotheses may emerge as you keep working on a problem; you will not necessarily have come up with all the questions you wish to address before you have started building a models for the specific task.}
 
-\subsection{Experimental setup}
-\label{sec:experimental-setup}
+%\subsection{Experimental setup}
+%\label{sec:experimental-setup}
 %\instructions{Define test/training/dev data splits, describe how you tuned performance. Describe and your evaluation metric, and define it mathematically.
 %List the models you will evaluate. Cite any existing tools or software you use to perform your experiments; describe what you implemented yourself. Describe how you obtained the features used by each of the models.}
-mention maven
+%mention maven
 
 \subsection{Experimental results}
 \label{sec:experimental-results}
