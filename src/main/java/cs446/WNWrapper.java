@@ -205,7 +205,7 @@ public class WNWrapper {
     		String[] strs=lines.get(i).split(" ");
     		String word=strs[0].substring(0, strs[0].indexOf('%'));
     		String synset=strs[1];
-    		mapsense.put(new Pair(word,synset), strs[0]);
+    		mapsense.put(new Pair<String, String>(word,synset), strs[0]);
     		//mapsensereverse.put(strs[0], strs[1]);
     	}
     }
@@ -218,6 +218,7 @@ public class WNWrapper {
     }
     
     // Get all the Synsets of a given word with given pos and given sensecluster ID
+    // Please use this to get Concepts!!!
     public ArrayList<Concept> getAllSynsetsFromCluster(String word, String pos, int index) {
     	List<Concept> syns=(List<Concept>) db.getAllConcepts(word, pos);
     	ArrayList<Concept> synsets=new ArrayList<Concept>();
