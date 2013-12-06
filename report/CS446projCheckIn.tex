@@ -1,4 +1,4 @@
-\documentclass[11pt,letterpaper]{article}
+\documentclass[12pt,letterpaper]{article}
 \oddsidemargin 0in
 \evensidemargin 0in
 \textwidth 6.5in
@@ -39,10 +39,6 @@ We investigate the task of word sense disambiguation using a semi-supervised app
 
 \section{Introduction} 
 \label{sec:introduction}
-%\instructions{This should be a brief outline of the paper -- use plain English, no math. Note that you should be able to write most of this section before you actually perform any experiments. First, define and motivate your task: what are you trying to learn, and why is this an important task? Second, define what kind of a machine learning problem this requires you to solve (binary/multiclass classification, ranking, ....). What is an appropriate baseline model for this task? What kind of model are you proposing? 
-%Briefly summarize the assumptions your model makes. Finally, describe the hypotheses you wish to test. These are typically statements of the form ``we expect model/features A to perform better on this task than model/features B''.
-%Outline how your experiments will evaluate these hypotheses (comparisons of different models, ablation studies, learning curves, oracle experiments... ). }
-
 In natural language, a word may be associated with possibly multiple meanings, depending on the context in which the word occurs. For instance, the word pen has the following senses according to Wordnet ~\cite{wordnet}:
 \begin{description}
 \item [pen] : a writing implement with a point from which ink flows
@@ -64,7 +60,7 @@ WSD is a key component for natural language processing systems which involves se
 
 The task of WSD was first described by Warren Weaver in 1949. He encountered the problem while working on machine translation. In those days, researchers such as Bar-Hillel felt that WSD could not be solved without modelling world knowledge. WSD has been described as an AI-complete problem~\cite{mallery1988thinking}, which means that it is computationally as hard as solving central artificial intelligence problems like the Turing test. Until 1970s, semantic interpretation systems used rule based patterns to resolve the senses, which were hand-coded and hence error prone. It was only in the 1980s, when lexical resources like Oxford Advanced Learner's Dictionary of Current English (OALD) became available and dictionary-based methods were used for the first time. 
 
-Significant progress has been made in WSD and researchers have achieved sufficiently high levels of accuracy on a variety of word types and ambiguities. A rich variety of techniques have been used, from dictionary-based methods~\cite{mihalcea2007using} that use the knowledge encoded in lexical resources, to supervised machine learning methods~\cite{manning1999foundations} in which a classifier is trained for each distinct word on a corpus of manually sense-annotated examples, to completely unsupervised methods~\cite{yarowsky1995unsupervised} that cluster occurrences of words, thereby inducing word senses.
+Today, significant progress has been made in WSD and researchers have achieved sufficiently high levels of accuracy on a variety of word types and ambiguities. A rich variety of techniques have been used, from dictionary-based methods~\cite{mihalcea2007using} that use the knowledge encoded in lexical resources, to supervised machine learning methods~\cite{manning1999foundations} in which a classifier is trained for each distinct word on a corpus of manually sense-annotated examples, to completely unsupervised methods~\cite{yarowsky1995unsupervised} that cluster occurrences of words, thereby inducing word senses.
 
 Supervised learning approaches have been remarkably successful for performing word sense disambiguation. Instance-based learning and SVM approaches have proven to be the best systems in several competition. The only issue with supervised approaches is the lack of sense-tagged data which poses a severe bottleneck. 
 
@@ -73,7 +69,7 @@ More recently, researchers ~\cite{Ng} have leveraged word alignment information 
 
 %The bootstrapping approach starts from a small amount of seed data for each word: either manually tagged training examples or a small number of surefire decision rules (e.g., `play' in the context of `bass' almost always indicates the musical instrument). The seeds are used to train an initial classifier, using any supervised method. This classifier is then used on the untagged portion of the corpus to extract a larger training set, in which only the most confident classifications are included. The process repeats, each new classifier being trained on a successively larger training corpus, until the whole corpus is consumed, or until a given maximum number of iterations is reached.
 
-Other semi-supervised techniques use large quantities of untagged corpora to provide co-occurrence information that supplements the tagged corpora. These techniques have the potential to help in the adaptation of supervised models to different domains. Today, some of the key problems in WSD are domain adaptation and using coarse grained senses. The reader is encouraged to peruse a more general  survey provided in~\cite{navigli2009word}. 
+Other semi-supervised techniques use large quantities of untagged corpora to provide co-occurrence information that supplements the tagged corpora. These techniques have the potential to help in the adaptation of supervised models to different domains. Today, some of the key problems in WSD are domain adaptation and using coarse grained senses. Another closely related task to WSD is word sense induction, where the task is to cluster the senses which are similar to a target word. The reader is encouraged to peruse a more general  survey provided in~\cite{navigli2009word}. 
 
 \section{Task and Data}
 \label{sec:taskAndData}
@@ -90,7 +86,7 @@ We are given a a document $D$ and sequence of target words $(w_1,w_2 \cdots w_n)
 \end{figure}
 
 \subsection{Evaluation}
-WSD systems are evaluated by comparing in terms of their coverage,precision and recall with respect to a gold tagging. We allow a empty sense assignment in case the system is not able to disambiguate the word. So for each word $w_i$ the output of the classifier lies in $S_i \cup \{\epsilon\}$. We can now define  our metrics as follows,
+WSD systems are evaluated by comparing in terms of their coverage,precision and recall with respect to a gold tagging(gold tags are provided by human). We allow a empty sense assignment in case the system is not able to disambiguate the word. So for each word $w_i$ the output of the classifier lies in $S_i \cup \{\epsilon\}$. We can now define  our metrics as follows,
 \begin{align*}
 Precision = \frac{\text{\# of correct sense tags in the output}}{\text{Total \# of tags in the output}}\\
 Recall =\frac{\text{\# of correct sense tags in the output}}{\text{Total \# of tags in the gold tagging}}\\
@@ -108,10 +104,9 @@ Our work also requires some libraries such as ``Wordnet" database and ``WS4J" li
 
 \subsection{Baseline Models}
 \label{sec:baseline-models}
-%\instructions{In order to know how difficult the task is and how well we are doing, we need to know how well a suitable baseline model would perform. Define a baseline model for your task. This may not necessarily be a learned model.}
 \begin{description}
 \item[Random Baseline] A naive baseline for word sense disambiguation. A randomly selected sense is made from the set of permissible senses for the target word. \\
-\item[First Sense Baseline(Most Frequent Sense)] A more appropriate baseline model will be to output the most frequent sense of the word. On coarse grained senses, using this baseline gives an accuracy ranging from 50-60\%. As noted in ~\cite{navigli2009word}, this baseline is often difficult to beat.
+\item[First Sense Baseline (Most Frequent Sense)] A more appropriate baseline model will be to output the sense of the word which is most frequently encountered. On coarse grained senses, using this baseline gives an accuracy ranging from 50-60\%. As noted in ~\cite{navigli2009word}, this baseline is often difficult to beat.
 \end{description}
 %
 %\subsection{Existing Models}
@@ -122,7 +117,8 @@ Our work also requires some libraries such as ``Wordnet" database and ``WS4J" li
 \label{sec:proposed-models}
 %\instructions{Your models and your procedure for learning them go here. Describe both in detail, even if the learning procedure is standard.}
 We employ a graph-based approach to disambiguate senses of a word. Our method is similar to ~\cite{Sinha}. We define a fixed sized window around a target word in the document as its context. We first create a weighted graph of label dependencies for all candidate senses. For every candidate sense $s_{ij}$ for word $w_i$, we have a node in the graph. This node has edges to the all candidate senses of words within a pre-defined window around word $w_i$. These edges are weighed by the dependency score for the pair of senses. The dependency score captures the relationship between two candidate senses for nearby words. Based on the edge weights we assign scores to each node based on a graph-based measure of centrality. The score of a node denotes the "importance" of the node in the graph, taking into account its relationship with neighboring nodes.
-
+Our method is different from ~\cite{Sinha} in that we make use of the coarse grain senses provided in the Semeval corpus to construct our graph. Consequently, our graph is less dense than the graph constructed in ~\cite{Sinha}.
+\begin{figure}
 \begin{algorithm}[H]
 \SetKwInOut{Input}{input}
 \SetKwInOut{Output}{output}
@@ -154,7 +150,7 @@ Each $w_i \in W$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{
 }
 \caption{Algorithm to generate the graph (adapted from ~\cite{Sinha})}
 \end{algorithm}
-
+\end{figure}
 \section{Experiments}
 \label{sec:experiments}
 
