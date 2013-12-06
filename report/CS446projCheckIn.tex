@@ -6,13 +6,22 @@
 \textheight 9.0in
 \usepackage{hyperref}
 \usepackage{mathptmx}
+\usepackage{caption}
+
+\usepackage[ruled,linesnumbered,vlined]{algorithm2e}
+\SetNlSty{textbf}{}{:}
+
 \usepackage{amsmath}
+
 \usepackage{graphicx}
+\usepackage{float}	% for fixing image position 
+
 \usepackage{natbib} % for references
 \usepackage[usenames,dvipsnames]{xcolor}
 \newcommand{\blue}[1]{\textcolor{RoyalBlue}{#1}}
 \newcommand{\fillme}[1]{\blue{\texttt{[Insert #1]}}}
 \newcommand{\instructions}[1]{\blue{\textit{#1}}}
+
 % uncomment the next two lines if you want the instructions to disappear.
 %\renewcommand{\instructions}[1]{}
 %\renewcommand{\fillme}[1]{}
@@ -22,26 +31,6 @@
 \title{A Semi-supervised Approach to Word Sense Disambiguation \\ \Large{(CS446 Class Project)}}
 \author{Haoruo Peng (hpeng7@illinois.edu) \and Shyam Upadhyay (upadhya3@illinois.edu)}
 \maketitle
-
-
-
-%\instructions{If you are taking CS446 for 4 hours credit, you need to
-%  do a research project. This is a template for the intermediate
-%  report (the check in),
-%  but this should also give you a start on the final report.
-%The template for the final report is at
-%\url{http://courses.engr.illinois.edu/cs446/Projects/CS446projCheckIn.tex}
-%(or
-%\url{http://courses.engr.illinois.edu/cs446/Projects/CS446projCheckIn.pdf}
-%for the pdf). Uncomment the \texttt{$\backslash$renewcommand{$\backslash$instructions}[1]\{\}}
-% and \texttt{$\backslash$renewcommand{$\backslash$fillme}[1]\{\}} lines in the preamble of the template if
-% you want the instructions to disappear.
-%% \begin{verbatim}
-%% 
-%% \end{verbatim}
-%}
-
-
 \begin{abstract}
 We investigate the task of word sense disambiguation using a semi-supervised approach. Word sense disambiguation is the task of identifying the correct sense for a word which can possibly admit multiple senses. We use the Semeval-2007 dataset to evaluate the performance of our system. We use a graph based approach to disambiguate senses; the underlying assumption is that the sense of the neighboring words can assist in inferring the sense of the target word. In this respect, the senses are learnt in a somewhat joint-manner. Using appropriate weights in the graph constructed for all possible senses, we can use the graph to obtain measures of centrality, which can guide the sense-disambiguation.
 %\instructions{Very briefly, summarize your task, your model and your main results}
@@ -55,20 +44,16 @@ We investigate the task of word sense disambiguation using a semi-supervised app
 %Outline how your experiments will evaluate these hypotheses (comparisons of different models, ablation studies, learning curves, oracle experiments... ). }
 
 In natural language, a word may be associated with possibly multiple meanings, depending on the context in which the word occurs. For instance, the word pen has the following senses according to Wordnet ~\cite{wordnet}:
-\begin{itemize}
-\item \emph{pen : a writing implement with a point from which ink flows}
-\item \emph{pen : an enclosure for confining livestock}
-\end{itemize}
-Word sense disambiguation(WSD) is the problem of determining the correct sense of a word in a given sentence. For example, determining the correct sense of the word ``pen" in the following passage:
-
-\emph{Little John was looking for his toy box. Finally he found it. The box was in the pen. John was very happy.}
-\begin{figure}[!htbp]
-\centering
-\includegraphics[scale=0.8]{wsd.png}
-\caption{An example of word sense disambiguation system. Image courtesy ~\protect\cite{navilgiblog}}
-\end{figure}
-
-WSD can be viewed as a multi class classification problem, where each word admits several possible senses and the task is to identify the correct sense of a given word given its context and knowledge sources. The inherent difficulty of WSD is evident from the fact that the target classes change for each word in the lexicon. In this respect, WSD involves training $n$ different classifiers, one for each word in a lexicon of size $n$. 
+\begin{description}
+\item [pen] : a writing implement with a point from which ink flows
+\item [pen] : an enclosure for confining livestock
+\end{description}
+In linguistic parlance such words are called polysemous. \emph{Word sense disambiguation}(WSD) is the problem of determining the correct sense of a polysemous word in a given sentence. For example, determining the correct sense of the word ``pen" in the following passage:
+\begin{verbatim}
+Little John was looking for his toy box. Finally he found it. 
+The box was in the pen. John was very happy.
+\end{verbatim}
+WSD can be viewed as a multi-class classification problem, where each word admits several possible senses and the task is to identify the correct sense of a given word given its context and knowledge sources. The inherent difficulty of WSD is evident from the fact that the target classes change for each word in the lexicon. In this respect, WSD involves training $n$ different classifiers, one for each word in a lexicon of size $n$. 
 %\subsection{Motivation}
 WSD is a key component for natural language processing systems which involves semantic interpretation of text. Tasks such as machine translation, information retrieval, data mining, web data analysis can greatly benefit from text disambiguation tools. 
 
@@ -77,16 +62,18 @@ WSD is a key component for natural language processing systems which involves se
 \label{sec:background}
 %\instructions{Summarize and discuss related work that you are building on: this requires you to find, read and cite a few research papers. This is also something you can get started on as soon as you have settled on a task.} 
 
-WSD has been described as an AI-complete problem~\cite{mallery1988thinking}. Significant progress has been made in WSD and researchers have achieved sufficiently high levels of accuracy on a variety of word types and ambiguities. A rich variety of techniques have been used, from dictionary-based methods~\cite{mihalcea2007using} that use the knowledge encoded in lexical resources, to supervised machine learning methods~\cite{manning1999foundations} in which a classifier is trained for each distinct word on a corpus of manually sense-annotated examples, to completely unsupervised methods~\cite{yarowsky1995unsupervised} that cluster occurrences of words, thereby inducing word senses.
+The task of WSD was first described by Warren Weaver in 1949. He encountered the problem while working on machine translation. In those days, researchers such as Bar-Hillel felt that WSD could not be solved without modelling world knowledge. WSD has been described as an AI-complete problem~\cite{mallery1988thinking}, which means that it is computationally as hard as solving central artificial intelligence problems like the Turing test. Until 1970s, semantic interpretation systems used rule based patterns to resolve the senses, which were hand-coded and hence error prone. It was only in the 1980s, when lexical resources like Oxford Advanced Learner's Dictionary of Current English (OALD) became available and dictionary-based methods were used for the first time. 
+
+Significant progress has been made in WSD and researchers have achieved sufficiently high levels of accuracy on a variety of word types and ambiguities. A rich variety of techniques have been used, from dictionary-based methods~\cite{mihalcea2007using} that use the knowledge encoded in lexical resources, to supervised machine learning methods~\cite{manning1999foundations} in which a classifier is trained for each distinct word on a corpus of manually sense-annotated examples, to completely unsupervised methods~\cite{yarowsky1995unsupervised} that cluster occurrences of words, thereby inducing word senses.
 
 Supervised learning approaches have been remarkably successful for performing word sense disambiguation. Instance-based learning and SVM approaches have proven to be the best systems in several competition. The only issue with supervised approaches is the lack of sense-tagged data which poses a severe bottleneck. 
 
 To address this problem, researchers have resorted to semi-supervised learning algorithms. The Yarowsky algorithm~\cite{yarowsky1995unsupervised} was an early example of such an algorithm. It uses the `One sense per collocation' and the `One sense per discourse' properties of human languages for word sense disambiguation. From observation, words tend to exhibit only one sense in most given discourse and in a given collocation. The common motif in approaches like ~\cite{yarowsky1995unsupervised},~\cite{le2008semi} is that they allows both labeled and unlabeled data. Training involve iteratively labeling the unlabeled data using an initial seeding labeled set. The seed labeled data is used to learn a classifier which is used to assign labels to unlabeled data, which is merged with the initial seed data to obtain a larger dataset for the next iteration. Finally, the classifier is learned from the extended labelled dataset.
-More recently, researchers ~\cite{Ng} have leveraged word alignment information from parallel corporas to aid in obtaining coarse grained senses. The aim of word-alignment task is to align a word in a given sentence to its translated counterpart in another sentence in a different language. Unlike sense-tagged datasets, good quality parallel corpora are readily available . 
+More recently, researchers ~\cite{Ng} have leveraged word alignment information from parallel corporas to aid in obtaining coarse grained senses. The aim of word-alignment task is to align a word in a given sentence to its translated counterpart in another sentence in a different language. Unlike sense-tagged datasets, good quality parallel corpora are readily available. 
 
 %The bootstrapping approach starts from a small amount of seed data for each word: either manually tagged training examples or a small number of surefire decision rules (e.g., `play' in the context of `bass' almost always indicates the musical instrument). The seeds are used to train an initial classifier, using any supervised method. This classifier is then used on the untagged portion of the corpus to extract a larger training set, in which only the most confident classifications are included. The process repeats, each new classifier being trained on a successively larger training corpus, until the whole corpus is consumed, or until a given maximum number of iterations is reached.
 
-Other semi-supervised techniques use large quantities of untagged corpora to provide co-occurrence information that supplements the tagged corpora. These techniques have the potential to help in the adaptation of supervised models to different domains. The reader is encouraged to peruse a more general  survey provided in~\cite{navigli2009word}. 
+Other semi-supervised techniques use large quantities of untagged corpora to provide co-occurrence information that supplements the tagged corpora. These techniques have the potential to help in the adaptation of supervised models to different domains. Today, some of the key problems in WSD are domain adaptation and using coarse grained senses. The reader is encouraged to peruse a more general  survey provided in~\cite{navigli2009word}. 
 
 \section{Task and Data}
 \label{sec:taskAndData}
@@ -96,6 +83,11 @@ Other semi-supervised techniques use large quantities of untagged corpora to pro
 \label{sec:task}
 %\instructions{Now, try to formalize your task as a classification/ranking/... problem. Introduce mathematical/formal notation as necessary. How do you evaluate models, or measure success?}
 We are given a a document $D$ and sequence of target words $(w_1,w_2 \cdots w_n)$ in the document. Each word $w_i$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{in_i})$ where $|S_i|= n_i$. The task is to assign each word $w_i$ the most appropriate sense from its context in $D$. 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{wsd.png}
+\caption{An example of word sense disambiguation system. Image courtesy ~\protect\cite{navilgiblog}}
+\end{figure}
 
 \subsection{Evaluation}
 WSD systems are evaluated by comparing in terms of their coverage,precision and recall with respect to a gold tagging. We allow a empty sense assignment in case the system is not able to disambiguate the word. So for each word $w_i$ the output of the classifier lies in $S_i \cup \{\epsilon\}$. We can now define  our metrics as follows,
@@ -107,9 +99,9 @@ Coverage =\frac{\text{\# of tags in the output}}{\text{Total \# of correct tags 
 \subsection{The Data}
 \label{sec:data}
 %\instructions{Describe the data you use to train and evaluate your models. Describe where you got it from (include references/citations to published works, or URLs!). Describe and give examples for the features that you have access to.} 
-We use datasets from \textbf{SemEval-2007}~\cite{semeval}. We choose a specific dataset from ``Task \# 7: Coarse-grained English all-words (Coarse AW)" to do both the training and testing. It is an ongoing series of evaluations of computational semantic analysis systems; it evolved from the Senseval word sense evaluation series. In the chosen dataset, it tags approximately 6,000 words of five running texts with coarse senses. Coarse senses will be based on a clustering of the WordNet sense inventory obtained via a mapping to the Oxford Dictionary of English (ODE), a long-established dictionary which encodes coarse sense distinctions. The dataset contains the coarse-grained sense inventory which is prepared semi-automatically: starting from an automatic clustering of senses produced by Navigli (2006) with the Structural Semantic Interconnections (SSI) algorithm, and then manually validate the clustering for the words occurring in the text. For each content word the dataset provides lemma and part of speech.
+We use datasets from \textbf{SemEval-2007}~\cite{semeval}. It is an ongoing series of evaluations of computational semantic analysis systems; it evolved from the Senseval word sense evaluation series. We choose a specific dataset from ``Task \# 7: Coarse-grained English all-words (Coarse AW)" to do both the training and testing. The chosen dataset contains coarse grained tags for approximately 6,000 words from five running texts. The coarse senses were based on a clustering of the WordNet sense inventory obtained via a mapping to the Oxford Dictionary of English (ODE), a long-established dictionary which encodes coarse sense distinctions. The dataset also contains the coarse-grained sense inventory which is prepared semi-automatically: starting from an automatic clustering of senses produced by Navigli (2006) with the Structural Semantic Interconnections (SSI) algorithm, and then manually validate the clustering for the words occurring in the text. For each content word the dataset provides lemma and part of speech.
 
-Our work also requires some supplementary packages such as ``Wordnet" database and ``WS4J" library. We use the the latest released version for linux-Wordnet 3.0 from~\cite{wordneturl}. We compute the similarity metrics by utilizing WS4J library from\cite{WS4Jurl}.
+Our work also requires some libraries such as ``Wordnet" database and ``WS4J" library. We use the the latest released version for Wordnet 3.0 from~\cite{wordneturl}. We compute the similarity metrics by utilizing WS4J library from\cite{WS4Jurl}.
 
 \section{The Models}
 \label{sec:models}
@@ -129,7 +121,39 @@ Our work also requires some supplementary packages such as ``Wordnet" database a
 \subsection{Our Model}
 \label{sec:proposed-models}
 %\instructions{Your models and your procedure for learning them go here. Describe both in detail, even if the learning procedure is standard.}
-We employ a graph-based approach to disambiguate senses of a word. Our method is similar to ~\cite{Sinha}. We first create a weighted graph of label dependencies for all candidate senses. For every candidate sense $s_{ij}$ for word $w_i$, we have a node in the graph. This node has edges to the all candidate senses of words within a pre-defined window around word $w_i$. These edges are weighed by the dependency score for the pair of senses. The dependency score captures the relationship between two candidate senses for nearby words. Based on the edge weights we assign scores to each node based on a graph-based measure of centrality. The score of a node denotes the "importance" of the node in the graph, taking into account its relationship with neighboring nodes.
+We employ a graph-based approach to disambiguate senses of a word. Our method is similar to ~\cite{Sinha}. We define a fixed sized window around a target word in the document as its context. We first create a weighted graph of label dependencies for all candidate senses. For every candidate sense $s_{ij}$ for word $w_i$, we have a node in the graph. This node has edges to the all candidate senses of words within a pre-defined window around word $w_i$. These edges are weighed by the dependency score for the pair of senses. The dependency score captures the relationship between two candidate senses for nearby words. Based on the edge weights we assign scores to each node based on a graph-based measure of centrality. The score of a node denotes the "importance" of the node in the graph, taking into account its relationship with neighboring nodes.
+
+\begin{algorithm}[H]
+\SetKwInOut{Input}{input}
+\SetKwInOut{Output}{output}
+\Input{A document D and a list of ambiguous words $W=(w_1,w_2 \cdots w_n)$ such that $\forall i, w_i\in D$. \\
+Each $w_i \in W$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{in_i})$ where $|S_i|= n_i$}
+\Output{A graph G where a vertex represents a candidate sense of $w_i$ and has edges to candidate senses of $w_j$, $i\ne j$. The cost of the edge is determined by  a dependency scoring metric.}
+\For{$word_1 \gets w_1$ \textbf{to} $w_n$}
+{
+	\For{$word_2 \gets w_1$ \textbf{to} $w_n$}
+	{
+		\If{$word_1.position - word_2.position>window_{max}$}
+		{
+			break
+		}
+		\Else
+		{
+			\For{$s_1 \in S_{word_1}$}
+			{
+				\For{$s_2 \in S_{word_2}$}
+				{
+					$vertex_1 \gets newVertex(s_1)$ \\
+					$vertex_2 \gets newVertex(s_2)$ \\
+					$edgeCost \gets getEdge(word_1,word_2,sense_1,sense_2,metric)$ 
+					$addEdge(vertex_1,vertex_2,edgeCost)$
+				}	
+			}
+		}
+	}
+}
+\caption{Algorithm to generate the graph (adapted from ~\cite{Sinha})}
+\end{algorithm}
 
 \section{Experiments}
 \label{sec:experiments}
