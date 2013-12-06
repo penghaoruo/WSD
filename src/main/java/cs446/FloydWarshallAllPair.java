@@ -19,6 +19,8 @@ public class FloydWarshallAllPair
 	{
 		this.vs=G.getVertices();
 		this.es=G.getEdges();
+		System.out.println("Number of Vertices "+vs.size());
+		System.out.println("Number of Edges "+es.size());
 	}
 	public Map<Integer, Map<Integer,Double>> computeDistances()
 	{
@@ -56,7 +58,9 @@ public class FloydWarshallAllPair
 				}
 	
 			}
+//			System.out.println("Iteration "+k.getID());
 		}
+	System.out.println("Distance Computed");	
 	return dist;
 	}
 	public static void main(String args[]){

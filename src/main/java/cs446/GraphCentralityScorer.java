@@ -24,13 +24,11 @@ public class GraphCentralityScorer {
 	{
 		dist=null;
 	}
-	public void getDistances(Graph<ISynset> G)
+	public void getDistances(Graph<Integer> G)
 	{
-		if(dist==null)
-		{
-			fw=new FloydWarshallAllPair(G);
-		}
+		fw=new FloydWarshallAllPair(G);
 		dist=fw.computeDistances();
+		
 	}
 	// uses metrics defined in the paper to find similarity
 	public Double score(Vertex<ISynset> v, Graph<ISynset> g) 
@@ -38,15 +36,32 @@ public class GraphCentralityScorer {
 		
 		return null;
 	}
-	public Double closeness(Vertex<ISynset> v,Graph<ISynset> g)
+	public Double closeness(Vertex<Integer> v,Graph<Integer> g)
 	{
 		assert dist!=null : "Calculate distances first!";
 		Map<Integer, Double> distv = dist.get(v.getID());
 		Double total=0.0;
 		for(Double d: distv.values()){
-			total+=d;
+			if(d.equals(Double.POSITIVE_INFINITY))
+			{
+//				System.out.println("Ignoring infinite distances");
+			}
+			else if(d.equals(0.0))
+			{
+//				System.out.println("Ignoring 0 distances");
+			}
+			else
+				total+=d;
 		}
-		System.out.println(1.0/total);
+		if(total==0.0)
+		{
+//			for(Double d: distv.values()){
+//				System.out.print(d+" ");
+//			}
+			return -1.0;
+		}
+//		System.out.println(total);
+//		System.out.println("Closeness "+1.0/total);
 		return 1.0/total;
 		
 	}

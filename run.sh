@@ -1,7 +1,8 @@
-mvn dependency:copy-dependencies
-mvn compile
+#mvn dependency:copy-dependencies
+#mvn compile
 
+MEMORY="-Xmx4g -XX:MaxPermSize=200m"
 CP="./target/classes/:./target/dependency/*"
-OPTIONS="-cp $CP"
-MAIN="cs446.dataReader"
+OPTIONS="$MEMORY -cp $CP"
+MAIN="cs446.Main"
 java $OPTIONS $MAIN $*
