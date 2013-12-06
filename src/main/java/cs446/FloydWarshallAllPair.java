@@ -28,7 +28,10 @@ public class FloydWarshallAllPair
 			dist.put(v.getID(), new HashMap<Integer,Double>());
 			for(Vertex v1: vs)
 			{
-				dist.get(v.getID()).put(v1.getID(),0.0);
+				if(v.getID()==v1.getID())	// same node	
+					dist.get(v.getID()).put(v1.getID(),0.0);
+				else
+					dist.get(v.getID()).put(v1.getID(),Double.POSITIVE_INFINITY);
 			}
 		}	
 		int u,w;
@@ -49,7 +52,7 @@ public class FloydWarshallAllPair
 				{
 					J=j.getID();
 					if(dist.get(I).get(K)+dist.get(K).get(J) < dist.get(I).get(J))
-						dist.get(I).put(K,dist.get(I).get(K)+dist.get(K).get(J));
+						dist.get(I).put(J,dist.get(I).get(K)+dist.get(K).get(J));
 				}
 	
 			}

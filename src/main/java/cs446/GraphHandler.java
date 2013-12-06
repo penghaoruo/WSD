@@ -17,6 +17,7 @@ public class GraphHandler {
 		Lesk(2),
 		WuPalmer(3),
 		Resnick(4);
+		
 		private int value;
 		private Metric(int val){
 			this.value=val;
@@ -37,7 +38,6 @@ public class GraphHandler {
 	public Graph<Integer> CreateGraph(List<AmbWord> words)
 	{
 		
-		
 		List<Vertex<Integer>> vertices=new ArrayList<Vertex<Integer>>();
 		List<Edge> edges=new ArrayList<Edge>();
 		
@@ -47,7 +47,7 @@ public class GraphHandler {
 		// init book-keeping
 		for(AmbWord w: words)
 		{
-			String pos = w.getPos();
+//			String pos = w.getPos();
 			map.put(w,new ArrayList<Vertex<Integer>>());
 			for(int i=0;i<wn.getClusterRange(w.getWord());i++)
 			{
@@ -91,5 +91,10 @@ public class GraphHandler {
 		}
 		
 	}
-	
+	public static void main(String[] args) {
+		Doc[] docs = dataReader.readPlainText();
+		System.out.println(docs.length+" "+docs[0].getAmbWords());
+		for(AmbWord a:docs[0].getAmbWords())
+			System.out.println(a.getLemma());
+	}
 }
