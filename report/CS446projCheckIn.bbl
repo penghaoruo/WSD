@@ -43,6 +43,12 @@ Roberto Navigli.
 \newblock Lecture 7.
 \newblock \url{http://naviglinlp.blogspot.com}.
 
+\bibitem{Navigli06}
+Roberto Navigli.
+\newblock Meaningful clustering of senses helps boost word sense disambiguation
+  performance.
+\newblock In {\em In: Proceedings of COLING-ACL}, pages 105--112, 2006.
+
 \bibitem{navigli2009word}
 Roberto Navigli.
 \newblock Word sense disambiguation: A survey.

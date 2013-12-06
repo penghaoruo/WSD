@@ -16,45 +16,45 @@ Warning--empty author in semeval
 Warning--empty booktitle in semeval
 Warning--empty year in semeval
 Warning--empty booktitle in wordnet
-You've used 13 entries,
+You've used 14 entries,
             2118 wiz_defined-function locations,
-            566 strings with 5708 characters,
-and the built_in function-call counts, 3946 in all, are:
-= -- 383
-> -- 112
-< -- 5
-+ -- 47
-- -- 34
-* -- 230
-:= -- 583
-add.period$ -- 36
-call.type$ -- 13
-change.case$ -- 55
+            573 strings with 5863 characters,
+and the built_in function-call counts, 4361 in all, are:
+= -- 427
+> -- 119
+< -- 6
++ -- 50
+- -- 36
+* -- 250
+:= -- 638
+add.period$ -- 39
+call.type$ -- 14
+change.case$ -- 59
 chr.to.int$ -- 0
-cite$ -- 26
-duplicate$ -- 199
-empty$ -- 391
-format.name$ -- 34
-if$ -- 885
+cite$ -- 27
+duplicate$ -- 222
+empty$ -- 432
+format.name$ -- 36
+if$ -- 984
 int.to.chr$ -- 0
-int.to.str$ -- 13
-missing$ -- 13
-newline$ -- 62
-num.names$ -- 20
-pop$ -- 101
+int.to.str$ -- 14
+missing$ -- 14
+newline$ -- 67
+num.names$ -- 22
+pop$ -- 108
 preamble$ -- 1
-purify$ -- 43
+purify$ -- 46
 quote$ -- 0
-skip$ -- 137
+skip$ -- 157
 stack$ -- 0
-substring$ -- 224
-swap$ -- 54
-text.length$ -- 5
+substring$ -- 261
+swap$ -- 65
+text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 50
+type$ -- 54
 warning$ -- 13
-while$ -- 35
-width$ -- 15
-write$ -- 127
+while$ -- 40
+width$ -- 16
+write$ -- 138
 (There were 13 warnings)
