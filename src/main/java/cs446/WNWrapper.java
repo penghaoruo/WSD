@@ -106,8 +106,8 @@ public class WNWrapper {
 	}
 	
 	Concept getConcept(AmbWord w, int index) {
-		List<Concept> s=(List<Concept>) db.getAllConcepts(w.getWord(), w.getPos());
-		return s.get(index-1);
+		List<Concept> s=(List<Concept>) db.getAllConcepts(w.getLemma(), w.getPos());
+		return s.get(index);
 	}
 	
 	public double dependency(AmbWord w1, AmbWord w2, int index1, int index2, int flag) {
@@ -123,11 +123,20 @@ public class WNWrapper {
 			case 8: {rc=path; break;}
 			default: rc=null;
 		}
-		Concept s1,s2;
-		s1=getConcept(w1,index1);
-		s2=getConcept(w2,index2);
-		Relatedness res=rc.calcRelatednessOfSynset(s1, s2);
-        return res.getScore();
+		List<Concept> synset1 = getAllSynsetsFromCluster(w1.getLemma(),w1.getPos(),index1);
+		List<Concept> synset2 = getAllSynsetsFromCluster(w2.getLemma(),w2.getPos(),index2);
+		double avg = 0.0;
+		int count = 0;
+		if(synset1.isEmpty() || synset2.isEmpty())
+			return Double.POSITIVE_INFINITY;
+		for(Concept s1: synset1)
+			for(Concept s2: synset2)
+			{
+				Relatedness res=rc.calcRelatednessOfSynset(s1, s2);
+				avg+=res.getScore();
+				count++;
+			}
+        return avg/count;
 	}
 
 	// Constructor
@@ -211,28 +220,41 @@ public class WNWrapper {
     }
     
     // Check if a word with a certain sensekey is in the constrcted mapcluster
-    public boolean checkCluster(String word, int index, String sensekey) {
-    	ArrayList<String> senses=mapcluster.get(word).get(index);
-    	if (senses.indexOf(sensekey)!=-1) return true;
-    	return false;
+    public int checkCluster(String lemma, int index, String sensekey) {
+    	if(!mapcluster.containsKey(lemma))
+    		return -1;
+    	ArrayList<String> senses=mapcluster.get(lemma).get(index);
+    	if (senses.indexOf(sensekey)!=-1) return 1;
+    	return 0;
     }
     
     // Get all the Synsets of a given word with given pos and given sensecluster ID
     // Please use this to get Concepts!!!
-    public ArrayList<Concept> getAllSynsetsFromCluster(String word, String pos, int index) {
-    	List<Concept> syns=(List<Concept>) db.getAllConcepts(word, pos);
+    public ArrayList<Concept> getAllSynsetsFromCluster(String lemma, String pos, int index) {
+    	List<Concept> syns=(List<Concept>) db.getAllConcepts(lemma, pos);
     	ArrayList<Concept> synsets=new ArrayList<Concept>();
+    	int rv;
     	for (int i=0;i<syns.size();i++) {
     		String key=getSenseKey(syns.get(i).getSynset());
-    		String value=mapsense.get(Pair.of(word, key));
-    		if (checkCluster(word,index,value)) synsets.add(syns.get(i));
+    		String value=mapsense.get(Pair.of(lemma, key));
+    		rv = checkCluster(lemma,index,value);
+    		if(rv==1) 
+    			synsets.add(syns.get(i));
+    		if(rv==-1)
+    			synsets.add(db.getAllConcepts(lemma, pos).iterator().next());
     	}
     	return synsets;
     }
     
     // Return the number of sense clusters w.r.t a given word
-    public int getClusterRange(String word) {
-    	return mapcluster.get(word).size();
+    public int getClusterRange(String lemma){
+    	System.out.println(lemma+" "+mapcluster.containsKey(lemma));
+    	if(mapcluster.containsKey(lemma))
+    		return mapcluster.get(lemma).size();
+    	else
+    	{
+    		return 1;
+    	}
     }
 
     public String getSenseKey(String synsetID) {

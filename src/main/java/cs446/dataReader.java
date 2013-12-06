@@ -74,7 +74,7 @@ public class dataReader {
 				String info=line.substring(0,p1+1);
 				
 				String strID=getinfo(info,"id");
-				String lemma=getinfo(info,"lemma");
+				String lemma=getinfo(info,"lemma").toLowerCase();
 				String pos=getinfo(info,"pos");
 				
 				AmbWord aw=new AmbWord();
@@ -124,7 +124,6 @@ public class dataReader {
 		
 		Doc[] docs=readPlainText();
 		readTestXML(docs);
-		
 		/*
 		boolean flag=true;
 		for (int i=0;i<docs.length;i++) {
