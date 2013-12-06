@@ -22,9 +22,6 @@
 \newcommand{\fillme}[1]{\blue{\texttt{[Insert #1]}}}
 \newcommand{\instructions}[1]{\blue{\textit{#1}}}
 
-% uncomment the next two lines if you want the instructions to disappear.
-%\renewcommand{\instructions}[1]{}
-%\renewcommand{\fillme}[1]{}
 
 \begin{document}
 
@@ -39,7 +36,7 @@ We investigate the task of word sense disambiguation using a semi-supervised app
 
 \section{Introduction} 
 \label{sec:introduction}
-In natural language, a word may be associated with possibly multiple meanings, depending on the context in which the word occurs. For instance, the word pen has the following senses according to Wordnet ~\cite{wordnet}:
+In natural language, a word may be associated with possibly multiple meanings, depending on the context in which the word occurs. For instance, the word pen has the following senses according to Wordnet~\cite{wordnet}:
 \begin{description}
 \item [pen] : a writing implement with a point from which ink flows
 \item [pen] : an enclosure for confining livestock
@@ -65,7 +62,7 @@ Today, significant progress has been made in WSD and researchers have achieved s
 Supervised learning approaches have been remarkably successful for performing word sense disambiguation. Instance-based learning and SVM approaches have proven to be the best systems in several competition. The only issue with supervised approaches is the lack of sense-tagged data which poses a severe bottleneck. 
 
 To address this problem, researchers have resorted to semi-supervised learning algorithms. The Yarowsky algorithm~\cite{yarowsky1995unsupervised} was an early example of such an algorithm. It uses the `One sense per collocation' and the `One sense per discourse' properties of human languages for word sense disambiguation. From observation, words tend to exhibit only one sense in most given discourse and in a given collocation. The common motif in approaches like ~\cite{yarowsky1995unsupervised},~\cite{le2008semi} is that they allows both labeled and unlabeled data. Training involve iteratively labeling the unlabeled data using an initial seeding labeled set. The seed labeled data is used to learn a classifier which is used to assign labels to unlabeled data, which is merged with the initial seed data to obtain a larger dataset for the next iteration. Finally, the classifier is learned from the extended labelled dataset.
-More recently, researchers ~\cite{Ng} have leveraged word alignment information from parallel corporas to aid in obtaining coarse grained senses. The aim of word-alignment task is to align a word in a given sentence to its translated counterpart in another sentence in a different language. Unlike sense-tagged datasets, good quality parallel corpora are readily available. 
+More recently, researchers~\cite{Ng} have leveraged word alignment information from parallel corporas to aid in obtaining coarse grained senses. The aim of word-alignment task is to align a word in a given sentence to its translated counterpart in another sentence in a different language. Unlike sense-tagged datasets, good quality parallel corpora are readily available. 
 
 %The bootstrapping approach starts from a small amount of seed data for each word: either manually tagged training examples or a small number of surefire decision rules (e.g., `play' in the context of `bass' almost always indicates the musical instrument). The seeds are used to train an initial classifier, using any supervised method. This classifier is then used on the untagged portion of the corpus to extract a larger training set, in which only the most confident classifications are included. The process repeats, each new classifier being trained on a successively larger training corpus, until the whole corpus is consumed, or until a given maximum number of iterations is reached.
 
@@ -97,7 +94,7 @@ Coverage =\frac{\text{\# of tags in the output}}{\text{Total \# of correct tags 
 %\instructions{Describe the data you use to train and evaluate your models. Describe where you got it from (include references/citations to published works, or URLs!). Describe and give examples for the features that you have access to.} 
 We use datasets from \textbf{SemEval-2007}~\cite{semeval}. It is an ongoing series of evaluations of computational semantic analysis systems; it evolved from the Senseval word sense evaluation series. We choose a specific dataset from ``Task \# 7: Coarse-grained English all-words (Coarse AW)" to do both the training and testing. The chosen dataset contains coarse grained tags for approximately 6,000 words from five running texts. The coarse senses were based on a clustering of the WordNet sense inventory obtained via a mapping to the Oxford Dictionary of English (ODE), a long-established dictionary which encodes coarse sense distinctions. The dataset also contains the coarse-grained sense inventory which is prepared semi-automatically: starting from an automatic clustering of senses produced by Navigli (2006) with the Structural Semantic Interconnections (SSI) algorithm, and then manually validate the clustering for the words occurring in the text. For each content word the dataset provides lemma and part of speech.
 
-Our work also requires some libraries such as ``Wordnet" database and ``WS4J" library. We use the the latest released version for Wordnet 3.0 from~\cite{wordneturl}. We compute the similarity metrics by utilizing WS4J library from\cite{WS4Jurl}.
+Our work also requires some libraries such as ``Wordnet" database and ``WS4J" library. We use the the latest released version for Wordnet 3.0 from~\cite{wordneturl}. We compute the similarity metrics by utilizing WS4J library from~\cite{WS4Jurl}.
 
 \section{The Models}
 \label{sec:models}
@@ -106,7 +103,7 @@ Our work also requires some libraries such as ``Wordnet" database and ``WS4J" li
 \label{sec:baseline-models}
 \begin{description}
 \item[Random Baseline] A naive baseline for word sense disambiguation. A randomly selected sense is made from the set of permissible senses for the target word. \\
-\item[First Sense Baseline (Most Frequent Sense)] A more appropriate baseline model will be to output the sense of the word which is most frequently encountered. On coarse grained senses, using this baseline gives an accuracy ranging from 50-60\%. As noted in ~\cite{navigli2009word}, this baseline is often difficult to beat.
+\item[First Sense Baseline (Most Frequent Sense)] A more appropriate baseline model will be to output the sense of the word which is most frequently encountered. On coarse grained senses, using this baseline gives an accuracy ranging from 50-60\%. As noted in~\cite{navigli2009word}, this baseline is often difficult to beat.
 \end{description}
 %
 %\subsection{Existing Models}
@@ -117,7 +114,7 @@ Our work also requires some libraries such as ``Wordnet" database and ``WS4J" li
 \label{sec:proposed-models}
 %\instructions{Your models and your procedure for learning them go here. Describe both in detail, even if the learning procedure is standard.}
 We employ a graph-based approach to disambiguate senses of a word. Our method is similar to ~\cite{Sinha}. We define a fixed sized window around a target word in the document as its context. We first create a weighted graph of label dependencies for all candidate senses. For every candidate sense $s_{ij}$ for word $w_i$, we have a node in the graph. This node has edges to the all candidate senses of words within a pre-defined window around word $w_i$. These edges are weighed by the dependency score for the pair of senses. The dependency score captures the relationship between two candidate senses for nearby words. Based on the edge weights we assign scores to each node based on a graph-based measure of centrality. The score of a node denotes the "importance" of the node in the graph, taking into account its relationship with neighboring nodes.
-Our method is different from ~\cite{Sinha} in that we make use of the coarse grain senses provided in the Semeval corpus to construct our graph. Consequently, our graph is less dense than the graph constructed in ~\cite{Sinha}.
+Our method is different from~\cite{Sinha} in that we make use of the coarse grain senses provided in the Semeval corpus to construct our graph. Consequently, our graph is less dense than the graph constructed in~\cite{Sinha}.
 \begin{figure}
 \begin{algorithm}[H]
 \SetKwInOut{Input}{input}
@@ -148,7 +145,7 @@ Each $w_i \in W$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{
 		}
 	}
 }
-\caption{Algorithm to generate the graph (adapted from ~\cite{Sinha})}
+\caption{Algorithm to generate the graph (adapted from~\cite{Sinha})}
 \end{algorithm}
 \end{figure}
 \section{Experiments}
