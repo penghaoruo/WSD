@@ -37,7 +37,7 @@ public class GraphHandler {
 //			String pos = w.getPos();
 			vertexMap.put(w,new ArrayList<Vertex<Integer>>());
 			try {
-				for(int i=0;i<wn.getClusterRange(w.getLemma());i++)	// for each coarse grained sense, we have  a node
+				for(int i=0;i<wn.getClusterRange(w.getLemma(),w.getPos());i++)	// for each coarse grained sense, we have  a node
 				{
 					Vertex<Integer> v = new Vertex<Integer>(i);
 					vertices.add(v);

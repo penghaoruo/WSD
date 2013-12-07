@@ -30,7 +30,11 @@ public class Main {
 				}
 			}
 		//System.out.println("Cluster index is "+maxVertex.getVal());
-			word.setAssignedSense(maxVertex.getVal());
+			if (maxVertex==null) {
+				System.out.println("Error:"+word.getWord());
+				word.setAssignedSense(0);
+			}
+			else word.setAssignedSense(maxVertex.getVal());
 			list.add(word);
 		}
 		return list;
@@ -40,8 +44,12 @@ public class Main {
 		Doc[] docs = dataReader.readPlainText();
 		dataReader.readTestXML(docs);
 //		System.out.println(docs[4].getAmbWords().size());
+<<<<<<< HEAD
 		Metric m=Metric.Lesk;
 		gh = new GraphHandler(docs[0].getAmbWords(),m);
+=======
+		gh = new GraphHandler(docs[0].getAmbWords().subList(0, 100));
+>>>>>>> 40e2366b8a53aaadb4c8ccefd80fb4b92029068a
 		Graph<Integer> g = gh.CreateGraph();
 		gh.ScoreVertices(g);
 		ArrayList<AmbWord> list=assignSenses();
@@ -65,7 +73,7 @@ public class Main {
 					break;
 		    for (int j=0;j<list.size();j++)
 		    	if (list.get(j).getStrID().equals(strID)) {
-		    		list.get(j).setGoldSense(gh.wn.getClusterIDs(tags,list.get(j).getLemma()));
+		    		list.get(j).setGoldSense(gh.wn.getClusterIDs(tags,list.get(j).getLemma(),list.get(j).getPos()));
 		    		break;
 		    	}
 		}
