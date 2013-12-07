@@ -39,7 +39,7 @@ public class Main {
 	public static void main(String[] args) {
 		Doc[] docs = dataReader.readPlainText();
 		dataReader.readTestXML(docs);
-		gh = new GraphHandler(docs[0].getAmbWords().subList(0, 100));
+		gh = new GraphHandler(docs[0].getAmbWords());
 		Graph<Integer> g = gh.CreateGraph();
 		gh.ScoreVertices(g);
 		ArrayList<AmbWord> list=assignSenses();

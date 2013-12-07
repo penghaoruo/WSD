@@ -41,7 +41,9 @@ public class FloydWarshallAllPair
 		{	
 			u=edge.getSrc().getID();	// get node ids
 			w=edge.getDst().getID();	
+			
 			dist.get(u).put(w,edge.getCost());
+			dist.get(w).put(u,edge.getCost());
 		}
 		int I,J,K;
 		for(Vertex k: vs)
@@ -58,7 +60,7 @@ public class FloydWarshallAllPair
 				}
 	
 			}
-//			System.out.println("Iteration "+k.getID());
+			System.out.println("Iteration "+k.getID());
 		}
 	System.out.println("Distance Computed");	
 	return dist;

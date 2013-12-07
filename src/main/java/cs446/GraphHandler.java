@@ -28,7 +28,7 @@ public class GraphHandler {
 	};
 	private Map<AmbWord,List<Vertex<Integer>>> vertexMap;
 	private List<AmbWord> words;
-	final static int WIN_MAX=100;	// should take this as command line arg later
+	final static int WIN_MAX=10;	// should take this as command line arg later
 	private GraphCentralityScorer gcScorer;
 	public WNWrapper wn;
 	private Metric metric;
