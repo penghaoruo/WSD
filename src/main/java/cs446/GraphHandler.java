@@ -11,30 +11,16 @@ import edu.mit.jwi.item.POS;
 
 
 public class GraphHandler {
-	public enum Metric
-	{
-		LeacockChodorow(1),
-		Lesk(2),
-		WuPalmer(3),
-		Resnick(4);
-		
-		private int value;
-		private Metric(int val){
-			this.value=val;
-		}
-		public int getVal(){
-			return value;
-		}
-	};
 	private Map<AmbWord,List<Vertex<Integer>>> vertexMap;
 	private List<AmbWord> words;
 	final static int WIN_MAX=10;	// should take this as command line arg later
 	private GraphCentralityScorer gcScorer;
 	public WNWrapper wn;
 	private Metric metric;
-	public GraphHandler(List<AmbWord> words) {
+	public GraphHandler(List<AmbWord> words, Metric m) {
 		this.words=words;
-		wn=new WNWrapper("data/WordNet-3.0/dict");
+		this.metric=m;
+		this.wn=new WNWrapper("data/WordNet-3.0/dict");
 	}
 	public Graph<Integer> CreateGraph()
 	{
@@ -76,7 +62,8 @@ public class GraphHandler {
 					for(Vertex<Integer> s2: vertexMap.get(w2))
 					{
 						
-						edgeCost=wn.dependency(w1,w2,s1.getVal(),s2.getVal(),metric.WuPalmer.getVal());
+//						edgeCost=wn.dependency(w1,w2,s1.getVal(),s2.getVal(),metric.LeacockChodorow.getVal());
+						edgeCost=wn.dependency(w1,w2,s1.getVal(),s2.getVal(),metric.getVal());
 						//System.out.println("Adding edgecost "+edgeCost);
 						if(edgeCost>0)
 						{

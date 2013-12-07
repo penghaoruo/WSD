@@ -40,11 +40,13 @@ public class Main {
 		Doc[] docs = dataReader.readPlainText();
 		dataReader.readTestXML(docs);
 //		System.out.println(docs[4].getAmbWords().size());
-		gh = new GraphHandler(docs[0].getAmbWords());
+		Metric m=Metric.Lesk;
+		gh = new GraphHandler(docs[0].getAmbWords(),m);
 		Graph<Integer> g = gh.CreateGraph();
 		gh.ScoreVertices(g);
 		ArrayList<AmbWord> list=assignSenses();
 		output(list);
+		System.out.println("Using metric "+m.name());
 		evaluation(list);
 	}
 
