@@ -40,15 +40,16 @@ In natural language, a word may be associated with possibly multiple meanings, d
 \begin{description}
 \item [pen] : a writing implement with a point from which ink flows
 \item [pen] : an enclosure for confining livestock
+\item [pen] : a female swan
 \end{description}
-In linguistic parlance such words are called polysemous. \emph{Word sense disambiguation}(WSD) is the problem of determining the correct sense of a polysemous word in a given sentence. For example, determining the correct sense of the word ``pen" in the following passage:
+In linguistic parlance such words are called polysemous. \emph{Word sense disambiguation}(WSD) is the problem of determining the correct sense of a polysemous word in a given sentence or document. Features of the document (like neighboring words, earlier usage of the same word etc.) help in determining the sense. For example, determining the correct sense of the word ``pen" in the following passage:
 \begin{verbatim}
 Little John was looking for his toy box. Finally he found it. 
 The box was in the pen. John was very happy.
 \end{verbatim}
 WSD can be viewed as a multi-class classification problem, where each word admits several possible senses and the task is to identify the correct sense of a given word given its context and knowledge sources. The inherent difficulty of WSD is evident from the fact that the target classes change for each word in the lexicon. In this respect, WSD involves training $n$ different classifiers, one for each word in a lexicon of size $n$. 
 %\subsection{Motivation}
-WSD is a key component for natural language processing systems which involves semantic interpretation of text. Tasks such as machine translation, information retrieval, data mining, web data analysis can greatly benefit from text disambiguation tools. 
+WSD is a intermediate step in language processing, like part-of-speech tagging or shallow parsing. It is a key component for natural language processing systems which involves semantic interpretation of text. Tasks such as machine translation, information retrieval, data mining, web data analysis can greatly benefit from text disambiguation tools. 
 
 
 \section{Background}
