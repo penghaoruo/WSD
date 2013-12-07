@@ -1,43 +1,22 @@
 package cs446;
 
+import java.io.BufferedWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 public class Main {
-
-	public static void main(String[] args) {
-		Doc[] docs = dataReader.readPlainText();
-		dataReader.readTestXML(docs);
-//		for(AmbWord w:docs[0].getAmbWords())
-//			System.out.println("Word "+w.getWord()+w.getID());
-		GraphHandler gh = new GraphHandler(docs[0].getAmbWords().subList(0, 100));
-		Graph<Integer> g = gh.CreateGraph();
-//		FloydWarshallAllPair fw = new FloydWarshallAllPair(g);
-//		Map<Integer, Map<Integer, Double>> map = fw.computeDistances();
-//		for (Entry<Integer, Map<Integer, Double>> entry: map.entrySet())
-//		{
-//			System.out.println(entry.getKey());
-//			for(Entry<Integer, Double> entry2: entry.getValue().entrySet())
-//			{
-//				System.out.println(entry2.getKey()+" "+entry2.getValue());
-//				
-//			}
-//		}
-		gh.ScoreVertices(g);
-//		for(Vertex v: g.getVertices())
-//		{
-//			if(v.getScore()>0.0)
-//			System.out.println("Vertex "+v.getID()+"contains "+v.getVal()+"with score "+v.getScore());
-//			else
-//				System.out.println("Score was negative");
-//		}
+	static GraphHandler gh;
+	
+	public static ArrayList<AmbWord> assignSenses() {
+		ArrayList<AmbWord> list=new ArrayList<AmbWord>();
 		Map<AmbWord, List<Vertex<Integer>>> vMap = gh.getVertexMap();
 		Vertex<Integer> maxVertex;
 		double val,maxval;
 		for(AmbWord word:vMap.keySet())
 		{
-			System.out.println("AmbWord is "+word.getWord());
+			//System.out.println("AmbWord is "+word.getWord());
 			List<Vertex<Integer>> vs = vMap.get(word);
 			maxVertex=null;
 			maxval=Double.NEGATIVE_INFINITY;
@@ -50,7 +29,65 @@ public class Main {
 					maxVertex=v;
 				}
 			}
-			System.out.println("Cluster index is "+maxVertex.getVal());
+		//System.out.println("Cluster index is "+maxVertex.getVal());
+			word.setAssignedSense(maxVertex.getVal());
+			list.add(word);
 		}
+		return list;
+	}
+	
+	public static void main(String[] args) {
+		Doc[] docs = dataReader.readPlainText();
+		dataReader.readTestXML(docs);
+		gh = new GraphHandler(docs[0].getAmbWords().subList(0, 100));
+		Graph<Integer> g = gh.CreateGraph();
+		gh.ScoreVertices(g);
+		ArrayList<AmbWord> list=assignSenses();
+		output(list);
+		evaluation(list);
+	}
+
+	public static void evaluation(ArrayList<AmbWord> list) {
+		ArrayList<String> lines=IOManager.readLines("data/SemEval-2007/key/dataset21.test.key");
+		double correct=0;
+		for (int i=0;i<lines.size();i++) {
+			String line=lines.get(i);
+			String strs[]=line.split(" ");
+			String strID=strs[1];
+			ArrayList<String> tags=new ArrayList<String>();
+			for (int j=2;j<strs.length;j++)
+				if (!strs[j].equals("!!"))
+					tags.add(strs[j]);
+				else
+					break;
+		    for (int j=0;j<list.size();j++)
+		    	if (list.get(j).getStrID().equals(strID)) {
+		    		list.get(j).setGoldSense(gh.wn.getClusterIDs(tags,list.get(j).getLemma()));
+		    		break;
+		    	}
+		}
+		for (int i=0;i<list.size();i++) {
+	    	AmbWord aw=list.get(i);
+	    	int tags[]=aw.getGoldSense();
+	    	for (int j=0;j<tags.length;j++)
+		    	if (aw.getAssignedSense()==tags[j]) {
+		    		correct+=1;
+		    		break;
+		    	}
+	    }
+		System.out.println("Precision:"+correct/list.size());
+	}
+
+	public static void output(ArrayList<AmbWord> list) {
+		BufferedWriter bw=IOManager.openWriter("output.txt");
+		for (int i=0;i<list.size();i++) {
+			AmbWord aw=list.get(i);
+			String str="d00"+aw.getTextID()+" "+aw.getStrID()+" ";
+			//System.out.println(aw.getLemma()+" "+aw.getPos());
+			str=str+gh.wn.getSenseString(aw.getLemma(),aw.getAssignedSense(),aw.getPos());
+			str=str+"!! lemma="+aw.getLemma()+"#"+aw.getPos()+"\n";
+			IOManager.writeString(str, bw);
+		}
+		IOManager.closeWriter(bw);
 	}
 }

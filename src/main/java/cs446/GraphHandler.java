@@ -30,7 +30,7 @@ public class GraphHandler {
 	private List<AmbWord> words;
 	final static int WIN_MAX=100;	// should take this as command line arg later
 	private GraphCentralityScorer gcScorer;
-	private WNWrapper wn;
+	public WNWrapper wn;
 	private Metric metric;
 	public GraphHandler(List<AmbWord> words) {
 		this.words=words;
@@ -77,7 +77,7 @@ public class GraphHandler {
 					{
 						
 						edgeCost=wn.dependency(w1,w2,s1.getVal(),s2.getVal(),metric.WuPalmer.getVal());
-						System.out.println("Adding edgecost "+edgeCost);
+						//System.out.println("Adding edgecost "+edgeCost);
 						if(edgeCost>0)
 						{
 							edges.add(new Edge(s1,s2,edgeCost));

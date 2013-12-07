@@ -13,7 +13,8 @@ public class AmbWord {
 	private int sentenceID;
 	private int textID;
 	private int tagID;
-	private ArrayList<String> possibleSenses; // list of possible senses	
+	private int assignedSense;
+	private int[] goldSense;
 	
 	AmbWord() 
 	{
@@ -82,7 +83,26 @@ public class AmbWord {
 	void setTagID(int value) {
 		tagID=value;
 	}
+	
 	int getID(){
 		return id;
+	}
+	
+	void setAssignedSense(int value) {
+		assignedSense=value;
+	}
+	
+	int getAssignedSense() {
+		return assignedSense;
+	}
+	
+	void setGoldSense(int[] value) {
+		goldSense=new int[value.length];
+		for (int i=0;i<value.length;i++)
+			goldSense[i]=value[i];
+	}
+	
+	int[] getGoldSense() {
+		return goldSense;
 	}
 }
