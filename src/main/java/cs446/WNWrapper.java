@@ -123,6 +123,7 @@ public class WNWrapper {
 			case 8: {rc=path; break;}
 			default: rc=null;
 		}
+		/*
 		List<Concept> synset1 = getAllSynsetsFromCluster(w1.getLemma(),w1.getPos(),index1);
 		List<Concept> synset2 = getAllSynsetsFromCluster(w2.getLemma(),w2.getPos(),index2);
 		double avg = 0.0;
@@ -137,6 +138,13 @@ public class WNWrapper {
 				count++;
 			}
         return avg/count;
+        */
+		ArrayList<Concept> sl1=(ArrayList<Concept>) db.getAllConcepts(w1.getLemma(), w1.getPos());
+		Concept s1=sl1.get(index1);
+		ArrayList<Concept> sl2=(ArrayList<Concept>) db.getAllConcepts(w2.getLemma(), w2.getPos());
+		Concept s2=sl2.get(index2);
+		Relatedness res=rc.calcRelatednessOfSynset(s1, s2);
+        return res.getScore();
 	}
 
 	// Constructor
@@ -247,14 +255,17 @@ public class WNWrapper {
     }
     
     // Return the number of sense clusters w.r.t a given word
-    public int getClusterRange(String lemma){
+    public int getClusterRange(String lemma,String pos){
     	//System.out.println(lemma+" "+mapcluster.containsKey(lemma));
+    	/*
     	if(mapcluster.containsKey(lemma))
     		return mapcluster.get(lemma).size();
     	else
     	{
     		return 1;
     	}
+    	*/
+    	return db.getAllConcepts(lemma, pos).size();
     }
 
     public String getSenseKey(String synsetID) {
@@ -263,7 +274,8 @@ public class WNWrapper {
 	}
     
     public String getSenseString(String lemma, int index, String pos) {
-		String str="";
+    	String str="";
+    	/*
 		if(!mapcluster.containsKey(lemma)) {
 			//System.out.println(lemma+" "+pos);
 			if (!db.getAllConcepts(lemma,pos).iterator().hasNext()) return str;
@@ -277,13 +289,18 @@ public class WNWrapper {
     		for (int i=0;i<strs.size();i++)
     			str=str+strs.get(i)+" ";
     	}
+    	*/
+    	ArrayList<Concept> sl=(ArrayList<Concept>) db.getAllConcepts(lemma, pos);
+    	if (sl.size()==0) str="null";
+    	else str=mapsense.get(Pair.of(lemma,getSenseKey(sl.get(index).getSynset())));
 		return str;
 	}	
     
-    public int[] getClusterIDs(ArrayList<String> tags,String lemma) {
+    public int[] getClusterIDs(ArrayList<String> tags,String lemma, String pos) {
 		int[] v=new int[tags.size()];
     	for (int i=0;i<tags.size();i++) {
     		String tag=tags.get(i);
+    		/*
     		v[i]=1;
     		if (!mapcluster.containsKey(lemma)) continue;
     		ArrayList<ArrayList<String>> senses=mapcluster.get(lemma);
@@ -298,6 +315,14 @@ public class WNWrapper {
     				}
     			if (flag) break;
     		}
+    		*/
+    		v[i]=0;
+    		ArrayList<Concept> sl=(ArrayList<Concept>) db.getAllConcepts(lemma, pos);
+    		for (int j=0;j<sl.size();j++)
+    			if (mapsense.get(Pair.of(lemma,getSenseKey(sl.get(j).getSynset()))).equals(tag)) {
+    				v[i]=j;
+    				break;
+    			}
 		}
 		return v;
 	}
