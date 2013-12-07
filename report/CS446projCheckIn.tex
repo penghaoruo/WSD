@@ -92,7 +92,7 @@ Coverage =\frac{\text{\# of tags in the output}}{\text{Total \# of correct tags 
 \subsection{The Data}
 \label{sec:data}
 %\instructions{Describe the data you use to train and evaluate your models. Describe where you got it from (include references/citations to published works, or URLs!). Describe and give examples for the features that you have access to.} 
-We use datasets from \textbf{SemEval-2007}~\cite{semeval}. It is an ongoing series of evaluations of computational semantic analysis systems; it evolved from the Senseval word sense evaluation series. We choose a specific dataset from ``Task \# 7: Coarse-grained English all-words (Coarse AW)" to do both the training and testing. The chosen dataset contains coarse grained tags for approximately 6,000 words from five running texts. The coarse senses were based on a clustering of the WordNet sense inventory obtained via a mapping to the Oxford Dictionary of English (ODE), a long-established dictionary which encodes coarse sense distinctions. The dataset also contains the coarse-grained sense inventory which is prepared semi-automatically: starting from an automatic clustering of senses produced by Navigli (2006) with the Structural Semantic Interconnections (SSI) algorithm, and then manually validate the clustering for the words occurring in the text. For each content word the dataset provides lemma and part of speech.
+We use datasets from \textbf{SemEval-2007}~\cite{semeval}. It is an ongoing series of evaluations of computational semantic analysis systems; it evolved from the Senseval word sense evaluation series. We choose a specific dataset from ``Task \# 7: Coarse-grained English all-words (Coarse AW)" to do both the training and testing. The chosen dataset contains coarse grained tags for approximately 6,000 words from five running texts. The coarse senses were based on a clustering of the WordNet sense inventory obtained via a mapping to the Oxford Dictionary of English (ODE), a long-established dictionary which encodes coarse sense distinctions. The dataset also contains the coarse-grained sense inventory which is prepared semi-automatically: starting from an automatic clustering of senses produced by~\cite{Navigli06} with the Structural Semantic Interconnections (SSI) algorithm, and then manually validate the clustering for the words occurring in the text. For each content word the dataset provides lemma and part of speech.
 
 Our work also requires some libraries such as ``Wordnet" database and ``WS4J" library. We use the the latest released version for Wordnet 3.0 from~\cite{wordneturl}. We compute the similarity metrics by utilizing WS4J library from~\cite{WS4Jurl}.
 
@@ -147,7 +147,17 @@ Each $w_i \in W$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{
 }
 \caption{Algorithm to generate the graph (adapted from~\cite{Sinha})}
 \end{algorithm}
+\begin{algorithm}[H]
+\For{$word_i \gets w_1$ \textbf{to} $w_n$}
+{
+	$sense_i\gets \max\limits_{V_i \in S_i} score(V_i)$ \\
+	where $S_i$ corresponds to possible senses of $word_i$ and $V_i$ is the respective vertex
+}
+\caption{Algorithm to assign Senses}
+\end{algorithm}
+
 \end{figure}
+
 \section{Experiments}
 \label{sec:experiments}
 
