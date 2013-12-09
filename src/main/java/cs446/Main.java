@@ -44,12 +44,9 @@ public class Main {
 		Doc[] docs = dataReader.readPlainText();
 		dataReader.readTestXML(docs);
 //		System.out.println(docs[4].getAmbWords().size());
-<<<<<<< HEAD
 		Metric m=Metric.Lesk;
 		gh = new GraphHandler(docs[0].getAmbWords(),m);
-=======
-		gh = new GraphHandler(docs[0].getAmbWords().subList(0, 100));
->>>>>>> 40e2366b8a53aaadb4c8ccefd80fb4b92029068a
+//		gh = new GraphHandler(docs[0].getAmbWords().subList(0, 100));
 		Graph<Integer> g = gh.CreateGraph();
 		gh.ScoreVertices(g);
 		ArrayList<AmbWord> list=assignSenses();

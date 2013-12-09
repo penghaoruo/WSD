@@ -64,7 +64,7 @@ public class GraphHandler {
 						
 //						edgeCost=wn.dependency(w1,w2,s1.getVal(),s2.getVal(),metric.LeacockChodorow.getVal());
 						edgeCost=wn.dependency(w1,w2,s1.getVal(),s2.getVal(),metric.getVal());
-						//System.out.println("Adding edgecost "+edgeCost);
+						System.out.println("Adding edgecost "+edgeCost);
 						if(edgeCost>0)
 						{
 							edges.add(new Edge(s1,s2,edgeCost));
