@@ -46,6 +46,8 @@ public class Main implements Runnable{
 	}
 	
 	public static void main(String[] args) {
+		Para.init(args);
+		
 		Doc[] docs = dataReader.readPlainText();
 		dataReader.readTestXML(docs);
 //		System.out.println(docs[4].getAmbWords().size());
@@ -63,6 +65,25 @@ public class Main implements Runnable{
 //		output(list);
 //		System.out.println("Using metric "+m.name());
 //		evaluation(list);
+
+		Metric m=Metric.WuPalmer;
+		for(int i=0;i<docs.length;i++)
+		gh = new GraphHandler(docs[i].getAmbWords(),m);
+//		gh = new GraphHandler(docs[0].getAmbWords().subList(0, 100));
+		Graph<Integer> g = gh.CreateGraph();
+		gh.ScoreVertices(g);
+		ArrayList<AmbWord> list=assignSenses();
+		output(list);
+		System.out.println("Using metric "+m.name());
+		evaluation(list);
+		
+		//baseTest(list);
+	}
+
+	public static void baseTest(ArrayList<AmbWord> list) {
+		
+		
+>>>>>>> Stashed changes
 	}
 
 	public static void evaluation(ArrayList<AmbWord> list) {
