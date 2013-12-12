@@ -12,12 +12,12 @@ import edu.mit.jwi.item.POS;
 
 public class GraphHandler {
 	private Map<AmbWord,List<Vertex<Integer>>> vertexMap;
-	private List<AmbWord> words;
+	public ArrayList<AmbWord> words;
 	final static int WIN_MAX=10;	// should take this as command line arg later
 	private GraphCentralityScorer gcScorer;
 	public WNWrapper wn;
 	private Metric metric;
-	public GraphHandler(List<AmbWord> words, Metric m) {
+	public GraphHandler(ArrayList<AmbWord> words, Metric m) {
 		this.words=words;
 		this.metric=m;
 		this.wn=new WNWrapper("data/WordNet-3.0/dict");
@@ -64,10 +64,13 @@ public class GraphHandler {
 						
 //						edgeCost=wn.dependency(w1,w2,s1.getVal(),s2.getVal(),metric.LeacockChodorow.getVal());
 						edgeCost=wn.dependency(w1,w2,s1.getVal(),s2.getVal(),metric.getVal());
-						System.out.println("Adding edgecost "+edgeCost);
+						//System.out.println("Adding edgecost "+edgeCost);
 						if(edgeCost>0)
 						{
 							edges.add(new Edge(s1,s2,edgeCost));
+						}
+						else {
+							System.out.println("zero value");
 						}
 					}
 				}
