@@ -1,8 +1,5 @@
 package cs446;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AmbWord {
 	private static int idCount=0;
 	private int id; //unique id (sequential)

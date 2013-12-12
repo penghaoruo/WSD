@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
-
-import com.sun.tools.javac.util.Pair;
-
+import edu.illinois.cs.cogcomp.core.datastructures.Pair;
 import edu.cmu.lti.lexical_db.*;
 import edu.cmu.lti.lexical_db.data.Concept;
 import edu.cmu.lti.ws4j.*;
@@ -244,7 +242,7 @@ public class WNWrapper {
     	int rv;
     	for (int i=0;i<syns.size();i++) {
     		String key=getSenseKey(syns.get(i).getSynset());
-    		String value=mapsense.get(Pair.of(lemma, key));
+    		String value=mapsense.get(new Pair<String, String>(lemma, key));
     		rv = checkCluster(lemma,index,value);
     		if(rv==1) 
     			synsets.add(syns.get(i));
@@ -292,7 +290,7 @@ public class WNWrapper {
     	*/
     	ArrayList<Concept> sl=(ArrayList<Concept>) db.getAllConcepts(lemma, pos);
     	if (sl.size()==0) str="null";
-    	else str=mapsense.get(Pair.of(lemma,getSenseKey(sl.get(index).getSynset())));
+    	else str=mapsense.get(new Pair<String, String>(lemma,getSenseKey(sl.get(index).getSynset())));
 		return str;
 	}	
     
@@ -319,7 +317,7 @@ public class WNWrapper {
     		v[i]=0;
     		ArrayList<Concept> sl=(ArrayList<Concept>) db.getAllConcepts(lemma, pos);
     		for (int j=0;j<sl.size();j++)
-    			if (mapsense.get(Pair.of(lemma,getSenseKey(sl.get(j).getSynset()))).equals(tag)) {
+    			if (mapsense.get(new Pair<String, String>(lemma,getSenseKey(sl.get(j).getSynset()))).equals(tag)) {
     				v[i]=j;
     				break;
     			}
