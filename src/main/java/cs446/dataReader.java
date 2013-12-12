@@ -32,24 +32,32 @@ public class dataReader {
 		return res;
 	}
 	
-	public static Doc[] readPlainText() {
-		String[] files={"wsj_0105.mrg","wsj_0186.mrg","wsj_0239.mrg","Computer_programming.txt","Masaccio_Knights_of_the_Art_by_Amy_Steedman.txt"};
-		String path="data/SemEval-2007/test/";
-		int n=files.length;
+	public static Doc[] readPlainText(String path) {
+		//String[] files={"wsj_0105.mrg","wsj_0186.mrg","wsj_0239.mrg","Computer_programming.txt","Masaccio_Knights_of_the_Art_by_Amy_Steedman.txt"};
+		File f=new File(path);
+		String[] files;
+		if (f.isDirectory()) {
+			files=f.list();
+			for (int i=0;i<files.length;i++)
+				files[i]=path+"/"+files[i];
+		}
+		else {
+			files=new String[1];
+			files[0]=path;
+		}
 		
+		int n=files.length;
 		Doc[] docs=new Doc[n];
 		for (int i=0;i<n;i++) {
 			docs[i]=new Doc();
-			docs[i].setContent(IOManager.readContent(path+files[i]));
+			docs[i].setContent(IOManager.readContent(files[i]));
 			docs[i].setID("d00"+(i+1));
 		}
 		return docs;
 	}
 	
-	public static void readTestXML(Doc[] docs) {
-		String file="eng-coarse-all-words.xml";
-		String path="data/SemEval-2007/test/";
-		ArrayList<String> lines=IOManager.readLines(path+file);
+	public static void readTestXML(Doc[] docs, String path) {
+		ArrayList<String> lines=IOManager.readLines(path);
 		
 		int textID=0;
 		int sentenceID=0;
@@ -121,8 +129,8 @@ public class dataReader {
 //		}
 //		Instances train = new Instances(new FileReader(new File(args[0])));
 		
-		Doc[] docs=readPlainText();
-		readTestXML(docs);
+		//Doc[] docs=readPlainText();
+		//readTestXML(docs);
 		/*
 		boolean flag=true;
 		for (int i=0;i<docs.length;i++) {

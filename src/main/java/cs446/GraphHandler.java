@@ -13,13 +13,14 @@ import edu.mit.jwi.item.POS;
 public class GraphHandler {
 	private Map<AmbWord,List<Vertex<Integer>>> vertexMap;
 	public ArrayList<AmbWord> words;
-	final static int WIN_MAX=10;	// should take this as command line arg later
+	private int WIN_MAX=10;	// should take this as command line arg later
 	private GraphCentralityScorer gcScorer;
 	public WNWrapper wn;
 	private Metric metric;
-	public GraphHandler(ArrayList<AmbWord> words, Metric m) {
+	public GraphHandler(ArrayList<AmbWord> words, Metric m, int ws) {
 		this.words=words;
 		this.metric=m;
+		this.WIN_MAX=ws;
 		this.wn=new WNWrapper("data/WordNet-3.0/dict");
 	}
 	public Graph<Integer> CreateGraph()

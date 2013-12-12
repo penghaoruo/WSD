@@ -5,21 +5,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 
 public class Main implements Runnable{
 	static GraphHandler gh;
-	private Doc doc;
+	private static Doc doc;
 	private Metric m;
-	public Main(Doc doc, Metric m){
+	private int ws;
+	private String scorer;
+	private static ArrayList<double[]> results;
+	private static String spec;
+	
+	public Main(Doc doc, Metric m, int ws, String scorer, String spec){
 		this.doc=doc;
 		this.m=m;
+		this.ws=ws;
+		this.scorer=scorer;
+		this.spec=spec;
+		results=new ArrayList<double[]>();	
 	}
+	
 	public static ArrayList<AmbWord> assignSenses() {
-		ArrayList<AmbWord> list=new ArrayList<AmbWord>();
+		ArrayList<AmbWord> list=gh.words;
 		Map<AmbWord, List<Vertex<Integer>>> vMap = gh.getVertexMap();
 		Vertex<Integer> maxVertex;
 		double val,maxval;
-		for(AmbWord word:vMap.keySet())
+		for(AmbWord word: list)
 		{
 			//System.out.println("AmbWord is "+word.getWord());
 			List<Vertex<Integer>> vs = vMap.get(word);
@@ -40,55 +53,68 @@ public class Main implements Runnable{
 				word.setAssignedSense(0);
 			}
 			else word.setAssignedSense(maxVertex.getVal());
-			list.add(word);
+			//list.add(word);
 		}
 		return list;
 	}
 	
-	public static void main(String[] args) {
-		Para.init(args);
+	public static void main(String[] args) throws Exception {
 		
-		Doc[] docs = dataReader.readPlainText();
-		dataReader.readTestXML(docs);
-//		System.out.println(docs[4].getAmbWords().size());
-		Metric m=Metric.Lesk;
-		for(int i=0;i<docs.length;i++)
-		{
-			Thread thread= new Thread(new Main(docs[i],m));
-			thread.start();
-		}
-//		gh = new GraphHandler(docs[0].getAmbWords(),m);
-////		gh = new GraphHandler(docs[0].getAmbWords().subList(0, 100));
-//		Graph<Integer> g = gh.CreateGraph();
-//		gh.ScoreVertices(g);
-//		ArrayList<AmbWord> list=assignSenses();
-//		output(list);
-//		System.out.println("Using metric "+m.name());
-//		evaluation(list);
-
-		Metric m=Metric.WuPalmer;
-		for(int i=0;i<docs.length;i++)
-		gh = new GraphHandler(docs[i].getAmbWords(),m);
-//		gh = new GraphHandler(docs[0].getAmbWords().subList(0, 100));
-		Graph<Integer> g = gh.CreateGraph();
-		gh.ScoreVertices(g);
-		ArrayList<AmbWord> list=assignSenses();
-		output(list);
-		System.out.println("Using metric "+m.name());
-		evaluation(list);
 		
 		//baseTest(list);
+		
+		Configuration config=new PropertiesConfiguration("wsd.properities");
+		Doc[] docs = dataReader.readPlainText(config.getString("train_path"));
+		dataReader.readTestXML(docs,config.getString("test_path"));
+		Metric m=getSimilarityMetric(config);
+		String scorer=config.getString("cnetrality_metric");
+		int ws=config.getInt("window_size");
+		String spec=config.getString("similarity_metric")+"+"+scorer+"+"+ws;
+		
+		for(int i=0;i<docs.length;i++) {
+			Thread thread= new Thread(new Main(docs[i],m,ws,scorer,spec));
+			thread.start();
+		}
+		
+		BufferedWriter bw=IOManager.openWriter(spec+"-res.txt");
+		for (int i=0;i<5;i++) {
+			double tmp=0;
+			for (int j=0;j<results.size();j++)
+				tmp+=results.get(j)[i];
+			tmp=tmp/results.size();
+			String line="";
+			if (i==0) line="Overall precision:"+tmp;
+			if (i==1) line="Noun precision:"+tmp;
+			if (i==2) line="Adjective precision:"+tmp;
+			if (i==3) line="Verb precision:"+tmp;
+			if (i==4) line="Adverb precision:"+tmp;
+			line=line+"\n";
+			IOManager.writeString(line, bw);
+		}
+		IOManager.closeWriter(bw);
+	}
+
+	private static Metric getSimilarityMetric(Configuration config) {
+		String str=config.getString("similarity_metric");
+		Metric m=Metric.Lesk;
+		if (str.equals("LeacockChodorow")) m=Metric.LeacockChodorow;
+		if (str.equals("Lesk")) m=Metric.Lesk;
+		if (str.equals("WuPalmer")) m=Metric.WuPalmer;
+		if (str.equals("Resnick")) m=Metric.Resnick;
+		if (str.equals("Lin")) m=Metric.Lin;
+		if (str.equals("Jiangconrath")) m=Metric.Jiangconrath;
+		return m;
 	}
 
 	public static void baseTest(ArrayList<AmbWord> list) {
 		
 		
->>>>>>> Stashed changes
 	}
 
-	public static void evaluation(ArrayList<AmbWord> list) {
+	public static double[] evaluation(ArrayList<AmbWord> list) {
+		double[] res=new double[10];
 		ArrayList<String> lines=IOManager.readLines("data/SemEval-2007/key/dataset21.test.key");
-		double correct=0;
+		//double correct=0;
 		for (int i=0;i<lines.size();i++) {
 			String line=lines.get(i);
 			String strs[]=line.split(" ");
@@ -108,21 +134,31 @@ public class Main implements Runnable{
 		for (int i=0;i<list.size();i++) {
 	    	AmbWord aw=list.get(i);
 	    	int tags[]=aw.getGoldSense();
+	    	res[10]+=1;
+	    	if (aw.getPos().equals("n")) res[6]+=1;
+    		if (aw.getPos().equals("a")) res[7]+=1;
+    		if (aw.getPos().equals("v")) res[8]+=1;
+    		if (aw.getPos().equals("r")) res[9]+=1;	
 	    	for (int j=0;j<tags.length;j++)
 		    	if (aw.getAssignedSense()==tags[j]) {
-		    		correct+=1;
+		    		res[0]+=1;
+		    		if (aw.getPos().equals("n")) res[1]+=1;
+		    		if (aw.getPos().equals("a")) res[2]+=1;
+		    		if (aw.getPos().equals("v")) res[3]+=1;
+		    		if (aw.getPos().equals("r")) res[4]+=1;
 		    		break;
 		    	}
 	    }
-		System.out.println("Precision:"+correct/list.size());
+		for (int i=0;i<5;i++)
+			res[i]=res[i]/res[i+5];
+		return res;
 	}
 
 	public static void output(ArrayList<AmbWord> list) {
-		BufferedWriter bw=IOManager.openWriter("output.txt");
+		BufferedWriter bw=IOManager.openWriter(spec+"+"+doc.getID()+"-output.txt");
 		for (int i=0;i<list.size();i++) {
 			AmbWord aw=list.get(i);
 			String str="d00"+aw.getTextID()+" "+aw.getStrID()+" ";
-			//System.out.println(aw.getLemma()+" "+aw.getPos());
 			str=str+gh.wn.getSenseString(aw.getLemma(),aw.getAssignedSense(),aw.getPos());
 			str=str+"!! lemma="+aw.getLemma()+"#"+aw.getPos()+"\n";
 			IOManager.writeString(str, bw);
@@ -130,15 +166,13 @@ public class Main implements Runnable{
 		IOManager.closeWriter(bw);
 	}
 
-	@Override
 	public void run() {
-		gh = new GraphHandler(doc.getAmbWords(),m);
-//		gh = new GraphHandler(docs[0].getAmbWords().subList(0, 100));
+		gh = new GraphHandler(doc.getAmbWords(),m,ws);
 		Graph<Integer> g = gh.CreateGraph();
-		gh.ScoreVertices(g);
+		gh.ScoreVertices(g,scorer);
 		ArrayList<AmbWord> list=assignSenses();
 		output(list);
 		System.out.println("Using metric "+m.name());
-		evaluation(list);		
+		results.add(evaluation(list));
 	}
 }
