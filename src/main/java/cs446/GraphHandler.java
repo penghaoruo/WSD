@@ -83,15 +83,27 @@ public class GraphHandler {
 	{
 		return vertexMap;
 	}
-	public void ScoreVertices(Graph<Integer> g)
+	public void ScoreVertices(Graph<Integer> g, String scoringMethod)
 	{
 		gcScorer=GraphCentralityScorer.getInst();
 		gcScorer.getDistances(g);
-		for(Vertex<Integer> v: g.getVertices())
+		if(scoringMethod.equals("closeness"))
 		{
-			v.setScore(gcScorer.closeness(v, g));
+			for(Vertex<Integer> v: g.getVertices())
+			{
+				v.setScore(gcScorer.closeness(v, g));
+			}
 		}
-		
+		else if(scoringMethod.equals("indegree"))
+		{
+			int score;	// dirty hack to convert wrapper class Integer to Double
+			for(Vertex<Integer> v: g.getVertices())
+			{
+				score=gcScorer.indegree(v, g);
+				v.setScore((double) score);
+			}
+		}
+			
 	}
 	
 }
