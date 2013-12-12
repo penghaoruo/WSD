@@ -16,7 +16,7 @@ public class Main implements Runnable{
 	private int ws;
 	private String scorer;
 	private static ArrayList<double[]> results;
-	private static String spec;
+	private String spec;
 	
 	public Main(Doc doc, Metric m, int ws, String scorer, String spec){
 		this.doc=doc;
@@ -70,15 +70,24 @@ public class Main implements Runnable{
 		String scorer=config.getString("cnetrality_metric");
 		int ws=config.getInt("window_size");
 		String spec=config.getString("similarity_metric")+"+"+scorer+"+"+ws;
-		Thread thread=null;
+		Thread[] thread=new Thread[docs.length];
 		for(int i=0;i<docs.length;i++) {
-			System.out.println("in:"+i+" "+docs[i].getSentenceNum());
+			//System.out.println("in:"+i+" "+docs[i].getSentenceNum());
 //			System.out.println("in:"+i);
 			
-			thread= new Thread(new Main(docs[i],m,ws,scorer,spec));
-			thread.start();
+			thread[i]= new Thread(new Main(docs[i],m,ws,scorer,spec));
+			thread[i].start();
 		}
-		thread.join();
+		for(int i=0;i<docs.length;i++) {
+			thread[i].join();
+		}
+/*		
+		Main[] t=new Main[docs.length];
+		for(int i=0;i<docs.length;i++) {
+			t[i]= new Main(docs[i],m,ws,scorer,spec);
+			t[i].run();
+		}
+*/
 		BufferedWriter bw=IOManager.openWriter(spec+"-res.txt");
 		for (int i=0;i<5;i++) {
 			double tmp=0;
@@ -136,11 +145,11 @@ public class Main implements Runnable{
 		for (int i=0;i<list.size();i++) {
 	    	AmbWord aw=list.get(i);
 	    	int tags[]=aw.getGoldSense();
-	    	res[10]+=1;
-	    	if (aw.getPos().equals("n")) res[6]+=1;
-    		if (aw.getPos().equals("a")) res[7]+=1;
-    		if (aw.getPos().equals("v")) res[8]+=1;
-    		if (aw.getPos().equals("r")) res[9]+=1;	
+	    	res[9]+=1;
+	    	if (aw.getPos().equals("n")) res[5]+=1;
+    		if (aw.getPos().equals("a")) res[6]+=1;
+    		if (aw.getPos().equals("v")) res[7]+=1;
+    		if (aw.getPos().equals("r")) res[8]+=1;	
 	    	for (int j=0;j<tags.length;j++)
 		    	if (aw.getAssignedSense()==tags[j]) {
 		    		res[0]+=1;
@@ -169,10 +178,10 @@ public class Main implements Runnable{
 	}
 
 	public void run() {
-		System.out.println("Running thread ...");
+		//System.out.println("Running thread ...");
 		
 		gh = new GraphHandler(doc.getAmbWords(),m,ws);
-		System.out.println("Creating Graph");
+		//System.out.println("Creating Graph");
 		System.out.flush();
 		Graph<Integer> g = gh.CreateGraph();
 		System.out.println("Graph Created!");
@@ -181,5 +190,6 @@ public class Main implements Runnable{
 		output(list);
 		System.out.println("Using metric "+m.name());
 		results.add(evaluation(list));
+		System.out.println("Thread Ends");
 	}
 }

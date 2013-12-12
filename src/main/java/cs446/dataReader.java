@@ -62,6 +62,7 @@ public class dataReader {
 		int textID=0;
 		int sentenceID=0;
 		int tagID=0;
+		int index=0;
 		for (int i=0;i<lines.size();i++) {
 			String line=lines.get(i);
 			if (line.startsWith("<text ")) {
@@ -85,6 +86,8 @@ public class dataReader {
 				String pos=getinfo(info,"pos");
 				
 				AmbWord aw=new AmbWord();
+				index+=1;
+				aw.setID(index);
 				aw.setSentenceID(sentenceID);
 				aw.setStrID(strID);
 				aw.setTagID(tagID);

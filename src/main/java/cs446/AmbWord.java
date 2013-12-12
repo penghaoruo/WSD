@@ -1,7 +1,6 @@
 package cs446;
 
 public class AmbWord {
-	private static int idCount=0;
 	private int id; //unique id (sequential)
 	private String word;
 	private String pos;
@@ -20,7 +19,7 @@ public class AmbWord {
 		sentenceID=0;
 		textID=0;
 		tagID=0;
-		id=idCount++;
+		id=1;
 	}
 	
 	String getWord() 
@@ -79,6 +78,10 @@ public class AmbWord {
 	
 	void setTagID(int value) {
 		tagID=value;
+	}
+	
+	void setID(int value){
+		id=value;
 	}
 	
 	int getID(){

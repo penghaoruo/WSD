@@ -58,11 +58,11 @@ public class GraphCentralityScorer {
 //			for(Double d: distv.values()){
 //				System.out.print(d+" ");
 //			}
-			System.out.println("This is not right!");
+			//System.out.println("This is not right!");
 			return -1.0;
 		}
 //		System.out.println(total);
-		System.out.println("Closeness "+1.0/total);
+		//System.out.println("Closeness "+1.0/total);
 		return 1.0/total;
 		
 	}

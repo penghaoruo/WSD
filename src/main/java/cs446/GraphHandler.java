@@ -21,7 +21,7 @@ public class GraphHandler {
 		this.words=words;
 		this.metric=m;
 		this.WIN_MAX=ws;
-		System.out.println("Finished here.");
+		//System.out.println("Finished here.");
 //		this.wn=new WNWrapper("data/WordNet-3.0/dict");
 	}
 	public Graph<Integer> CreateGraph()
@@ -72,7 +72,7 @@ public class GraphHandler {
 							edges.add(new Edge(s1,s2,edgeCost));
 						}
 						else {
-							System.out.println("zero value");
+							//System.out.println("zero value");
 						}
 					}
 				}
