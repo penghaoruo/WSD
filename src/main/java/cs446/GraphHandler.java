@@ -22,6 +22,7 @@ public class GraphHandler {
 		this.metric=m;
 		this.WIN_MAX=ws;
 		this.wn=new WNWrapper("data/WordNet-3.0/dict");
+		System.out.println("Finished here.");
 	}
 	public Graph<Integer> CreateGraph()
 	{

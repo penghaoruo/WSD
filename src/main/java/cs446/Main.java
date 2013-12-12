@@ -10,8 +10,8 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
 public class Main implements Runnable{
-	static GraphHandler gh;
-	private static Doc doc;
+	GraphHandler gh;
+	private Doc doc;
 	private Metric m;
 	private int ws;
 	private String scorer;
@@ -27,7 +27,7 @@ public class Main implements Runnable{
 		results=new ArrayList<double[]>();	
 	}
 	
-	public static ArrayList<AmbWord> assignSenses() {
+	public ArrayList<AmbWord> assignSenses() {
 		ArrayList<AmbWord> list=gh.words;
 		Map<AmbWord, List<Vertex<Integer>>> vMap = gh.getVertexMap();
 		Vertex<Integer> maxVertex;
@@ -72,6 +72,9 @@ public class Main implements Runnable{
 		String spec=config.getString("similarity_metric")+"+"+scorer+"+"+ws;
 		
 		for(int i=0;i<docs.length;i++) {
+			System.out.println("in:"+i+" "+docs[i].getSentenceNum());
+//			System.out.println("in:"+i);
+			
 			Thread thread= new Thread(new Main(docs[i],m,ws,scorer,spec));
 			thread.start();
 		}
@@ -108,10 +111,9 @@ public class Main implements Runnable{
 
 	public static void baseTest(ArrayList<AmbWord> list) {
 		
-		
 	}
 
-	public static double[] evaluation(ArrayList<AmbWord> list) {
+	public double[] evaluation(ArrayList<AmbWord> list) {
 		double[] res=new double[10];
 		ArrayList<String> lines=IOManager.readLines("data/SemEval-2007/key/dataset21.test.key");
 		//double correct=0;
@@ -154,7 +156,7 @@ public class Main implements Runnable{
 		return res;
 	}
 
-	public static void output(ArrayList<AmbWord> list) {
+	public void output(ArrayList<AmbWord> list) {
 		BufferedWriter bw=IOManager.openWriter(spec+"+"+doc.getID()+"-output.txt");
 		for (int i=0;i<list.size();i++) {
 			AmbWord aw=list.get(i);
@@ -167,8 +169,13 @@ public class Main implements Runnable{
 	}
 
 	public void run() {
+		System.out.println("Running thread ...");
+		
 		gh = new GraphHandler(doc.getAmbWords(),m,ws);
+		System.out.println("Creating Graph");
+		System.out.flush();
 		Graph<Integer> g = gh.CreateGraph();
+		System.out.println("Graph Created!");
 		gh.ScoreVertices(g,scorer);
 		ArrayList<AmbWord> list=assignSenses();
 		output(list);
