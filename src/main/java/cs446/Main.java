@@ -6,9 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class Main {
+public class Main implements Runnable{
 	static GraphHandler gh;
-	
+	private Doc doc;
+	private Metric m;
+	public Main(Doc doc, Metric m){
+		this.doc=doc;
+		this.m=m;
+	}
 	public static ArrayList<AmbWord> assignSenses() {
 		ArrayList<AmbWord> list=new ArrayList<AmbWord>();
 		Map<AmbWord, List<Vertex<Integer>>> vMap = gh.getVertexMap();
@@ -45,14 +50,19 @@ public class Main {
 		dataReader.readTestXML(docs);
 //		System.out.println(docs[4].getAmbWords().size());
 		Metric m=Metric.Lesk;
-		gh = new GraphHandler(docs[0].getAmbWords(),m);
-//		gh = new GraphHandler(docs[0].getAmbWords().subList(0, 100));
-		Graph<Integer> g = gh.CreateGraph();
-		gh.ScoreVertices(g);
-		ArrayList<AmbWord> list=assignSenses();
-		output(list);
-		System.out.println("Using metric "+m.name());
-		evaluation(list);
+		for(int i=0;i<docs.length;i++)
+		{
+			Thread thread= new Thread(new Main(docs[i],m));
+			thread.start();
+		}
+//		gh = new GraphHandler(docs[0].getAmbWords(),m);
+////		gh = new GraphHandler(docs[0].getAmbWords().subList(0, 100));
+//		Graph<Integer> g = gh.CreateGraph();
+//		gh.ScoreVertices(g);
+//		ArrayList<AmbWord> list=assignSenses();
+//		output(list);
+//		System.out.println("Using metric "+m.name());
+//		evaluation(list);
 	}
 
 	public static void evaluation(ArrayList<AmbWord> list) {
@@ -97,5 +107,17 @@ public class Main {
 			IOManager.writeString(str, bw);
 		}
 		IOManager.closeWriter(bw);
+	}
+
+	@Override
+	public void run() {
+		gh = new GraphHandler(doc.getAmbWords(),m);
+//		gh = new GraphHandler(docs[0].getAmbWords().subList(0, 100));
+		Graph<Integer> g = gh.CreateGraph();
+		gh.ScoreVertices(g);
+		ArrayList<AmbWord> list=assignSenses();
+		output(list);
+		System.out.println("Using metric "+m.name());
+		evaluation(list);		
 	}
 }
