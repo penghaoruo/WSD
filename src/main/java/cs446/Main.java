@@ -145,11 +145,11 @@ public class Main implements Runnable{
 		for (int i=0;i<list.size();i++) {
 	    	AmbWord aw=list.get(i);
 	    	int tags[]=aw.getGoldSense();
-	    	res[9]+=1;
-	    	if (aw.getPos().equals("n")) res[5]+=1;
-    		if (aw.getPos().equals("a")) res[6]+=1;
-    		if (aw.getPos().equals("v")) res[7]+=1;
-    		if (aw.getPos().equals("r")) res[8]+=1;	
+	    	res[5]+=1;
+	    	if (aw.getPos().equals("n")) res[6]+=1;
+    		if (aw.getPos().equals("a")) res[7]+=1;
+    		if (aw.getPos().equals("v")) res[8]+=1;
+    		if (aw.getPos().equals("r")) res[9]+=1;	
 	    	for (int j=0;j<tags.length;j++)
 		    	if (aw.getAssignedSense()==tags[j]) {
 		    		res[0]+=1;
