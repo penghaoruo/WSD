@@ -91,9 +91,12 @@ public class Main implements Runnable{
 		BufferedWriter bw=IOManager.openWriter(spec+"-res.txt");
 		for (int i=0;i<5;i++) {
 			double tmp=0;
-			for (int j=0;j<results.size();j++)
+			double sum=0;
+			for (int j=0;j<results.size();j++) {
 				tmp+=results.get(j)[i];
-			tmp=tmp/results.size();
+				sum+=results.get(j)[i+5];
+			}	
+			tmp=tmp/sum;
 			String line="";
 			if (i==0) line="Overall precision:"+tmp;
 			if (i==1) line="Noun precision:"+tmp;
@@ -160,8 +163,11 @@ public class Main implements Runnable{
 		    		break;
 		    	}
 	    }
-		for (int i=0;i<5;i++)
-			res[i]=res[i]/res[i+5];
+		System.out.println("Overall precision:"+res[0]/res[5]);
+		System.out.println("Noun precision:"+res[1]/res[6]);
+		System.out.println("Adjective precision:"+res[2]/res[7]);
+		System.out.println("Verb precision:"+res[3]/res[8]);
+		System.out.println("Adverb precision:"+res[4]/res[9]);
 		return res;
 	}
 
