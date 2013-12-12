@@ -66,9 +66,9 @@ public class GraphCentralityScorer {
 		return 1.0/total;
 		
 	}
-	public Integer indegree(Vertex<ISynset> v,Graph<ISynset> g)
+	public Integer indegree(Vertex<Integer> v,Graph<Integer> g)
 	{
-		return v.getInComingEdges().size()+v.getInComingEdges().size();
+		return v.getInComingEdges().size();
 	}
 	// remember that the weight of the edges themselves need to be normalized b/w their ranges
 	
