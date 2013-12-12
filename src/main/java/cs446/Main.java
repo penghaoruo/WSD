@@ -10,7 +10,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
 public class Main implements Runnable{
-	GraphHandler gh;
+	private GraphHandler gh;
 	private Doc doc;
 	private Metric m;
 	private int ws;
@@ -70,15 +70,15 @@ public class Main implements Runnable{
 		String scorer=config.getString("cnetrality_metric");
 		int ws=config.getInt("window_size");
 		String spec=config.getString("similarity_metric")+"+"+scorer+"+"+ws;
-		
+		Thread thread=null;
 		for(int i=0;i<docs.length;i++) {
 			System.out.println("in:"+i+" "+docs[i].getSentenceNum());
 //			System.out.println("in:"+i);
 			
-			Thread thread= new Thread(new Main(docs[i],m,ws,scorer,spec));
+			thread= new Thread(new Main(docs[i],m,ws,scorer,spec));
 			thread.start();
 		}
-		
+		thread.join();
 		BufferedWriter bw=IOManager.openWriter(spec+"-res.txt");
 		for (int i=0;i<5;i++) {
 			double tmp=0;

@@ -15,14 +15,14 @@ public class GraphHandler {
 	public ArrayList<AmbWord> words;
 	private int WIN_MAX=10;	// should take this as command line arg later
 	private GraphCentralityScorer gcScorer;
-	public WNWrapper wn;
+	public static WNWrapper wn=new WNWrapper("data/WordNet-3.0/dict");
 	private Metric metric;
 	public GraphHandler(ArrayList<AmbWord> words, Metric m, int ws) {
 		this.words=words;
 		this.metric=m;
 		this.WIN_MAX=ws;
-		this.wn=new WNWrapper("data/WordNet-3.0/dict");
 		System.out.println("Finished here.");
+//		this.wn=new WNWrapper("data/WordNet-3.0/dict");
 	}
 	public Graph<Integer> CreateGraph()
 	{
