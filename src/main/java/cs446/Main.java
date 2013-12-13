@@ -71,23 +71,23 @@ public class Main implements Runnable{
 		int ws=config.getInt("window_size");
 		String spec=config.getString("similarity_metric")+"+"+scorer+"+"+ws;
 		Thread[] thread=new Thread[docs.length];
-		for(int i=0;i<docs.length;i++) {
-			//System.out.println("in:"+i+" "+docs[i].getSentenceNum());
-//			System.out.println("in:"+i);
-			
-			thread[i]= new Thread(new Main(docs[i],m,ws,scorer,spec));
-			thread[i].start();
-		}
-		for(int i=0;i<docs.length;i++) {
-			thread[i].join();
-		}
-/*		
+//		for(int i=0;i<docs.length;i++) {
+//			//System.out.println("in:"+i+" "+docs[i].getSentenceNum());
+////			System.out.println("in:"+i);
+//			
+//			thread[i]= new Thread(new Main(docs[i],m,ws,scorer,spec));
+//			thread[i].start();
+//		}
+//		for(int i=0;i<docs.length;i++) {
+//			thread[i].join();
+//		}
+//	
 		Main[] t=new Main[docs.length];
 		for(int i=0;i<docs.length;i++) {
 			t[i]= new Main(docs[i],m,ws,scorer,spec);
 			t[i].run();
 		}
-*/
+
 		BufferedWriter bw=IOManager.openWriter(spec+"-res.txt");
 		for (int i=0;i<5;i++) {
 			double tmp=0;
