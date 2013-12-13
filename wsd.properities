@@ -1,5 +1,10 @@
 train_path = data/SemEval-2007/train
 test_path = data/SemEval-2007/test/eng-coarse-all-words.xml
+<<<<<<< Updated upstream
 similarity_metric = Lesk
 cnetrality_metric = BoundedCloseness
+=======
+similarity_metric = Lin
+cnetrality_metric = indegree
+>>>>>>> Stashed changes
 window_size = 10

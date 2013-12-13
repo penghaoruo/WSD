@@ -1,0 +1,35 @@
+Overall precision:0.6416923754958131
+Noun precision:0.5649819494584838
+Adjective precision:0.861878453038674
+Verb precision:0.5685279187817259
+Adverb precision:0.875
+
+Overall precision:0.6983695652173914 Number:368.0
+Noun precision:0.6898395721925134 Number:187.0
+Adjective precision:0.76 Number:75.0
+Verb precision:0.5925925925925926 Number:81.0
+Adverb precision:0.92 Number:25.0
+
+Overall precision:0.6649076517150396 Number:379.0
+Noun precision:0.6010928961748634 Number:183.0
+Adjective precision:0.9152542372881356 Number:59.0
+Verb precision:0.5673076923076923 Number:104.0
+Adverb precision:0.8787878787878788 Number:33.0
+
+Overall precision:0.5681159420289855 Number:345.0
+Noun precision:0.48 Number:125.0
+Adjective precision:0.7857142857142857 Number:56.0
+Verb precision:0.44642857142857145 Number:112.0
+Adverb precision:0.8076923076923077 Number:52.0
+
+Overall precision:0.684 Number:500.0
+Noun precision:0.6313559322033898 Number:236.0
+Adjective precision:0.9117647058823529 Number:68.0
+Verb precision:0.5906040268456376 Number:149.0
+Adverb precision:0.9148936170212766 Number:47.0
+
+Overall precision:0.604135893648449 Number:677.0
+Noun precision:0.47214854111405835 Number:377.0
+Adjective precision:0.9134615384615384 Number:104.0
+Verb precision:0.6275862068965518 Number:145.0
+Adverb precision:0.8823529411764706 Number:51.0
