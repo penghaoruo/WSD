@@ -7,6 +7,7 @@
 \usepackage{hyperref}
 \usepackage{mathptmx}
 \usepackage{caption}
+\usepackage{slashbox}
 
 \usepackage[ruled,linesnumbered,vlined]{algorithm2e}
 \SetNlSty{textbf}{}{:}
@@ -183,9 +184,17 @@ Closeness & 73.56 \\
 Indegree & 80.34 \\
 \end{tabular}
 \begin{tabular}{|c|c|c|c|c|c|}
-  & LeacockChodrow & Lesk & WuPalmer & Resnick & Lin  \\
+\backslashbox{POS}{Metric}  & LeacockChodrow & Lesk & WuPalmer & Resnick & Lin  \\
 \hline
-Noun & 58.30 & 73.47 & 56.50& 67.78&62.18\\
+Noun & 58.30 & 73.47 & 56.50& 67.78 & 62.18\\
+Adjective & 86.19 & 85.36 & 86.19 & 86.19 & 86.19\\
+Verb & 52.12 & 61.60 & 56.85 & 52.96 & 57.53\\
+Adverb & 87.01 & 87.50 & 87.50 & 87.50 & 87.50\\
+\end{tabular}
+\begin{tabular}{|c|c|c|c|c|c|}
+\backslashbox{POS}{Metric}  & LeacockChodrow & Lesk & WuPalmer & Resnick & Lin  \\
+\hline
+Noun & 58.30 & 73.47 & 56.50& 67.78 & 62.18\\
 Adjective & 86.19 & 85.36 & 86.19 & 86.19 & 86.19\\
 Verb & 52.12 & 61.60 & 56.85 & 52.96 & 57.53\\
 Adverb & 87.01 & 87.50 & 87.50 & 87.50 & 87.50\\
