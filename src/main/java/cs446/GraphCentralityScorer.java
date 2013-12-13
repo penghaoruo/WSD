@@ -66,6 +66,32 @@ public class GraphCentralityScorer {
 		return 1.0/total;
 		
 	}
+	public Double BoundedCloseness(Vertex<Integer> v,Graph<Integer> g, int WIN_MAX)
+	{
+		assert dist!=null : "Calculate distances first!";
+		Map<Integer, Double> distv = dist.get(v.getID());
+		Double total=0.0;
+		for(Integer id:distv.keySet()){
+			if(v.getID()-id > WIN_MAX)
+				continue;
+			else
+			{
+				total+=distv.get(id);
+			}
+		}
+		if(total==0.0)
+		{
+//			for(Double d: distv.values()){
+//				System.out.print(d+" ");
+//			}
+			//System.out.println("This is not right!");
+			return -1.0;
+		}
+//		System.out.println(total);
+		//System.out.println("Closeness "+1.0/total);
+		return 1.0/total;
+		
+	}
 	public Integer indegree(Vertex<Integer> v,Graph<Integer> g)
 	{
 		return v.getInComingEdges().size();

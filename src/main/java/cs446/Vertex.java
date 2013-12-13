@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Vertex<T> implements Comparable<Vertex<T>> 
 {
 
-        private static Integer idCount = 0;
+//        private Integer idCount = 0;
         
         private ArrayList<Edge> outGoingEdges = new ArrayList<Edge>();
         private ArrayList<Edge> inComingEdges = new ArrayList<Edge>();
@@ -28,9 +28,11 @@ public class Vertex<T> implements Comparable<Vertex<T>>
 		public Vertex(T content)
         {
         	this.Content=content;
-        	this.ID=idCount++;
         }
-
+		public void setID(int id)
+		{
+			this.ID=id;
+		}
         public void setVisited(boolean visited) {
                 
                 System.out.println("Visited"+ this.Content);

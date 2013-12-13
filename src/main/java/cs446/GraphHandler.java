@@ -13,7 +13,7 @@ import edu.mit.jwi.item.POS;
 public class GraphHandler {
 	private Map<AmbWord,List<Vertex<Integer>>> vertexMap;
 	public ArrayList<AmbWord> words;
-	private int WIN_MAX=10;	// should take this as command line arg later
+	private int WIN_MAX;	// should take this as command line arg later
 	private GraphCentralityScorer gcScorer;
 	public static WNWrapper wn=new WNWrapper("data/WordNet-3.0/dict");
 	private Metric metric;
@@ -32,7 +32,7 @@ public class GraphHandler {
 		
 		vertexMap=new HashMap<AmbWord,List<Vertex<Integer>>>();
 		// hashmap storing mapping from ambword to each of its candidate nodes in the graph
-		
+		int index=0;
 		// init book-keeping
 		for(AmbWord w: words)
 		{
@@ -42,6 +42,7 @@ public class GraphHandler {
 				for(int i=0;i<wn.getClusterRange(w.getLemma(),w.getPos());i++)	// for each coarse grained sense, we have  a node
 				{
 					Vertex<Integer> v = new Vertex<Integer>(i);
+					v.setID(index++);
 					vertices.add(v);
 					vertexMap.get(w).add(v);	// add v to vertices under w
 				}
@@ -94,6 +95,14 @@ public class GraphHandler {
 			for(Vertex<Integer> v: g.getVertices())
 			{
 				v.setScore(gcScorer.closeness(v, g));
+			}
+		}
+		else if(scoringMethod.equals("BoundedCloseness"))
+		{
+			int WIN_MAX=10;
+			for(Vertex<Integer> v: g.getVertices())
+			{
+				v.setScore(gcScorer.BoundedCloseness(v, g,WIN_MAX));
 			}
 		}
 		else if(scoringMethod.equals("indegree"))

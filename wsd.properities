@@ -1,5 +1,5 @@
 train_path = data/SemEval-2007/train
 test_path = data/SemEval-2007/test/eng-coarse-all-words.xml
 similarity_metric = Lesk
-cnetrality_metric = closeness
+cnetrality_metric = BoundedCloseness
 window_size = 10
