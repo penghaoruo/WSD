@@ -106,6 +106,16 @@ public class Main implements Runnable{
 			line=line+"\n";
 			IOManager.writeString(line, bw);
 		}
+		
+		for (int i=0;i<results.size();i++) {
+			double[] res=results.get(i);
+			IOManager.writeString("\n", bw);
+			IOManager.writeString("Overall precision:"+res[0]/res[5]+" Number:"+res[5]+"\n",bw);
+			IOManager.writeString("Noun precision:"+res[1]/res[6]+" Number:"+res[6]+"\n",bw);
+			IOManager.writeString("Adjective precision:"+res[2]/res[7]+" Number:"+res[7]+"\n",bw);
+			IOManager.writeString("Verb precision:"+res[3]/res[8]+" Number:"+res[8]+"\n",bw);
+			IOManager.writeString("Adverb precision:"+res[4]/res[9]+" Number:"+res[9]+"\n",bw);
+		}
 		IOManager.closeWriter(bw);
 	}
 

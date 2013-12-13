@@ -1,5 +1,0 @@
-Overall precision:0.7436778199409667
-Noun precision:0.756524145990125
-Adjective precision:0.8492389534692626
-Verb precision:0.6311831037625607
-Adverb precision:0.8807453489355866
