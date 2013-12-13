@@ -175,7 +175,23 @@ Each $w_i \in W$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{
 \subsection{Experimental results}
 \label{sec:experimental-results}
 %\instructions{Now give the actual experimental results (use figures/tables/graphs as appropriate), and discuss whether they verify or falsify your hypotheses. How important are the various features your models use (consider ablation studies). How robust are your results? (Look at learning curves, or the variance when you perform cross-validation). Can you perform an error analysis?}
+\begin{figure}
+\begin{tabular}{|c|c|c|}
+  & Lesk  \\
+\hline
+Closeness & 73.56 \\
+Indegree & 80.34 \\
+\end{tabular}
+\begin{tabular}{|c|c|c|c|c|c|}
+  & LeacockChodrow & Lesk & WuPalmer & Resnick & Lin  \\
+\hline
+Noun & 58.30 & 73.47 & 56.50& 67.78&62.18\\
+Adjective & 86.19 & 85.36 & 86.19 & 86.19 & 86.19\\
+Verb & 52.12 & 61.60 & 56.85 & 52.96 & 57.53\\
+Adverb & 87.01 & 87.50 & 87.50 & 87.50 & 87.50\\
+\end{tabular}
 
+\end{figure}
 \section{Conclusion}
 %\instructions{Summarize your findings, and discuss their implications, e.g. for future work, or for related tasks. Discuss also the shortcomings of your proposed approach. }. 
 
