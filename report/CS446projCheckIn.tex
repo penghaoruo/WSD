@@ -38,6 +38,9 @@ We investigate the task of word sense disambiguation using an unsupervised appro
 \label{sec:introduction}
 In natural language, a word may be associated with possibly multiple meanings, depending on the context in which the word occurs. For instance, the word ``pen" has the following senses according to Wordnet~\cite{wordnet}:
 \begin{description}
+\setlength{\itemsep}{1pt}
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
 \item [pen] : a writing implement with a point from which ink flows
 \item [pen] : an enclosure for confining livestock
 \item [pen] : a female swan
@@ -106,7 +109,7 @@ Our work also requires some libraries such as ``Wordnet" database and ``WS4J" li
 \label{sec:baseline-models}
 \begin{description}
 \item[Random Baseline] A naive baseline for word sense disambiguation. A randomly selected sense is made from the set of permissible senses for the target word. \\
-\item[First Sense Baseline (Most Frequent Sense)] A more appropriate baseline model will be to output the sense of the word which is most frequently encountered. On coarse grained senses, using this baseline gives an accuracy ranging from 50-60\%. As noted in~\cite{navigli2009word}, this baseline is often difficult to beat.
+\item[First Sense Baseline (Most Frequent Sense)] A more appropriate baseline model will be to output the sense of the word which is most frequently encountered. On coarse grained senses, using this baseline gives an accuracy ranging from 50-60\%. As noted in~\cite{navigli2009word}, this baseline is often difficult to beat. 
 \end{description}
 %
 %\subsection{Existing Models}
@@ -116,7 +119,7 @@ Our work also requires some libraries such as ``Wordnet" database and ``WS4J" li
 \subsection{Our Model}
 \label{sec:proposed-models}
 %\instructions{Your models and your procedure for learning them go here. Describe both in detail, even if the learning procedure is standard.}
-We employ a graph-based approach to disambiguate senses of a word. Our method is similar to ~\cite{Sinha}. We define a fixed sized window around a target word in the document as its context. We first create a weighted graph of label dependencies for all candidate senses. For every candidate sense $s_{ij}$ for word $w_i$, we have a node in the graph. This node has edges to the all candidate senses of words within a pre-defined window around word $w_i$. These edges are weighed by the dependency score for the pair of senses. The dependency score captures the relationship between two candidate senses for nearby words. Based on the edge weights we assign scores to each node based on a graph-based measure of centrality. The score of a node denotes the "importance" of the node in the graph, taking into account its relationship with neighboring nodes.
+We employ a graph-based approach to disambiguate senses of a word. Our method is similar to ~\cite{Sinha}. We define a fixed sized window around a target word in the document as its context. We first create a weighted graph of label dependencies for all candidate senses. For every candidate sense $s_{ij}$ for word $w_i$, we have a node in the graph. This node has edges to the all candidate senses of words within a pre-defined window around word $w_i$. These edges are weighed by the dependency score for the pair of senses. The dependency score captures the relationship between two candidate senses for nearby words. Based on the edge weights we assign scores to each node based on a graph-based measure of centrality. The score of a node denotes the ``importance'' of the node in the graph, taking into account its relationship with neighboring nodes.
 Our method is different from~\cite{Sinha} in that we make use of the coarse grain senses provided in the Semeval corpus to construct our graph. Consequently, our graph is less dense than the graph constructed in~\cite{Sinha}.
 \subsection{Measures of Centrality}
 We use two measures of centrality - closeness and in-degree - for scoring the vertices in our graph. These were originally proposed in \cite{Sinha}. They are defined as follows, \\
@@ -164,25 +167,11 @@ Each $w_i \in W$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{
 }
 \caption{Algorithm to assign Senses}
 \end{algorithm}
-
 \end{figure}
-
 \section{Experiments}
 \label{sec:experiments}
-
-%\subsection{Experimental Hypotheses}
-%\label{sec:exper-hypoth}
-%\instructions{Summarize the hypotheses (research questions) your experiments are designed to test (address). (Note that some of these hypotheses may emerge as you keep working on a problem; you will not necessarily have come up with all the questions you wish to address before you have started building a models for the specific task.}
-
-%\subsection{Experimental setup}
-%\label{sec:experimental-setup}
-%\instructions{Define test/training/dev data splits, describe how you tuned performance. Describe and your evaluation metric, and define it mathematically.
-%List the models you will evaluate. Cite any existing tools or software you use to perform your experiments; describe what you implemented yourself. Describe how you obtained the features used by each of the models.}
-%mention maven
-
-\subsection{Experimental results}
 \label{sec:experimental-results}
-\begin{table} \label{tab:1}
+\begin{table} 
 \centering
 \begin{tabular}{|c|c|c|c|c|c|}
   & Lesk & LeacockChodrow & WuPalmer & Resnick & Lin  \\
@@ -191,9 +180,10 @@ Closeness & 73.56 & 63.77 & 64.17 & 68.66 & 67.12\\
 Indegree & 80.34 & 80.34 & 80.34 & 80.34 & 80.34 \\
 \end{tabular}
 \caption{Precision of our system for different graph-centrality measures. We have reported the best performing systems for each measure, over all possible choices of similarity metric.}
+\label{table:1}
 \end{table}
 
-\begin{table}  \label{tab:2}
+\begin{table}  
 \centering
 \begin{tabular}{|c|c|c|c|c|c|}
 POS & LeacockChodrow & Lesk & WuPalmer & Resnick & Lin  \\
@@ -204,12 +194,13 @@ Verb & 52.12 & 61.60 & 56.85 & 52.96 & 57.53\\
 Adverb & 87.01 & 87.50 & 87.50 & 87.50 & 87.50\\
 \end{tabular}
 \caption{Precision for different part-of-speeches for each metric. The graph-centrality measure used for all results was closeness.}
+\label{table:2}
 \end{table}
 
 % BEGIN RECEIVE ORGTBL test
-\begin{table} \label{tab:3}
+\begin{table} 
 \begin{tabular}{|l|r|r|r|r|r|}
-Metric & doc1 (368) & doc2 (379) & doc3 (345) & Doc4 (500) & Doc5 (677) \\
+Metric & $Doc_1$ (368) & $Doc_2$ (379) & $Doc_3$ (345) & $Doc_4$ (500) & $Doc_5$ (677) \\
 \hline
 LeacockChodrow+closeness & 69.84 & 69.39 & 57.69 & 68.40 & 57.01 \\
 Lesk+closeness & 83.42 & 83.64 & 62.60 & 75.40 & 66.77 \\
@@ -223,6 +214,7 @@ Resnick+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
 Lin+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
 \end{tabular}
 \caption{Document-wise precision for different combinations of metrics and graph-centrality measures. For each document, the total number of ambiguous words are shown in parenthesis.}
+\label{table:3}
 \end{table}
 % END RECEIVE ORGTBL test
 
@@ -283,6 +275,10 @@ SUSSX-CR & 54.30 \\
 | SUSSX-C-WD   |     54.54 |
 | SUSSX-CR     |     54.30 |
 \end{comment}
+
+\subsection{Experimental results}
+We have documented our experimental results in table \ref{table:1}, table \ref{table:2} and table \ref{table:3}. We have also listed the final ranking for the SemEval-2007 task for comparison of our system with other systems. In table \ref{table:1}, we show the precision of our system for different combinations of similarity metric and centrality scoring method. We notice that the performance of all similarity metrics improve on using the in-degree centrality scoring. A reason for this may be the local nature of the in-degree metric - it only accounts for the number of incident edges when scoring a vertex, which is a local feature of the graph. On the other hand, closeness accounts for distances to all vertices in the graph and is hence a global feature of the graph. So the experiments indicate that local features of the graph are a better choice.   
+
 
 \section{Conclusion}
 From the experimental results we can infer that the baseline is actually hard to beat. This is also evident from the final rankings in the SemEval-2007 task, where many teams performed worse than the baseline. 
