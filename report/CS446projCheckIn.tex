@@ -198,18 +198,34 @@ Adverb & 87.01 & 87.50 & 87.50 & 87.50 & 87.50\\
 \end{tabular}
 \caption{Table 2}
 \end{figure}
-\begin{tabular}{c|c|c|c|c|c}
-Metric            & doc1 (368) & doc2 (379) & doc3 (345) & Doc4 (500) & Doc5 (677) \\
-Leacock+closeness &      69.84 &      69.39 &      57.69 &      68.40 &      57.01 \\
-Lesk+closeness    &      83.42 &      83.64 &      62.60 &      75.40 &      66.77 \\
-\end{tabular}
 % BEGIN RECEIVE ORGTBL test
+\begin{tabular}{lrrrrr}
+Metric & doc1 (368) & doc2 (379) & doc3 (345) & Doc4 (500) & Doc5 (677) \\
+LeacockChodrow+closeness & 69.84 & 69.39 & 57.69 & 68.40 & 57.01 \\
+Lesk+closeness & 83.42 & 83.64 & 62.60 & 75.40 & 66.77 \\
+WuPalmer+closeness & 69.87 & 66.49 & 56.81 & 68.4 & 60.41 \\
+Resnick+closeness & 77.99 & 77.30 & 58.84 & 65.2 & 66.32 \\
+Lin+closeness & 72.55 & 76.25 & 54.50 & 61.40 & 69.71 \\
+LeacockChodrow+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
+Lesk+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
+WuPalmer+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
+Resnick+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
+Lin+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
+\end{tabular}
 % END RECEIVE ORGTBL test
 \begin{comment}
 #+ORGTBL: SEND test orgtbl-to-latex :splice nil :skip 0
-| Metric            | doc1 (368) | doc2 (379) | doc3 (345) | Doc4 (500) | Doc5 (677) |
-| Leacock+closeness |      69.84 |      69.39 |      57.69 |      68.40 |      57.01 |
-| Lesk+closeness    |      83.42 |      83.64 |      62.60 |      75.40 |      66.77 |
+| Metric                   | doc1 (368) | doc2 (379) | doc3 (345) | Doc4 (500) | Doc5 (677) |
+| LeacockChodrow+closeness |      69.84 |      69.39 |      57.69 |      68.40 |      57.01 |
+| Lesk+closeness           |      83.42 |      83.64 |      62.60 |      75.40 |      66.77 |
+| WuPalmer+closeness       |      69.87 |      66.49 |      56.81 |       68.4 |      60.41 |
+| Resnick+closeness        |      77.99 |      77.30 |      58.84 |       65.2 |      66.32 |
+| Lin+closeness            |      72.55 |      76.25 |      54.50 |      61.40 |      69.71 |
+| LeacockChodrow+indegree  |      86.14 |      86.28 |      76.52 |       80.4 |      75.78 |
+| Lesk+indegree            |      86.14 |      86.28 |      76.52 |       80.4 |      75.78 |
+| WuPalmer+indegree        |      86.14 |      86.28 |      76.52 |       80.4 |      75.78 |
+| Resnick+indegree         |      86.14 |      86.28 |      76.52 |       80.4 |      75.78 |
+| Lin+indegree             |      86.14 |      86.28 |      76.52 |       80.4 |      75.78 |
 \end{comment}
 
 \section{Conclusion}
