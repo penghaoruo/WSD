@@ -88,8 +88,8 @@ We are given a a document $D$ and sequence of target words $(w_1,w_2 \cdots w_n)
 WSD systems are evaluated by comparing in terms of their coverage,precision and recall with respect to a gold tagging(gold tags are provided by human). We allow a empty sense assignment in case the system is not able to disambiguate the word. So for each word $w_i$ the output of the classifier lies in $S_i \cup \{\epsilon\}$. We can now define  our metrics as follows,
 \begin{align*}
 Precision = \frac{\text{\# of correct sense tags in the output}}{\text{Total \# of tags in the output}}\\
-Recall =\frac{\text{\# of correct sense tags in the output}}{\text{Total \# of tags in the gold tagging}}\\
-Coverage =\frac{\text{\# of tags in the output}}{\text{Total \# of correct tags in the gold tagging}}
+%Recall =\frac{\text{\# of correct sense tags in the output}}{\text{Total \# of tags in the gold tagging}}\\
+%Coverage =\frac{\text{\# of tags in the output}}{\text{Total \# of correct tags in the gold tagging}}
 \end{align*}
 \subsection{The Data}
 \label{sec:data}
@@ -190,7 +190,7 @@ Each $w_i \in W$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{
 Closeness & 73.56 \\
 Indegree & 80.34 \\
 \end{tabular}
-\caption{Table 1}
+\caption{Precision of our system for different graph-centrality measures. We have reported the best performing systems for each measure, over all possible choices of similarity metric.}
 \end{minipage}
 \quad
 \begin{tabular}{|c|c|c|c|c|c|}
@@ -245,7 +245,7 @@ System & Precision \\
 NUS-PT & 82.50 \\
 NUS-ML & 81.58 \\
 LCC-WSD & 81.45 \\
-\textbf{Our System} & \textbf{}\\
+\textbf{Our System} & \textbf{80.34}\\
 GPLSI & 79.55 \\
 Baseline & 78.89 \\
 UPV-WSD & 78.63 \\
@@ -258,7 +258,7 @@ UofL & 52.59 \\
 SUSSX-C-WD & 54.54 \\
 SUSSX-CR & 54.30 \\
 \end{tabular}
-\caption{Final Ranking for the SemEval-2007 Task.}
+\caption{Final Ranking for the SemEval-2007 Task. We have included our system in the list for comparison. The precision reported is for the best setting (using Lesk+In-Degree)}
 \end{figure}
 % END RECEIVE ORGTBL results
 \begin{comment}
