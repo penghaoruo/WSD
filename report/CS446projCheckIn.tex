@@ -26,11 +26,11 @@
 
 \begin{document}
 
-\title{An Unsupervised Approach to Word Sense Disambiguation \\ \Large{(CS446 Class Project)}}
+\title{A Semi-supervised Approach to Word Sense Disambiguation \\ \Large{(CS446 Class Project)}}
 \author{Haoruo Peng (hpeng7@illinois.edu) \and Shyam Upadhyay (upadhya3@illinois.edu)}
 \maketitle
 \begin{abstract}
-We investigate the task of word sense disambiguation using an unsupervised approach. Word sense disambiguation is the task of identifying the correct sense for a word which can possibly admit multiple senses. We use the Semeval-2007 dataset to evaluate the performance of our system. We use a graph based approach to disambiguate senses; the underlying assumption is that the sense of the neighboring words can assist in inferring the sense of the target word. In this respect, the senses are learnt in a joint-manner. Using appropriate weights in the graph constructed for all possible senses, we can use the graph to obtain measures of centrality, which can guide the sense-disambiguation. From the experimental results, our system ranks 4th out of 15 existing systems. We also report further results and analysis in some variation of our system.
+We investigate the task of word sense disambiguation using a Semi-supervised approach. Word sense disambiguation is the task of identifying the correct sense for a word which can possibly admit multiple senses. We use the Semeval-2007 dataset to evaluate the performance of our system. We use a graph based approach to disambiguate senses; the underlying assumption is that the sense of the neighboring words can assist in inferring the sense of the target word. In this respect, the senses are learnt in a joint-manner. Using appropriate weights in the graph constructed for all possible senses, we can use the graph to obtain measures of centrality, which can guide the sense-disambiguation. From the experimental results, our system ranks 4th out of 15 existing systems. We also report further results and analysis in some variation of our system.
 \end{abstract}
 
 
@@ -67,12 +67,12 @@ Today, significant progress has been made in WSD and researchers have achieved s
 
 Supervised learning approaches have been remarkably successful for performing word sense disambiguation. Instance-based learning and SVM approaches have proven to be the best systems in several competition. The only issue with supervised approaches is the lack of sense-tagged data which poses a severe bottleneck. 
 
-To address this problem, researchers have resorted to semi-supervised learning algorithms. The Yarowsky algorithm~\cite{yarowsky1995unsupervised} was an early example of such an algorithm. It uses the `One sense per collocation' and the `One sense per discourse' properties of human languages for word sense disambiguation. From observation, words tend to exhibit only one sense in most given discourse and in a given collocation. The common motif in approaches like ~\cite{yarowsky1995unsupervised},~\cite{le2008semi} is that they allows both labeled and unlabeled data. Training involve iteratively labeling the unlabeled data using an initial seeding labeled set. The seed labeled data is used to learn a classifier which is used to assign labels to unlabeled data, which is merged with the initial seed data to obtain a larger dataset for the next iteration. Finally, the classifier is learned from the extended labelled dataset.
+To address this problem, researchers have resorted to semi-supervised learning algorithms. The Yarowsky algorithm~\cite{yarowsky1995unsupervised} was an early example of such an algorithm. It uses the `One sense per collocation' and the `One sense per discourse' properties of human languages for word sense disambiguation. From observation, words tend to exhibit only one sense in most given discourse and in a given collocation. The common motif in approaches like ~\cite{yarowsky1995unsupervised},~\cite{le2008semi} is that they allows both labeled and unlabeled data. Training involve iteratively labeling the unlabeled data using an initial seeding labeled set. The seed labeled data is used to learn a classifier which is used to assign labels to unlabeled data, which is merged with the initial seed data to obtain a larger dataset for the next iteration. Finally, the classifier is learned from the extended labeled dataset.
 More recently, researchers~\cite{Ng} have leveraged word alignment information from parallel corporas to aid in obtaining coarse grained senses. The aim of word-alignment task is to align a word in a given sentence to its translated counterpart in another sentence in a different language. Unlike sense-tagged datasets, good quality parallel corpora are readily available. 
 
 %The bootstrapping approach starts from a small amount of seed data for each word: either manually tagged training examples or a small number of surefire decision rules (e.g., `play' in the context of `bass' almost always indicates the musical instrument). The seeds are used to train an initial classifier, using any supervised method. This classifier is then used on the untagged portion of the corpus to extract a larger training set, in which only the most confident classifications are included. The process repeats, each new classifier being trained on a successively larger training corpus, until the whole corpus is consumed, or until a given maximum number of iterations is reached.
 
-Other semi-supervised techniques use large quantities of untagged corpora to provide co-occurrence information that supplements the tagged corpora. These techniques have the potential to help in the adaptation of supervised models to different domains. Today, some of the key problems in WSD are domain adaptation and using coarse grained senses. Another closely related task to WSD is word sense induction, where the task is to cluster the senses which are similar to a target word. The reader is encouraged to peruse a more general  survey provided in~\cite{navigli2009word}. 
+Other semi-supervised techniques use large quantities of untagged corpora to provide co-occurrence information that supplements the tagged corpora. These techniques have the potential to help in the adaptation of supervised models to different domains. Today, some of the key problems in WSD are domain adaptation and using coarse grained senses. Another closely related task to WSD is word sense induction, where the task is to cluster the senses which are similar to a target word. Readers are encouraged to peruse a more general  survey provided in~\cite{navigli2009word}. 
 
 \section{Task and Data}
 \label{sec:taskAndData}
@@ -89,11 +89,11 @@ We are given a a document $D$ and sequence of target words $(w_1,w_2 \cdots w_n)
 \end{figure}
 
 \subsection{Evaluation}
-WSD systems are evaluated by comparing in terms of their coverage,precision and recall with respect to a gold tagging(gold tags are provided by human). We allow a empty sense assignment in case the system is not able to disambiguate the word. So for each word $w_i$ the output of the classifier lies in $S_i \cup \{\epsilon\}$. We can now define  our metrics as follows,
+WSD systems are evaluated by comparing in terms of their coverage, precision and recall with respect to a gold tagging (gold tags are provided by human beings). We allow an empty sense assignment in case the system is not able to disambiguate the word. So for each word $w_i$ the output of the classifier lies in $S_i \cup \{\epsilon\}$. We can now define our metrics as follows,
 \begin{align*}
 Precision = \frac{\text{\# of correct sense tags in the output}}{\text{Total \# of tags in the output}}\\
-%Recall =\frac{\text{\# of correct sense tags in the output}}{\text{Total \# of tags in the gold tagging}}\\
-%Coverage =\frac{\text{\# of tags in the output}}{\text{Total \# of correct tags in the gold tagging}}
+Recall =\frac{\text{\# of correct sense tags in the output}}{\text{Total \# of tags in the gold tagging}}\\
+Coverage =\frac{\text{\# of tags in the output}}{\text{Total \# of correct tags in the gold tagging}}
 \end{align*}
 \subsection{The Data}
 \label{sec:data}
@@ -177,7 +177,7 @@ Each $w_i \in W$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{
   & Lesk & LeacockChodrow & WuPalmer & Resnick & Lin  \\
 \hline
 Closeness & 73.56 & 63.77 & 64.17 & 68.66 & 67.12\\
-Indegree & 80.34 & 80.34 & 80.34 & 80.34 & 80.34 \\
+Indegree & 80.34 & \textbf{80.34} & 80.34 & 80.34 & 80.34 \\
 \end{tabular}
 \caption{Precision of our system for different graph-centrality measures. We have reported the best performing systems for each measure, over all possible choices of similarity metric.}
 \label{table:1}
@@ -188,10 +188,10 @@ Indegree & 80.34 & 80.34 & 80.34 & 80.34 & 80.34 \\
 \begin{tabular}{|c|c|c|c|c|c|}
 POS & LeacockChodrow & Lesk & WuPalmer & Resnick & Lin  \\
 \hline
-Noun & 58.30 & 73.47 & 56.50& 67.78 & 62.18\\
-Adjective & 86.19 & 85.36 & 86.19 & 86.19 & 86.19\\
-Verb & 52.12 & 61.60 & 56.85 & 52.96 & 57.53\\
-Adverb & 87.01 & 87.50 & 87.50 & 87.50 & 87.50\\
+Noun & 58.30 & \textbf{73.47} & 56.50& 67.78 & 62.18\\
+Adjective & \textbf{86.19} & 85.36 & \textbf{86.19} & \textbf{86.19} & \textbf{86.19}\\
+Verb & 52.12 & \textbf{61.60} & 56.85 & 52.96 & 57.53\\
+Adverb & 87.01 & \textbf{87.50} & \textbf{87.50} & \textbf{87.50} & \textbf{87.50}\\
 \end{tabular}
 \caption{Precision for different part-of-speeches for each metric. The graph-centrality measure used for all results was closeness.}
 \label{table:2}
