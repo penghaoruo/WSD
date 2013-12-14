@@ -30,7 +30,7 @@
 \author{Haoruo Peng (hpeng7@illinois.edu) \and Shyam Upadhyay (upadhya3@illinois.edu)}
 \maketitle
 \begin{abstract}
-We investigate the task of word sense disambiguation using a Semi-supervised approach. Word sense disambiguation is the task of identifying the correct sense for a word which can possibly admit multiple senses. We use the Semeval-2007 dataset to evaluate the performance of our system. We use a graph based approach to disambiguate senses; the underlying assumption is that the sense of the neighboring words can assist in inferring the sense of the target word. In this respect, the senses are learnt in a joint-manner. Using appropriate weights in the graph constructed for all possible senses, we can use the graph to obtain measures of centrality, which can guide the sense-disambiguation. From the experimental results, our system ranks 4th out of 15 existing systems. We also report further results and analysis in some variation of our system.
+We investigate the task of word sense disambiguation using a semi-supervised approach. Word sense disambiguation is the task of identifying the correct sense for a word which can possibly admit multiple senses. We use the Semeval-2007 dataset (all-words, coarse-grained) to evaluate the performance of our system. We use a graph based approach to disambiguate senses; the underlying assumption is that the sense of the neighboring words can assist in inferring the sense of the target word. In this respect, the senses are learnt in a joint-manner. Using appropriate weights in the graph constructed for all possible senses, we can use the graph to obtain measures of centrality, which can guide the sense-disambiguation. From the experimental results, our system ranks 4th out of 15 existing systems. We also report further results and analysis in some variation of our system.
 \end{abstract}
 
 
@@ -65,12 +65,10 @@ The task of WSD was first described by Warren Weaver in 1949. He encountered the
 
 Today, significant progress has been made in WSD and researchers have achieved sufficiently high levels of accuracy on a variety of word types and ambiguities. A rich variety of techniques have been used, from dictionary-based methods~\cite{mihalcea2007using} that use the knowledge encoded in lexical resources, to supervised machine learning methods~\cite{manning1999foundations} in which a classifier is trained for each distinct word on a corpus of manually sense-annotated examples, to completely unsupervised methods~\cite{yarowsky1995unsupervised} that cluster occurrences of words, thereby inducing word senses.
 
-Supervised learning approaches have been remarkably successful for performing word sense disambiguation. Instance-based learning and SVM approaches have proven to be the best systems in several competition. The only issue with supervised approaches is the lack of sense-tagged data which poses a severe bottleneck. 
+Supervised learning approaches have been remarkably successful for performing word sense disambiguation. Instance-based learning and SVM approaches have proven to be the best systems in several competition. However, supervised approaches have the issue of lacking in sense-tagged data which poses a severe bottleneck. 
 
-To address this problem, researchers have resorted to semi-supervised learning algorithms. The Yarowsky algorithm~\cite{yarowsky1995unsupervised} was an early example of such an algorithm. It uses the `One sense per collocation' and the `One sense per discourse' properties of human languages for word sense disambiguation. From observation, words tend to exhibit only one sense in most given discourse and in a given collocation. The common motif in approaches like ~\cite{yarowsky1995unsupervised},~\cite{le2008semi} is that they allows both labeled and unlabeled data. Training involve iteratively labeling the unlabeled data using an initial seeding labeled set. The seed labeled data is used to learn a classifier which is used to assign labels to unlabeled data, which is merged with the initial seed data to obtain a larger dataset for the next iteration. Finally, the classifier is learned from the extended labeled dataset.
+To address this problem, researchers have resorted to semi-supervised learning algorithms. The Yarowsky algorithm~\cite{yarowsky1995unsupervised} was an early example of such an algorithm. It uses the `One sense per collocation' and the `One sense per discourse' properties of human languages for word sense disambiguation. From observation, words tend to exhibit only one sense in most given discourse and in a given collocation. The common motif in approaches like ~\cite{yarowsky1995unsupervised},~\cite{le2008semi} is that they allows both labeled and unlabeled data. Training involves iteratively labeling the unlabeled data using an initial seeding labeled set. The seed labeled data is used to learn a classifier which is used to assign labels to unlabeled data, which is merged with the initial seed data to obtain a larger dataset for the next iteration. Finally, the classifier is learned from the extended labeled dataset.
 More recently, researchers~\cite{Ng} have leveraged word alignment information from parallel corporas to aid in obtaining coarse grained senses. The aim of word-alignment task is to align a word in a given sentence to its translated counterpart in another sentence in a different language. Unlike sense-tagged datasets, good quality parallel corpora are readily available. 
-
-%The bootstrapping approach starts from a small amount of seed data for each word: either manually tagged training examples or a small number of surefire decision rules (e.g., `play' in the context of `bass' almost always indicates the musical instrument). The seeds are used to train an initial classifier, using any supervised method. This classifier is then used on the untagged portion of the corpus to extract a larger training set, in which only the most confident classifications are included. The process repeats, each new classifier being trained on a successively larger training corpus, until the whole corpus is consumed, or until a given maximum number of iterations is reached.
 
 Other semi-supervised techniques use large quantities of untagged corpora to provide co-occurrence information that supplements the tagged corpora. These techniques have the potential to help in the adaptation of supervised models to different domains. Today, some of the key problems in WSD are domain adaptation and using coarse grained senses. Another closely related task to WSD is word sense induction, where the task is to cluster the senses which are similar to a target word. Readers are encouraged to peruse a more general  survey provided in~\cite{navigli2009word}. 
 
@@ -81,15 +79,17 @@ Other semi-supervised techniques use large quantities of untagged corpora to pro
 \subsection{The Task}
 \label{sec:task}
 %\instructions{Now, try to formalize your task as a classification/ranking/... problem. Introduce mathematical/formal notation as necessary. How do you evaluate models, or measure success?}
-We are given a a document $D$ and sequence of target words $(w_1,w_2 \cdots w_n)$ in the document. Each word $w_i$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{in_i})$ where $|S_i|= n_i$. The task is to assign each word $w_i$ the most appropriate sense from its context in $D$. 
+We are given a a document $D$ and sequence of target words $(w_1,w_2 \cdots w_n)$ in the document. Each word $w_i$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{in_i})$ where $|S_i|= n_i$. The task is to assign each word $w_i$ the most appropriate sense from its context in $D$.  An example is given in Figure~\ref{fig:1}.
+
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.8]{wsd.png}
 \caption{An example of word sense disambiguation system. Image courtesy ~\protect\cite{navilgiblog}}
+\label{fig:1}
 \end{figure}
 
 \subsection{Evaluation}
-WSD systems are evaluated by comparing in terms of their coverage, precision and recall with respect to a gold tagging (gold tags are provided by human beings). We allow an empty sense assignment in case the system is not able to disambiguate the word. So for each word $w_i$ the output of the classifier lies in $S_i \cup \{\epsilon\}$. We can now define our metrics as follows,
+WSD systems are evaluated by comparing in terms of their coverage, precision and recall with respect to a gold tagging (gold tags are provided by human beings). In our experimental system, we enforce a sense assigned to each word. So for each word $w_i$ the output of the classifier lies in $S_i$. We can now define \textit{precision} as follows,
 \begin{align*}
 Precision = \frac{\text{\# of correct sense tags in the output}}{\text{Total \# of tags in the output}}\\
 %Recall =\frac{\text{\# of correct sense tags in the output}}{\text{Total \# of tags in the gold tagging}}\\
@@ -107,7 +107,7 @@ We use datasets from \textbf{SemEval-2007}~\cite{semeval}. It is an ongoing seri
 \label{sec:baseline-models}
 \begin{description}
 \item[Random Baseline] A naive baseline for word sense disambiguation. A randomly selected sense is made from the set of permissible senses for the target word. \\
-\item[First Sense Baseline (Most Frequent Sense)] A more appropriate baseline model will be to output the sense of the word which is most frequently encountered. On coarse grained senses, using this baseline gives an accuracy ranging from 50-60\%. As noted in~\cite{navigli2009word}, this baseline is often difficult to beat. 
+\item[First Sense Baseline (Most Frequent Sense)] A more appropriate baseline model will be to output the sense of the word which is most frequently encountered. On coarse grained senses, using this baseline gives a relatively high accuracy. As noted in~\cite{navigli2009word}, this baseline is often difficult to beat. We choose this baseline in our experiments.
 \end{description}
 %
 %\subsection{Existing Models}
@@ -117,8 +117,10 @@ We use datasets from \textbf{SemEval-2007}~\cite{semeval}. It is an ongoing seri
 \subsection{Our Model}
 \label{sec:proposed-models}
 %\instructions{Your models and your procedure for learning them go here. Describe both in detail, even if the learning procedure is standard.}
-We employ a graph-based approach to disambiguate senses of a word. Our method is similar to ~\cite{Sinha}. We define a fixed sized window around a target word in the document as its context. We first create a weighted graph of label dependencies for all candidate senses. For every candidate sense $s_{ij}$ for word $w_i$, we have a node in the graph. This node has edges to the all candidate senses of words within a pre-defined window around word $w_i$. These edges are weighed by the dependency score for the pair of senses. The dependency score captures the relationship between two candidate senses for nearby words. Based on the edge weights we assign scores to each node based on a graph-based measure of centrality. The score of a node denotes the ``importance'' of the node in the graph, taking into account its relationship with neighboring nodes.
+We employ a graph-based approach to disambiguate senses of a word. Our method is similar to ~\cite{Sinha}. We define a fixed sized window around a target word in the document as its context. We first create a weighted graph of label dependencies for all candidate senses. For every candidate sense $s_{ij}$ for word $w_i$, we create a node in the graph. This node has edges to the all candidate senses of words within a pre-defined window around word $w_i$. These edges are weighed by the dependency score for the pair of senses. The dependency score captures the relationship between two candidate senses for nearby words. Based on the edge weights, we assign scores to each node based on a graph-based measure of centrality. The score of a node denotes the ``importance'' of the node in the graph, taking into account its relationship with neighboring nodes.
 Our method is different from~\cite{Sinha} in that we make use of the coarse grain senses provided in the Semeval corpus to construct our graph. Consequently, our graph is less dense than the graph constructed in~\cite{Sinha}.
+We provide details about our algorithm framework in Figure~\ref{fig:2} and Figure~\ref{fig:3}. Please note our algorithm is flexible in choices of similarity metrics for $edgeCost$ and centrality measures for $score(V_i)$.
+
 \subsection{Measures of Centrality}
 We use two measures of centrality - closeness and in-degree - for scoring the vertices in our graph. These were originally proposed in \cite{Sinha}. They are defined as follows, \\
 \begin{align*} 
@@ -157,23 +159,28 @@ Each $w_i \in W$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{
 	}
 }
 \end{algorithm}
-\caption{Algorithm to generate the graph (adapted from~\cite{Sinha})}
-\label{algorithm}
+\caption{Algorithm framework to generate the graph (adapted from~\cite{Sinha})}
+\label{fig:2}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 \begin{algorithm}[H]
 \For{$word_i \gets w_1$ \textbf{to} $w_n$}
 {
 	$sense_i\gets \max\limits_{V_i \in S_i} score(V_i)$ \\
-	where $S_i$ corresponds to possible senses of $word_i$ and $V_i$ is the respective vertex and score is the score assigned by using one of the graph centrality measures.
+	where $S_i$ corresponds to possible senses of $word_i$, $V_i$ is the respective vertex and \textit{score} is the score assigned by using one of the graph centrality measures.
 }
 \end{algorithm}
-\caption{Algorithm to assign Senses}
+\caption{Algorithm framework to assign Senses}
+\label{fig:3}
 \end{figure}
 
 \section{Experiments}
 \label{sec:experiments}
+
+\subsection{Experimental Setting}
+We performed our experiments using a multi-threaded java implementation of the algorithm in figure~\ref{fig:2} and~\ref{fig:3}. The window size used for all the experiments was 10. Our system also requires some libraries such as ``Wordnet" database and ``WS4J" library. We use the the latest released version for Wordnet 3.0 from~\cite{wordneturl}. We compute the similarity metrics by utilizing WS4J library from~\cite{WS4Jurl}. We have documented our experimental results in table \ref{table:1}, table \ref{table:2} and table \ref{table:3}. We have also listed the final ranking for the SemEval-2007 task for comparison of our system with other systems in table~\ref{table:4}.
+
 \label{sec:experimental-results}
 \begin{table}[H]
 \centering
@@ -258,7 +265,7 @@ UofL & 52.59 \\
 SUSSX-C-WD & 54.54 \\
 SUSSX-CR & 54.30 \\
 \end{tabular}
-\caption{Final Ranking for the SemEval-2007 Task. We have included our system in the list for comparison. The precision reported is for the best setting (using Lesk+In-Degree)}
+\caption{Final Ranking for the SemEval-2007 Task. We have included our system in the list for comparison. The precision reported is for the best setting (using Lesk+In-Degree). Data for other systems is from~\cite{navigli2007semeval}}
 \label{table:4}
 \end{table}
 % END RECEIVE ORGTBL results
@@ -281,19 +288,22 @@ SUSSX-CR & 54.30 \\
 | SUSSX-CR     |     54.30 |
 \end{comment}
 
-\subsection{Experimental Setting}
-We performed our experiments using a multi-threaded java implementation of the algorithm in figure \ref{algorithm}. The window size used for all the experiments was 10. Our system also requires some libraries such as ``Wordnet" database and ``WS4J" library. We use the the latest released version for Wordnet 3.0 from~\cite{wordneturl}. We compute the similarity metrics by utilizing WS4J library from~\cite{WS4Jurl}. We have documented our experimental results in table \ref{table:1}, table \ref{table:2} and table \ref{table:3}. We have also listed the final ranking for the SemEval-2007 task for comparison of our system with other systems in \ref{table:4}. 
-
-\section{Experimental Results and Conclusion}
-
-In table \ref{table:1}, we show the precision of our system for different combinations of similarity metric and centrality scoring method. We notice that the performance of all similarity metrics improve on using the in-degree centrality scoring. A reason for this may be the local nature of the in-degree metric - it only accounts for the number of incident edges when scoring a vertex, which is a local feature of the graph. On the other hand, closeness accounts for distances to all vertices in the graph and is hence a global feature of the graph. So the experiments indicate that local features of the graph are a better choice.   
+\subsection{Further Analysis and Extensions}
+In table \ref{table:1}, we show the precision of our system for different combinations of similarity metric and centrality scoring method. We notice that the performance of all similarity metrics improve on using the in-degree centrality scoring. A reason for this may be the local nature of the in-degree metric - it only accounts for the number of incident edges when scoring a vertex, which is a local feature of the graph. On the other hand, closeness accounts for distances to all vertices in the graph and is hence a global feature of the graph. So the experiments indicate that local features of the graph are better choices.   
 
 Table \ref{table:2} shows the precision of the system for different part-of-speech tags. We deduce that disambiguating the sense of nouns and verbs are relatively difficult tasks, while doing the same with adverbs is easier. 
 
-Table \ref{table:3} shows the document-wise precision for our system for different combinations of the metric and scoring methods.
+Table \ref{table:3} shows the document-wise precision of our system for different combinations of the metric and scoring methods.
 From table \ref{table:4} we realize that the baseline of using the most frequent sense of the word is actually hard to beat. This is also evident from the final rankings in the SemEval-2007 task, where many teams performed worse than the baseline. 
 
-In this project, we described an graphical approach to WSD. From the experiments it is clear that with the right combination of graph centrality scoring method and similarity metric, we can achieve performance comparable to the state-of-the-art system.  
+We have also tried with some variations for our developed system. 
+\begin{enumerate}
+\item We designed a ``Bounded-Closeness" centrality measure and tested along with ``Lest" similarity metric. We can also achieve the overall precision of $80.34$. Here, ``Bounded-Closeness" centrality measure only considers vertices within the pre-defined window and uses the same score function with ``closeness".
+\item We tried with different window sizes. We can achieve the overall precision of $79.92$ with window size of $8$. Though we have a small drop in precision, the running time of our algorithm can be reduced as we will contruct a more sparse graph.
+\end{enumerate}
+
+\section{Conclusion}
+In this project, we described a graph-based approach to solve WSD. From the experimental results, it is clear that with the right combination of graph centrality scoring method and similarity metric, we can achieve performance comparable to the state-of-the-art system. We also get the insight that for WSD, local decisions can perform better than global decisions in general. From further analysis and extensions, there can still be impovement in our algorithm framework. We leave them as our future work.
 
 %\section*{Your current to-do list}
 %\paragraph{Done}
