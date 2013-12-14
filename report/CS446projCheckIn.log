@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  13 DEC 2013 21:17
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  13 DEC 2013 21:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -472,54 +472,53 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 32.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 38.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 37.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 42.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 41.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 52.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 52.
  [1
 
 {/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
 <wsd.png, id=86, 401.5pt x 288.07625pt>
 File: wsd.png Graphic file (type png)
  <use wsd.png>
-Package pdftex.def Info: wsd.png used on input line 83.
+Package pdftex.def Info: wsd.png used on input line 84.
 (pdftex.def)             Requested size: 321.20042pt x 230.4613pt.
  [3 <./wsd.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 107--108
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 121--122
+Underfull \hbox (badness 10000) in paragraph at lines 108--109
 
  []
 
 [4]
+Underfull \hbox (badness 10000) in paragraph at lines 122--123
+
+ []
+
 LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 155.
- [5]
-Overfull \hbox (9.26274pt too wide) in paragraph at lines 208--222
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 156.
+
+Overfull \hbox (6.27087pt too wide) in paragraph at lines 206--220
 [][] 
  []
 
-(./CS446projCheckIn.bbl [6] [7])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 301.
+(./CS446projCheckIn.bbl [5] [6] [7])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 299.
  [8]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 301.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 299.
  (./CS446projCheckIn.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 301.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 301.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 299.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 299.
 Package rerunfilecheck Info: File `CS446projCheckIn.out' has not changed.
 (rerunfilecheck)             Checksum: 044C0BC702B0C703E2AD1C9F78BD7BC1;715.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 301.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 299.
  ) 
 Here is how much of TeX's memory you used:
- 9255 strings out of 493315
- 136103 string characters out of 6137904
- 260184 words of memory out of 5000000
+ 9254 strings out of 493315
+ 136088 string characters out of 6137904
+ 265184 words of memory out of 5000000
  12526 multiletter control sequences out of 15000+600000
  48249 words of font info for 96 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
@@ -535,10 +534,10 @@ s/type1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/ur
 w/times/utmbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/u
 tmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb
 >
-Output written on CS446projCheckIn.pdf (8 pages, 173312 bytes).
+Output written on CS446projCheckIn.pdf (8 pages, 173565 bytes).
 PDF statistics:
- 215 PDF objects out of 1000 (max. 8388607)
- 191 compressed objects within 2 object streams
- 60 named destinations out of 1000 (max. 500000)
+ 214 PDF objects out of 1000 (max. 8388607)
+ 190 compressed objects within 2 object streams
+ 59 named destinations out of 1000 (max. 500000)
  110 words of extra memory for PDF output out of 10000 (max. 10000000)
 

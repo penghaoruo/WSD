@@ -182,9 +182,8 @@ Each $w_i \in W$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{
 
 \subsection{Experimental results}
 \label{sec:experimental-results}
-\begin{figure}
+\begin{table}
 \centering
-\begin{minipage}{.5\linewidth}
 \begin{tabular}{|c|c|c|c|c|c|}
   & Lesk & LeacockChodrow & WuPalmer & Resnick & Lin  \\
 \hline
@@ -192,8 +191,6 @@ Closeness & 73.56 & 63.77 & 64.17 & 68.66 & 67.12\\
 Indegree & 80.34 & 80.34 & 80.34 & 80.34 & 80.34 \\
 \end{tabular}
 \caption{Precision of our system for different graph-centrality measures. We have reported the best performing systems for each measure, over all possible choices of similarity metric.}
-\end{minipage}
-\quad
 \begin{tabular}{|c|c|c|c|c|c|}
 POS & LeacockChodrow & Lesk & WuPalmer & Resnick & Lin  \\
 \hline
@@ -203,9 +200,9 @@ Verb & 52.12 & 61.60 & 56.85 & 52.96 & 57.53\\
 Adverb & 87.01 & 87.50 & 87.50 & 87.50 & 87.50\\
 \end{tabular}
 \caption{Precision for different part-of-speeches for each metric. The graph-centrality measure used for all results was closeness.}
-\end{figure}
+\end{table}
 % BEGIN RECEIVE ORGTBL test
-\begin{figure}
+\begin{table}
 \begin{tabular}{|l|r|r|r|r|r|}
 Metric & doc1 (368) & doc2 (379) & doc3 (345) & Doc4 (500) & Doc5 (677) \\
 \hline
@@ -221,7 +218,7 @@ Resnick+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
 Lin+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
 \end{tabular}
 \caption{Document-wise precision for different combinations of metrics and graph-centrality measures. For each document, the total number of ambiguous words are shown in parenthesis.}
-\end{figure}
+\end{table}
 % END RECEIVE ORGTBL test
 \begin{comment}
 #+ORGTBL: SEND test orgtbl-to-latex :splice nil :skip 0
@@ -238,7 +235,7 @@ Lin+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
 | Lin+indegree             |      86.14 |      86.28 |      76.52 |       80.4 |      75.78 |
 \end{comment}
 % BEGIN RECEIVE ORGTBL results
-\begin{figure}
+\begin{table}
 \centering
 \begin{tabular}{|l|r|}
 System & Precision \\
@@ -260,7 +257,7 @@ SUSSX-C-WD & 54.54 \\
 SUSSX-CR & 54.30 \\
 \end{tabular}
 \caption{Final Ranking for the SemEval-2007 Task. We have included our system in the list for comparison. The precision reported is for the best setting (using Lesk+In-Degree)}
-\end{figure}
+\end{table}
 % END RECEIVE ORGTBL results
 \begin{comment}
 #+ORGTBL: SEND results orgtbl-to-latex :splice nil :skip 0
@@ -283,18 +280,18 @@ SUSSX-CR & 54.30 \\
 
 \section{Conclusion}
 From the experimental results we can infer that the baseline is actually hard to beat. This is also evident from the final rankings in the SemEval-2007 task, where many teams performed worse than the baseline. 
-\section*{Your current to-do list}
-\paragraph{Done}
-\begin{enumerate}
-\item Implemented the code.
-\item Obtained the Semeval 2007 dataset.
-\item Added relevant related work.
-\end{enumerate}
-\paragraph{Left to do}
-\begin{enumerate}
-\item Running experiments with different similarity metrics.
-\item Write-up.
-\end{enumerate}
+%\section*{Your current to-do list}
+%\paragraph{Done}
+%\begin{enumerate}
+%\item Implemented the code.
+%\item Obtained the Semeval 2007 dataset.
+%\item Added relevant related work.
+%\end{enumerate}
+%\paragraph{Left to do}
+%\begin{enumerate}
+%\item Running experiments with different similarity metrics.
+%\item Write-up.
+%\end{enumerate}
 
 
 \bibliographystyle{plain}
