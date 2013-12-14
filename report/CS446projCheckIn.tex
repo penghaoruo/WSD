@@ -255,6 +255,7 @@ SUSSX-C-WD & 54.54 \\
 SUSSX-CR & 54.30 \\
 \end{tabular}
 \caption{Final Ranking for the SemEval-2007 Task. We have included our system in the list for comparison. The precision reported is for the best setting (using Lesk+In-Degree)}
+\label{table:4}
 \end{table}
 % END RECEIVE ORGTBL results
 \begin{comment}
@@ -277,11 +278,16 @@ SUSSX-CR & 54.30 \\
 \end{comment}
 
 \subsection{Experimental results}
-We have documented our experimental results in table \ref{table:1}, table \ref{table:2} and table \ref{table:3}. We have also listed the final ranking for the SemEval-2007 task for comparison of our system with other systems. In table \ref{table:1}, we show the precision of our system for different combinations of similarity metric and centrality scoring method. We notice that the performance of all similarity metrics improve on using the in-degree centrality scoring. A reason for this may be the local nature of the in-degree metric - it only accounts for the number of incident edges when scoring a vertex, which is a local feature of the graph. On the other hand, closeness accounts for distances to all vertices in the graph and is hence a global feature of the graph. So the experiments indicate that local features of the graph are a better choice.   
+We have documented our experimental results in table \ref{table:1}, table \ref{table:2} and table \ref{table:3}. We have also listed the final ranking for the SemEval-2007 task for comparison of our system with other systems in \ref{table:4}. 
+
+In table \ref{table:1}, we show the precision of our system for different combinations of similarity metric and centrality scoring method. We notice that the performance of all similarity metrics improve on using the in-degree centrality scoring. A reason for this may be the local nature of the in-degree metric - it only accounts for the number of incident edges when scoring a vertex, which is a local feature of the graph. On the other hand, closeness accounts for distances to all vertices in the graph and is hence a global feature of the graph. So the experiments indicate that local features of the graph are a better choice.   
 
 Table \ref{table:2} shows the precision of the system for different part-of-speech tags. We deduce that disambiguating the sense of nouns and verbs are relatively difficult tasks, while doing the same with adverbs is easier. 
+
+Table \ref{table:3} shows the document-wise precision for our system for different combinations of the metric and scoring methods.
+From table \ref{table:4} we realize that the baseline of using the most frequent sense of the word is actually hard to beat. This is also evident from the final rankings in the SemEval-2007 task, where many teams performed worse than the baseline. 
+
 \section{Conclusion}
-From the experimental results we can infer that the baseline is actually hard to beat. This is also evident from the final rankings in the SemEval-2007 task, where many teams performed worse than the baseline. 
 %\section*{Your current to-do list}
 %\paragraph{Done}
 %\begin{enumerate}
