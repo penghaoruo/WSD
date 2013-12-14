@@ -4,4 +4,6 @@
 .project
 .DS_Store
 .pdf
+.log
+.aux
 /bin
