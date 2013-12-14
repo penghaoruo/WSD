@@ -30,24 +30,25 @@
 \author{Haoruo Peng (hpeng7@illinois.edu) \and Shyam Upadhyay (upadhya3@illinois.edu)}
 \maketitle
 \begin{abstract}
-We investigate the task of word sense disambiguation using an unsupervised approach. Word sense disambiguation is the task of identifying the correct sense for a word which can possibly admit multiple senses. We use the Semeval-2007 dataset to evaluate the performance of our system. We use a graph based approach to disambiguate senses; the underlying assumption is that the sense of the neighboring words can assist in inferring the sense of the target word. In this respect, the senses are learnt in a joint-manner. Using appropriate weights in the graph constructed for all possible senses, we can use the graph to obtain measures of centrality, which can guide the sense-disambiguation.
-%\instructions{Very briefly, summarize your task, your model and your main results}
+We investigate the task of word sense disambiguation using an unsupervised approach. Word sense disambiguation is the task of identifying the correct sense for a word which can possibly admit multiple senses. We use the Semeval-2007 dataset to evaluate the performance of our system. We use a graph based approach to disambiguate senses; the underlying assumption is that the sense of the neighboring words can assist in inferring the sense of the target word. In this respect, the senses are learnt in a joint-manner. Using appropriate weights in the graph constructed for all possible senses, we can use the graph to obtain measures of centrality, which can guide the sense-disambiguation. From the experimental results, our system ranks 4th out of 15 existing systems. We also report further results and analysis in some variation of our system.
 \end{abstract}
 
 
 \section{Introduction} 
 \label{sec:introduction}
-In natural language, a word may be associated with possibly multiple meanings, depending on the context in which the word occurs. For instance, the word pen has the following senses according to Wordnet~\cite{wordnet}:
+In natural language, a word may be associated with possibly multiple meanings, depending on the context in which the word occurs. For instance, the word ``pen" has the following senses according to Wordnet~\cite{wordnet}:
 \begin{description}
 \item [pen] : a writing implement with a point from which ink flows
 \item [pen] : an enclosure for confining livestock
 \item [pen] : a female swan
 \end{description}
+
 In linguistic parlance such words are called polysemous. \emph{Word sense disambiguation}(WSD) is the problem of determining the correct sense of a polysemous word in a given sentence or document. Features of the document (like neighboring words, earlier usage of the same word etc.) help in determining the sense. For example, determining the correct sense of the word ``pen" in the following passage:
 \begin{verbatim}
 Little John was looking for his toy box. Finally he found it. 
 The box was in the pen. John was very happy.
 \end{verbatim}
+
 WSD can be viewed as a multi-class classification problem, where each word admits several possible senses and the task is to identify the correct sense of a given word given its context and knowledge sources. The inherent difficulty of WSD is evident from the fact that the target classes change for each word in the lexicon. In this respect, WSD involves training $n$ different classifiers, one for each word in a lexicon of size $n$. 
 %\subsection{Motivation}
 WSD is a intermediate step in language processing, like part-of-speech tagging or shallow parsing. It is a key component for natural language processing systems which involves semantic interpretation of text. Tasks such as machine translation, information retrieval, data mining, web data analysis can greatly benefit from text disambiguation tools. 
@@ -181,8 +182,9 @@ Each $w_i \in W$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{
 
 \subsection{Experimental results}
 \label{sec:experimental-results}
-\begin{table}
+\begin{figure}
 \centering
+\begin{minipage}{.5\linewidth}
 \begin{tabular}{|c|c|c|c|c|c|}
   & Lesk & LeacockChodrow & WuPalmer & Resnick & Lin  \\
 \hline
@@ -190,9 +192,8 @@ Closeness & 73.56 & 63.77 & 64.17 & 68.66 & 67.12\\
 Indegree & 80.34 & 80.34 & 80.34 & 80.34 & 80.34 \\
 \end{tabular}
 \caption{Precision of our system for different graph-centrality measures. We have reported the best performing systems for each measure, over all possible choices of similarity metric.}
-\end{table}
-\begin{table}
-\centering
+\end{minipage}
+\quad
 \begin{tabular}{|c|c|c|c|c|c|}
 POS & LeacockChodrow & Lesk & WuPalmer & Resnick & Lin  \\
 \hline
@@ -202,11 +203,11 @@ Verb & 52.12 & 61.60 & 56.85 & 52.96 & 57.53\\
 Adverb & 87.01 & 87.50 & 87.50 & 87.50 & 87.50\\
 \end{tabular}
 \caption{Precision for different part-of-speeches for each metric. The graph-centrality measure used for all results was closeness.}
-\end{table}
+\end{figure}
 % BEGIN RECEIVE ORGTBL test
-\begin{table}
+\begin{figure}
 \begin{tabular}{|l|r|r|r|r|r|}
-Metric & $Doc_1$ (368) & $Doc_2$ (379) & $Doc_3$ (345) & $Doc_4$ (500) & $Doc_5$ (677) \\
+Metric & doc1 (368) & doc2 (379) & doc3 (345) & Doc4 (500) & Doc5 (677) \\
 \hline
 LeacockChodrow+closeness & 69.84 & 69.39 & 57.69 & 68.40 & 57.01 \\
 Lesk+closeness & 83.42 & 83.64 & 62.60 & 75.40 & 66.77 \\
@@ -220,7 +221,7 @@ Resnick+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
 Lin+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
 \end{tabular}
 \caption{Document-wise precision for different combinations of metrics and graph-centrality measures. For each document, the total number of ambiguous words are shown in parenthesis.}
-\end{table}
+\end{figure}
 % END RECEIVE ORGTBL test
 \begin{comment}
 #+ORGTBL: SEND test orgtbl-to-latex :splice nil :skip 0
@@ -237,7 +238,7 @@ Lin+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
 | Lin+indegree             |      86.14 |      86.28 |      76.52 |       80.4 |      75.78 |
 \end{comment}
 % BEGIN RECEIVE ORGTBL results
-\begin{table}
+\begin{figure}
 \centering
 \begin{tabular}{|l|r|}
 System & Precision \\
@@ -259,7 +260,7 @@ SUSSX-C-WD & 54.54 \\
 SUSSX-CR & 54.30 \\
 \end{tabular}
 \caption{Final Ranking for the SemEval-2007 Task. We have included our system in the list for comparison. The precision reported is for the best setting (using Lesk+In-Degree)}
-\end{table}
+\end{figure}
 % END RECEIVE ORGTBL results
 \begin{comment}
 #+ORGTBL: SEND results orgtbl-to-latex :splice nil :skip 0
@@ -282,18 +283,18 @@ SUSSX-CR & 54.30 \\
 
 \section{Conclusion}
 From the experimental results we can infer that the baseline is actually hard to beat. This is also evident from the final rankings in the SemEval-2007 task, where many teams performed worse than the baseline. 
-%\section*{Your current to-do list}
-%\paragraph{Done}
-%\begin{enumerate}
-%\item Implemented the code.
-%\item Obtained the Semeval 2007 dataset.
-%\item Added relevant related work.
-%\end{enumerate}
-%\paragraph{Left to do}
-%\begin{enumerate}
-%\item Running experiments with different similarity metrics.
-%\item Write-up.
-%\end{enumerate}
+\section*{Your current to-do list}
+\paragraph{Done}
+\begin{enumerate}
+\item Implemented the code.
+\item Obtained the Semeval 2007 dataset.
+\item Added relevant related work.
+\end{enumerate}
+\paragraph{Left to do}
+\begin{enumerate}
+\item Running experiments with different similarity metrics.
+\item Write-up.
+\end{enumerate}
 
 
 \bibliographystyle{plain}
