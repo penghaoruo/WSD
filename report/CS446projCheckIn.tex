@@ -7,7 +7,7 @@
 \usepackage{hyperref}
 \usepackage{mathptmx}
 \usepackage{caption}
-
+\usepackage{comment}
 
 \usepackage[ruled,linesnumbered,vlined]{algorithm2e}
 \SetNlSty{textbf}{}{:}
@@ -117,6 +117,12 @@ Our work also requires some libraries such as ``Wordnet" database and ``WS4J" li
 %\instructions{Your models and your procedure for learning them go here. Describe both in detail, even if the learning procedure is standard.}
 We employ a graph-based approach to disambiguate senses of a word. Our method is similar to ~\cite{Sinha}. We define a fixed sized window around a target word in the document as its context. We first create a weighted graph of label dependencies for all candidate senses. For every candidate sense $s_{ij}$ for word $w_i$, we have a node in the graph. This node has edges to the all candidate senses of words within a pre-defined window around word $w_i$. These edges are weighed by the dependency score for the pair of senses. The dependency score captures the relationship between two candidate senses for nearby words. Based on the edge weights we assign scores to each node based on a graph-based measure of centrality. The score of a node denotes the "importance" of the node in the graph, taking into account its relationship with neighboring nodes.
 Our method is different from~\cite{Sinha} in that we make use of the coarse grain senses provided in the Semeval corpus to construct our graph. Consequently, our graph is less dense than the graph constructed in~\cite{Sinha}.
+\subsection{Measures of Centrality}
+We use two measures of centrality - closeness and in-degree - for scoring the vertices in our graph. These were originally proposed in \cite{Sinha}. They are defined as follows, \\
+\begin{align*} 
+\text{closeness}(V)= \frac{1}{\sum\limits_{T \in Vertices}{\text{length of shortest path from V to T}}} \\
+\text{in-degree}(V)= \sum\limits_{T \in Vertices} \text{there exists an edge from T to V} \\
+\end{align*} 
 \begin{figure}
 \begin{algorithm}[H]
 \SetKwInOut{Input}{input}
@@ -175,7 +181,6 @@ Each $w_i \in W$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{
 
 \subsection{Experimental results}
 \label{sec:experimental-results}
-%\instructions{Now give the actual experimental results (use figures/tables/graphs as appropriate), and discuss whether they verify or falsify your hypotheses. How important are the various features your models use (consider ablation studies). How robust are your results? (Look at learning curves, or the variance when you perform cross-validation). Can you perform an error analysis?}
 \begin{figure}
 \centering
 \begin{minipage}{.5\linewidth}
@@ -189,18 +194,20 @@ Indegree & 80.34 \\
 \end{minipage}
 \quad
 \begin{tabular}{|c|c|c|c|c|c|}
- & LeacockChodrow & Lesk & WuPalmer & Resnick & Lin  \\
+POS & LeacockChodrow & Lesk & WuPalmer & Resnick & Lin  \\
 \hline
 Noun & 58.30 & 73.47 & 56.50& 67.78 & 62.18\\
 Adjective & 86.19 & 85.36 & 86.19 & 86.19 & 86.19\\
 Verb & 52.12 & 61.60 & 56.85 & 52.96 & 57.53\\
 Adverb & 87.01 & 87.50 & 87.50 & 87.50 & 87.50\\
 \end{tabular}
-\caption{Table 2}
+\caption{Precision for different part-of-speeches for each metric. The graph-centrality measure used for all results was closeness.}
 \end{figure}
 % BEGIN RECEIVE ORGTBL test
-\begin{tabular}{lrrrrr}
+\begin{figure}
+\begin{tabular}{|l|r|r|r|r|r|}
 Metric & doc1 (368) & doc2 (379) & doc3 (345) & Doc4 (500) & Doc5 (677) \\
+\hline
 LeacockChodrow+closeness & 69.84 & 69.39 & 57.69 & 68.40 & 57.01 \\
 Lesk+closeness & 83.42 & 83.64 & 62.60 & 75.40 & 66.77 \\
 WuPalmer+closeness & 69.87 & 66.49 & 56.81 & 68.4 & 60.41 \\
@@ -212,6 +219,8 @@ WuPalmer+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
 Resnick+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
 Lin+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
 \end{tabular}
+\caption{Document-wise precision for different combinations of metrics and graph-centrality measures. For each document, the total number of ambiguous words are shown in parenthesis.}
+\end{figure}
 % END RECEIVE ORGTBL test
 \begin{comment}
 #+ORGTBL: SEND test orgtbl-to-latex :splice nil :skip 0
@@ -227,9 +236,14 @@ Lin+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
 | Resnick+indegree         |      86.14 |      86.28 |      76.52 |       80.4 |      75.78 |
 | Lin+indegree             |      86.14 |      86.28 |      76.52 |       80.4 |      75.78 |
 \end{comment}
+#+ BEGIN RECEIVE ORGTBL results
+#+ END RECEIVE ORGTBL results
+
+#+ORGTBL: SEND results orgtbl-to-orgtbl :splice nil :skip 0
+System| | |
 
 \section{Conclusion}
-From the experimental results we can infer that the baseline is actually
+From the experimental results we can infer that the baseline is actually hard to beat. This is also evident from the final rankings in the SemEval-2007 task, where many teams performed worse than the baseline. 
 \section*{Your current to-do list}
 \paragraph{Done}
 \begin{enumerate}
