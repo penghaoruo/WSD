@@ -92,15 +92,13 @@ We are given a a document $D$ and sequence of target words $(w_1,w_2 \cdots w_n)
 WSD systems are evaluated by comparing in terms of their coverage, precision and recall with respect to a gold tagging (gold tags are provided by human beings). We allow an empty sense assignment in case the system is not able to disambiguate the word. So for each word $w_i$ the output of the classifier lies in $S_i \cup \{\epsilon\}$. We can now define our metrics as follows,
 \begin{align*}
 Precision = \frac{\text{\# of correct sense tags in the output}}{\text{Total \# of tags in the output}}\\
-Recall =\frac{\text{\# of correct sense tags in the output}}{\text{Total \# of tags in the gold tagging}}\\
-Coverage =\frac{\text{\# of tags in the output}}{\text{Total \# of correct tags in the gold tagging}}
+%Recall =\frac{\text{\# of correct sense tags in the output}}{\text{Total \# of tags in the gold tagging}}\\
+%Coverage =\frac{\text{\# of tags in the output}}{\text{Total \# of correct tags in the gold tagging}}
 \end{align*}
 \subsection{The Data}
 \label{sec:data}
 %\instructions{Describe the data you use to train and evaluate your models. Describe where you got it from (include references/citations to published works, or URLs!). Describe and give examples for the features that you have access to.} 
-We use datasets from \textbf{SemEval-2007}~\cite{semeval}. It is an ongoing series of evaluations of computational semantic analysis systems; it evolved from the Senseval word sense evaluation series. We choose a specific dataset from ``Task \# 7: Coarse-grained English all-words (Coarse AW)" to do both the training and testing. The chosen dataset contains coarse grained tags for approximately 6,000 words from five running texts. The coarse senses were based on a clustering of the WordNet sense inventory obtained via a mapping to the Oxford Dictionary of English (ODE), a long-established dictionary which encodes coarse sense distinctions. The dataset also contains the coarse-grained sense inventory which is prepared semi-automatically: starting from an automatic clustering of senses produced by~\cite{Navigli06} with the Structural Semantic Interconnections (SSI) algorithm, and then manually validate the clustering for the words occurring in the text. For each content word the dataset provides lemma and part of speech.
-
-Our work also requires some libraries such as ``Wordnet" database and ``WS4J" library. We use the the latest released version for Wordnet 3.0 from~\cite{wordneturl}. We compute the similarity metrics by utilizing WS4J library from~\cite{WS4Jurl}.
+We use datasets from \textbf{SemEval-2007}~\cite{semeval}. It is an ongoing series of evaluations of computational semantic analysis systems; it evolved from the Senseval word sense evaluation series. We choose a specific dataset from ``Task \#7: Coarse-grained English all-words (Coarse AW)" to do both the training and testing. The chosen dataset contains coarse grained tags for approximately 6,000 words from five running texts. The coarse senses were based on a clustering of the WordNet sense inventory obtained via a mapping to the Oxford Dictionary of English (ODE), a long-established dictionary which encodes coarse sense distinctions. The dataset also contains the coarse-grained sense inventory which is prepared semi-automatically: starting from an automatic clustering of senses produced by~\cite{Navigli06} with the Structural Semantic Interconnections (SSI) algorithm, and then manually validate the clustering for the words occurring in the text. For each content word the dataset provides lemma and part of speech.
 
 \section{The Models}
 \label{sec:models}
@@ -126,8 +124,9 @@ We use two measures of centrality - closeness and in-degree - for scoring the ve
 \begin{align*} 
 \text{closeness}(V)= \frac{1}{\sum\limits_{T \in Vertices}{\text{length of shortest path from V to T}}} \\
 \text{in-degree}(V)= \sum\limits_{T \in Vertices} \text{there exists an edge from T to V} \\
-\end{align*} 
-\begin{figure}
+\end{align*}
+
+\begin{figure}[H] 
 \begin{algorithm}[H]
 \SetKwInOut{Input}{input}
 \SetKwInOut{Output}{output}
@@ -157,21 +156,26 @@ Each $w_i \in W$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{
 		}
 	}
 }
-\caption{Algorithm to generate the graph (adapted from~\cite{Sinha})}
 \end{algorithm}
+\caption{Algorithm to generate the graph (adapted from~\cite{Sinha})}
+\label{algorithm}
+\end{figure}
+
+\begin{figure}
 \begin{algorithm}[H]
 \For{$word_i \gets w_1$ \textbf{to} $w_n$}
 {
 	$sense_i\gets \max\limits_{V_i \in S_i} score(V_i)$ \\
-	where $S_i$ corresponds to possible senses of $word_i$ and $V_i$ is the respective vertex
+	where $S_i$ corresponds to possible senses of $word_i$ and $V_i$ is the respective vertex and score is the score assigned by using one of the graph centrality measures.
 }
-\caption{Algorithm to assign Senses}
 \end{algorithm}
+\caption{Algorithm to assign Senses}
 \end{figure}
+
 \section{Experiments}
 \label{sec:experiments}
 \label{sec:experimental-results}
-\begin{table} 
+\begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|c|}
   & Lesk & LeacockChodrow & WuPalmer & Resnick & Lin  \\
@@ -183,7 +187,7 @@ In-Degree & 80.34 & \textbf{80.34} & 80.34 & 80.34 & 80.34 \\
 \label{table:1}
 \end{table}
 
-\begin{table}  
+\begin{table}[H]  
 \centering
 \begin{tabular}{|c|c|c|c|c|c|}
 POS & LeacockChodrow & Lesk & WuPalmer & Resnick & Lin  \\
@@ -193,12 +197,12 @@ Adjective & \textbf{86.19} & 85.36 & \textbf{86.19} & \textbf{86.19} & \textbf{8
 Verb & 52.12 & \textbf{61.60} & 56.85 & 52.96 & 57.53\\
 Adverb & 87.01 & \textbf{87.50} & \textbf{87.50} & \textbf{87.50} & \textbf{87.50}\\
 \end{tabular}
-\caption{Precision for different part-of-speeches for each metric. The graph-centrality measure used for all results was closeness.}
+\caption{Precision for different part-of-speeches for each metric. The graph-centrality measure used for all results was closeness. The best results for each POS are highlighted.}
 \label{table:2}
 \end{table}
 
 % BEGIN RECEIVE ORGTBL test
-\begin{table} 
+\begin{table}[H]
 \begin{tabular}{|l|r|r|r|r|r|}
 Metric & $Doc_1$ (368) & $Doc_2$ (379) & $Doc_3$ (345) & $Doc_4$ (500) & $Doc_5$ (677) \\
 \hline
@@ -233,7 +237,7 @@ Lin+in-degree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
 | Lin+in-degree             |      86.14 |      86.28 |      76.52 |       80.4 |      75.78 |
 \end{comment}
 % BEGIN RECEIVE ORGTBL results
-\begin{table}
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|r|}
 System & Precision \\
@@ -277,8 +281,10 @@ SUSSX-CR & 54.30 \\
 | SUSSX-CR     |     54.30 |
 \end{comment}
 
-\subsection{Experimental results}
-We have documented our experimental results in table \ref{table:1}, table \ref{table:2} and table \ref{table:3}. We have also listed the final ranking for the SemEval-2007 task for comparison of our system with other systems in \ref{table:4}. 
+\subsection{Experimental Setting}
+We performed our experiments using a multi-threaded java implementation of the algorithm in figure \ref{algorithm}. The window size used for all the experiments was 10. Our system also requires some libraries such as ``Wordnet" database and ``WS4J" library. We use the the latest released version for Wordnet 3.0 from~\cite{wordneturl}. We compute the similarity metrics by utilizing WS4J library from~\cite{WS4Jurl}. We have documented our experimental results in table \ref{table:1}, table \ref{table:2} and table \ref{table:3}. We have also listed the final ranking for the SemEval-2007 task for comparison of our system with other systems in \ref{table:4}. 
+
+\section{Experimental Results and Conclusion}
 
 In table \ref{table:1}, we show the precision of our system for different combinations of similarity metric and centrality scoring method. We notice that the performance of all similarity metrics improve on using the in-degree centrality scoring. A reason for this may be the local nature of the in-degree metric - it only accounts for the number of incident edges when scoring a vertex, which is a local feature of the graph. On the other hand, closeness accounts for distances to all vertices in the graph and is hence a global feature of the graph. So the experiments indicate that local features of the graph are a better choice.   
 
@@ -287,7 +293,8 @@ Table \ref{table:2} shows the precision of the system for different part-of-spee
 Table \ref{table:3} shows the document-wise precision for our system for different combinations of the metric and scoring methods.
 From table \ref{table:4} we realize that the baseline of using the most frequent sense of the word is actually hard to beat. This is also evident from the final rankings in the SemEval-2007 task, where many teams performed worse than the baseline. 
 
-\section{Conclusion}
+In this project, we described an graphical approach to WSD. From the experiments it is clear that with the right combination of graph centrality scoring method and similarity metric, we can achieve performance comparable to the state-of-the-art system.  
+
 %\section*{Your current to-do list}
 %\paragraph{Done}
 %\begin{enumerate}
