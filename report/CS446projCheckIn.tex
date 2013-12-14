@@ -50,8 +50,8 @@ The box was in the pen. John was very happy.
 \end{verbatim}
 
 WSD can be viewed as a multi-class classification problem, where each word admits several possible senses and the task is to identify the correct sense of a given word given its context and knowledge sources. The inherent difficulty of WSD is evident from the fact that the target classes change for each word in the lexicon. In this respect, WSD involves training $n$ different classifiers, one for each word in a lexicon of size $n$. 
-%\subsection{Motivation}
-WSD is a intermediate step in language processing, like part-of-speech tagging or shallow parsing. It is a key component for natural language processing systems which involves semantic interpretation of text. Tasks such as machine translation, information retrieval, data mining, web data analysis can greatly benefit from text disambiguation tools. 
+
+WSD is an intermediate step in language processing, like part-of-speech tagging or shallow parsing. It is a key component for natural language processing systems which involves semantic interpretation of text. Tasks such as machine translation, information retrieval, data mining, web data analysis can greatly benefit from text disambiguation tools. 
 
 
 \section{Background}
@@ -182,7 +182,7 @@ Each $w_i \in W$ admits a set of candidate senses $S_i=(s_{i1},s_{i2} \cdots s_{
 
 \subsection{Experimental results}
 \label{sec:experimental-results}
-\begin{table}
+\begin{table} \label{tab:1}
 \centering
 \begin{tabular}{|c|c|c|c|c|c|}
   & Lesk & LeacockChodrow & WuPalmer & Resnick & Lin  \\
@@ -191,6 +191,10 @@ Closeness & 73.56 & 63.77 & 64.17 & 68.66 & 67.12\\
 Indegree & 80.34 & 80.34 & 80.34 & 80.34 & 80.34 \\
 \end{tabular}
 \caption{Precision of our system for different graph-centrality measures. We have reported the best performing systems for each measure, over all possible choices of similarity metric.}
+\end{table}
+
+\begin{table}  \label{tab:2}
+\centering
 \begin{tabular}{|c|c|c|c|c|c|}
 POS & LeacockChodrow & Lesk & WuPalmer & Resnick & Lin  \\
 \hline
@@ -201,8 +205,9 @@ Adverb & 87.01 & 87.50 & 87.50 & 87.50 & 87.50\\
 \end{tabular}
 \caption{Precision for different part-of-speeches for each metric. The graph-centrality measure used for all results was closeness.}
 \end{table}
+
 % BEGIN RECEIVE ORGTBL test
-\begin{table}
+\begin{table} \label{tab:3}
 \begin{tabular}{|l|r|r|r|r|r|}
 Metric & doc1 (368) & doc2 (379) & doc3 (345) & Doc4 (500) & Doc5 (677) \\
 \hline
@@ -220,6 +225,7 @@ Lin+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
 \caption{Document-wise precision for different combinations of metrics and graph-centrality measures. For each document, the total number of ambiguous words are shown in parenthesis.}
 \end{table}
 % END RECEIVE ORGTBL test
+
 \begin{comment}
 #+ORGTBL: SEND test orgtbl-to-latex :splice nil :skip 0
 | Metric                   | doc1 (368) | doc2 (379) | doc3 (345) | Doc4 (500) | Doc5 (677) |
