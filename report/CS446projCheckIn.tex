@@ -236,11 +236,43 @@ Lin+indegree & 86.14 & 86.28 & 76.52 & 80.4 & 75.78 \\
 | Resnick+indegree         |      86.14 |      86.28 |      76.52 |       80.4 |      75.78 |
 | Lin+indegree             |      86.14 |      86.28 |      76.52 |       80.4 |      75.78 |
 \end{comment}
-#+ BEGIN RECEIVE ORGTBL results
-#+ END RECEIVE ORGTBL results
-
-#+ORGTBL: SEND results orgtbl-to-orgtbl :splice nil :skip 0
-System| | |
+% BEGIN RECEIVE ORGTBL results
+\begin{tabular}{lr}
+System & Precision \\
+NUS-PT & 82.50 \\
+NUS-ML & 81.58 \\
+LCC-WSD & 81.45 \\
+GPLSI & 79.55 \\
+Baseline & 78.89 \\
+UPV-WSD & 78.63 \\
+TKB-UO & 70.21 \\
+PU-BCD & 69.72 \\
+RACAI-SYNWSD & 65.71 \\
+SUSSX-FR & 71.73 \\
+USYD & 58.79 \\
+UofL & 52.59 \\
+SUSSX-C-WD & 54.54 \\
+SUSSX-CR & 54.30 \\
+\end{tabular}
+% END RECEIVE ORGTBL results
+\begin{comment}
+#+ORGTBL: SEND results orgtbl-to-latex :splice nil :skip 0
+| System       | Precision |
+| NUS-PT       |     82.50 |
+| NUS-ML       |     81.58 |
+| LCC-WSD      |     81.45 |
+| GPLSI        |     79.55 |
+| Baseline     |     78.89 |
+| UPV-WSD      |     78.63 |
+| TKB-UO       |     70.21 |
+| PU-BCD       |     69.72 |
+| RACAI-SYNWSD |     65.71 |
+| SUSSX-FR     |     71.73 |
+| USYD         |     58.79 |
+| UofL         |     52.59 |
+| SUSSX-C-WD   |     54.54 |
+| SUSSX-CR     |     54.30 |
+\end{comment}
 
 \section{Conclusion}
 From the experimental results we can infer that the baseline is actually hard to beat. This is also evident from the final rankings in the SemEval-2007 task, where many teams performed worse than the baseline. 
